@@ -62,6 +62,15 @@
   .lede { color: var(--ink-dim); font-size: 17px; max-width: 38em; margin-bottom: 36px; text-wrap: balance; }
   .lede strong { color: var(--ink); font-weight: 600; }
 
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 28px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
   .note {
     border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
     padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
@@ -92,7 +101,8 @@
   [data-lang="pl"] { display: none; }
   html.lang-pl [data-lang="en"] { display: none; }
   html.lang-pl [data-lang="pl"] { display: revert; }
-  html.lang-pl .note[data-lang="pl"] { display: revert; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
   html.lang-pl table[data-lang="pl"] { display: table; }
 
   footer {
@@ -134,15 +144,28 @@
     <code>search_library</code> / <code>get_user_profile</code> na <strong>Twojej</strong> pamięci.
   </p>
 
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a href="/docs/">Start here</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a class="on" href="/docs/mcp.html">Connect MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a href="/docs/">Zacznij tutaj</a>
+    <a href="/docs/architecture.html">Architektura</a>
+    <a class="on" href="/docs/mcp.html">Podłącz MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+
   <div class="note" data-lang="en">
     Prefer the in-app <strong>Connect</strong> tab when you have the Windows installer —
     it copies a ready snippet. This page is the manual map.
-    Back to <a class="inline" href="/docs/">Start here</a>.
+    Why vault ≠ AppData: <a class="inline" href="/docs/architecture.html">Architecture</a>.
   </div>
   <div class="note" data-lang="pl">
     Gdy masz instalator Windows, użyj zakładki <strong>Connect</strong> w aplikacji —
     kopiuje gotowy snippet. Ta strona to mapa ręczna.
-    Wróć do <a class="inline" href="/docs/">Zacznij tutaj</a>.
+    Dlaczego vault ≠ AppData: <a class="inline" href="/docs/architecture.html">Architektura</a>.
   </div>
 
   <h2 data-lang="en">Embedded (Pomnia app on this machine)</h2>
@@ -243,6 +266,8 @@
     <a href="/">pomnia.ai</a>
     <span>·</span>
     <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/docs/architecture.html">Architecture</a>
     <span>·</span>
     <a href="/privacy.html">Privacy</a>
     <span>·</span>

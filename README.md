@@ -1,12 +1,14 @@
-# Pomnia landing page
+# pomnia-landing
 
 Static site for [pomnia.ai](https://pomnia.ai). No build step — plain HTML.
 
-- `index.html` — the page
-- `privacy.html` — privacy notice
+- `index.html` — marketing page
+- `privacy.html` — site privacy + product encryption honesty
 - `docs/index.html` — Start here (PL|EN)
+- `docs/architecture.html` — Vault vs Brain data, unlock/lock, pipelines (PL|EN)
 - `docs/mcp.html` — Connect MCP quickstart (PL|EN)
-- `index-classic.html` — the earlier waitlist/beta page, kept for reference.
+- `docs/start-here.html` — redirect → `/docs/`
+- `index-classic.html` — earlier waitlist/beta page, kept for reference.
   Not linked from anywhere; do not deploy it as `index.html`.
 - **Deploy:** see [`docs/LANDING-DEPLOY.md`](../docs/LANDING-DEPLOY.md) in the product repo
   (Cloudflare Pages: output directory = this folder).
@@ -26,7 +28,7 @@ Hero + nav + closing CTA point at:
 `https://github.com/lobrzut/pomnia/releases/latest`
 
 That always resolves to whatever GitHub marks as Latest (today still may lag local
-`package.json` until Claude’s premiere publish lands).
+`package.json` until a premiere publish lands).
 
 ## Ground rules for this page
 
@@ -38,6 +40,7 @@ That always resolves to whatever GitHub marks as Latest (today still may lag loc
   Docs language toggle uses `localStorage` only (no network).
 - **Claims must match the product.** Memory layer (AGPL), not an agentic wrapper.
   Unsigned Windows + SmartScreen honesty stays in the hero and the download section.
+  Vault blob encryption ≠ plaintext sidecars / `library.db` — see Architecture + Privacy.
 - `prefers-reduced-motion` disables the background animation entirely.
 
 ## Numbers on the page that have to track reality
