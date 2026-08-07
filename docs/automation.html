@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automation — Pomnia Docs</title>
+<meta name="description" content="What Pomnia actually automates: auto-checkpoint vs save phrase, post-distill index/deploy, agent rules — honest split between product and IDE agents.">
+<link rel="canonical" href="https://pomnia.ai/docs/automation.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.here { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 40em; margin-bottom: 28px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 36px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
+  h3 { font-size: 16px; font-weight: 600; margin: 28px 0 10px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  pre {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    background: var(--abyss); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; overflow-x: auto; margin: 0 0 18px; color: var(--ink-dim);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--ink-faint); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; }
+  td { color: var(--ink-dim); }
+  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
+  a.inline:hover { border-color: var(--cyan); }
+  .cite {
+    font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
+    margin: -6px 0 16px;
+  }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl table[data-lang="pl"] { display: table; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a class="here" href="/docs/">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en">docs · automation</p>
+  <p class="kicker" data-lang="pl">docs · automatyzacja</p>
+
+  <h1 data-lang="en">What actually runs by itself</h1>
+  <h1 data-lang="pl">Co naprawdę działa samo</h1>
+
+  <p class="lede" data-lang="en">
+    Honest map of auto-save / auto-checkpoint / post-distill index &amp; deploy.
+    <strong>Pomnia is not a daemon that watches your IDE chats.</strong>
+    Some steps are product pipelines; milestone “saves without zapisz” are agent + MCP discipline with a Settings gate.
+  </p>
+  <p class="lede" data-lang="pl">
+    Uczciwa mapa auto-zapisu / auto-checkpoint / indeksu i deployu po distill.
+    <strong>Pomnia to nie demon, który podgląda czaty w IDE.</strong>
+    Część kroków to pipeline produktu; „zapis milestone bez zapisz” to dyscyplina agenta + MCP z bramką w Settings.
+  </p>
+
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a href="/docs/">Start here</a>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="/docs/how-memory-works.html">How memory works</a>
+    <a class="on" href="/docs/automation.html">Automation</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/mcp.html">Connect MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a href="/docs/">Zacznij tutaj</a>
+    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+    <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
+    <a class="on" href="/docs/automation.html">Automatyzacja</a>
+    <a href="/docs/architecture.html">Architektura</a>
+    <a href="/docs/mcp.html">Podłącz MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+
+  <div class="note" data-lang="en">
+    <strong>One-line answer:</strong> Desktop never silently dumps a live chat.
+    Distill runs when <em>you</em> start it. After distill, index (and optional remote deploy) can chain automatically.
+    Mid-session milestones can land via <code>checkpoint_session</code> without saying “save to Pomnia” — but the <em>agent</em> must call MCP (rules + tool text tell it to). Full dump still needs the phrase.
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>W jednej linii:</strong> Desktop nigdy cicho nie zrzuca żywego czatu.
+    Distill leci, gdy <em>Ty</em> go uruchomisz. Po distill indeks (i opcjonalny remote deploy) może się dołączyć sam.
+    Milestone w trakcie sesji może wylądować przez <code>checkpoint_session</code> bez „zapisz do Pomnia” — ale <em>agent</em> musi wywołać MCP (reguły + opis narzędzia mu to każą). Pełny dump nadal wymaga frazy.
+  </div>
+
+  <!-- ═══════════════ MATRIX ═══════════════ -->
+  <h2 data-lang="en">Who does what</h2>
+  <h2 data-lang="pl">Kto co robi</h2>
+
+  <table data-lang="en">
+    <thead>
+      <tr><th>Thing</th><th>Automatic?</th><th>Who acts</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Live chat capture by Desktop</td>
+        <td><strong>No</strong></td>
+        <td>Does not exist — adapters read stores only when you Backup / Distill / Import</td>
+      </tr>
+      <tr>
+        <td><code>save_conversation</code></td>
+        <td><strong>No</strong></td>
+        <td>Agent, only on “save to Pomnia” / „zapisz do Pomnia”</td>
+      </tr>
+      <tr>
+        <td><code>checkpoint_session</code></td>
+        <td><strong>Semi</strong></td>
+        <td>Agent calls MCP after a real milestone when Settings <code>autoCheckpointEnabled</code> is ON (default). Product refuses empty / OFF</td>
+      </tr>
+      <tr>
+        <td>Distill pipeline</td>
+        <td><strong>No</strong> (start)</td>
+        <td>You: Brain → Run, or CLI <code>brain pipeline</code>. No Desktop cron</td>
+      </tr>
+      <tr>
+        <td>Index after distill</td>
+        <td><strong>Yes</strong> (chain)</td>
+        <td>Product: new <code>ok</code> notes → <code>indexFiles</code> into <code>library.db</code></td>
+      </tr>
+      <tr>
+        <td>Index after MCP save / checkpoint</td>
+        <td><strong>Yes</strong> (chain)</td>
+        <td>brain-core fire-and-forget embed of that one file</td>
+      </tr>
+      <tr>
+        <td>Auto-deploy after distill</td>
+        <td><strong>Optional</strong></td>
+        <td>Only Remote Brain target + toggle ON → push notes + dashboard reindex</td>
+      </tr>
+      <tr>
+        <td>Floating monitor</td>
+        <td>UI only</td>
+        <td>PiP “how it works” diagram — not a session recorder</td>
+      </tr>
+      <tr>
+        <td>Handshake phrase</td>
+        <td>Agent proof</td>
+        <td>First reply greeting proves MCP <code>pomnia</code> is wired — not Desktop unlock</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table data-lang="pl">
+    <thead>
+      <tr><th>Rzecz</th><th>Automatyczne?</th><th>Kto działa</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Podsłuch żywego czatu przez Desktop</td>
+        <td><strong>Nie</strong></td>
+        <td>Nie istnieje — adaptery czytają store dopiero przy Backup / Distill / Import</td>
+      </tr>
+      <tr>
+        <td><code>save_conversation</code></td>
+        <td><strong>Nie</strong></td>
+        <td>Agent, tylko na „zapisz do Pomnia” / “save to Pomnia”</td>
+      </tr>
+      <tr>
+        <td><code>checkpoint_session</code></td>
+        <td><strong>Pół</strong></td>
+        <td>Agent woła MCP po realnym milestone, gdy Settings <code>autoCheckpointEnabled</code> = ON (domyślnie). Produkt odrzuca puste / OFF</td>
+      </tr>
+      <tr>
+        <td>Pipeline distill</td>
+        <td><strong>Nie</strong> (start)</td>
+        <td>Ty: Brain → Run albo CLI <code>brain pipeline</code>. Brak crona w Desktop</td>
+      </tr>
+      <tr>
+        <td>Indeks po distill</td>
+        <td><strong>Tak</strong> (łańcuch)</td>
+        <td>Produkt: nowe notatki <code>ok</code> → <code>indexFiles</code> do <code>library.db</code></td>
+      </tr>
+      <tr>
+        <td>Indeks po MCP save / checkpoint</td>
+        <td><strong>Tak</strong> (łańcuch)</td>
+        <td>brain-core w tle embeduje ten jeden plik</td>
+      </tr>
+      <tr>
+        <td>Auto-deploy po distill</td>
+        <td><strong>Opcja</strong></td>
+        <td>Tylko cel Remote Brain + przełącznik ON → push notatek + reindex dashboardu</td>
+      </tr>
+      <tr>
+        <td>Pływający monitor</td>
+        <td>Tylko UI</td>
+        <td>PiP diagram „jak to działa” — nie rejestrator sesji</td>
+      </tr>
+      <tr>
+        <td>Fraza Handshake</td>
+        <td>Dowód agenta</td>
+        <td>Pierwsza odpowiedź = proof że MCP <code>pomnia</code> działa — nie odblokowanie Desktop</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════ CHECKPOINT ═══════════════ -->
+  <h2 data-lang="en">1. Auto-checkpoint (the “saves accomplishments” piece)</h2>
+  <h2 data-lang="pl">1. Auto-checkpoint (ten fragment „sam zapisuje osiągnięcia”)</h2>
+
+  <p data-lang="en">
+    Settings → <strong>Auto-checkpoint</strong> (<code>autoCheckpointEnabled</code>, default ON).
+    When ON, MCP exposes <code>checkpoint_session</code> as a hard PRIORITY 2: after a real milestone
+    (decision / fix+path / error+command / architecture) the agent should call it
+    <em>without</em> waiting for “save to Pomnia”. Files go to <code>vault/sessions/checkpoints/</code>.
+  </p>
+  <p data-lang="pl">
+    Settings → <strong>Auto-checkpoint</strong> (<code>autoCheckpointEnabled</code>, domyślnie ON).
+    Gdy ON, MCP wystawia <code>checkpoint_session</code> jako twarde PRIORITY 2: po realnym milestone
+    (decyzja / fix+ścieżka / błąd+komenda / architektura) agent ma to wywołać
+    <em>bez</em> czekania na „zapisz do Pomnia”. Pliki → <code>vault/sessions/checkpoints/</code>.
+  </p>
+
+  <ul data-lang="en">
+    <li><strong>Product does:</strong> gate (OFF refuses), quality gate (empty payload → no file), write markdown, then index that file into <code>library.db</code>.</li>
+    <li><strong>Product does not:</strong> scrape the chat buffer on a timer. No MCP call → nothing stored.</li>
+    <li><strong>Agent does:</strong> decide a milestone happened and call the tool. Connect / Brain Mode installs IDE rules (Cursor <code>.mdc</code>, CLAUDE.md, …) that spell this out; tool descriptions reinforce it.</li>
+    <li><strong>Full conscious dump:</strong> still <code>save_conversation</code> only on the phrase → <code>vault/sessions/</code>.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Produkt robi:</strong> bramkę (OFF odmawia), quality gate (pusty payload → brak pliku), zapis markdown, potem indeks tego pliku do <code>library.db</code>.</li>
+    <li><strong>Produkt nie robi:</strong> skanowania bufora czatu na timerze. Brak wywołania MCP → nic nie trafia do vaultu.</li>
+    <li><strong>Agent robi:</strong> uznaje milestone i woła narzędzie. Connect / Brain Mode dokłada reguły IDE (Cursor <code>.mdc</code>, CLAUDE.md, …); opisy narzędzi to wzmacniają.</li>
+    <li><strong>Świadomy pełny dump:</strong> nadal <code>save_conversation</code> tylko na frazę → <code>vault/sessions/</code>.</li>
+  </ul>
+  <p class="cite">packages/brain-core MCP tools · src/core/brain/snippet.ts · Settings autoCheckpointEnabled</p>
+
+  <!-- ═══════════════ DISTILL CHAIN ═══════════════ -->
+  <h2 data-lang="en">2. After you start Distill</h2>
+  <h2 data-lang="pl">2. Po uruchomieniu Distill</h2>
+
+  <p data-lang="en">
+    Distill itself is <strong>user-started</strong> (Brain tab or CLI). Once a run finishes successfully, the product chains:
+  </p>
+  <p data-lang="pl">
+    Sam Distill jest <strong>uruchamiany przez Ciebie</strong> (zakładka Brain albo CLI). Po udanym runie produkt dokłada łańcuch:
+  </p>
+  <ol data-lang="en">
+    <li>Write notes under vault <code>distilled/</code> (quality gate: <code>ok</code> vs <code>_review/</code>).</li>
+    <li><strong>Auto-index</strong> new <code>ok</code> paths into embedded <code>library.db</code> when brain-core is running (not a full vault walk).</li>
+    <li><strong>Auto-deploy</strong> (optional): Remote master + “Auto-deploy after distill” ON → copy notes to KVM (SMB preferred) and trigger <code>library/reindex</code>.</li>
+    <li>Ledger marks conversations processed so pending-only runs do not re-grind them.</li>
+  </ol>
+  <ol data-lang="pl">
+    <li>Zapis notatek w vault <code>distilled/</code> (quality gate: <code>ok</code> vs <code>_review/</code>).</li>
+    <li><strong>Auto-indeks</strong> nowych ścieżek <code>ok</code> do embedded <code>library.db</code>, gdy brain-core działa (nie pełny spacer po vaultcie).</li>
+    <li><strong>Auto-deploy</strong> (opcja): Remote master + „Auto-deploy after distill” ON → kopia notatek na KVM (preferowany SMB) i <code>library/reindex</code>.</li>
+    <li>Ledger oznacza rozmowy jako processed — pending-only nie mieli ich od nowa.</li>
+  </ol>
+  <p data-lang="en">
+    Pipeline details (chunk / embed / search): <a class="inline" href="/docs/how-memory-works.html">How memory works</a>.
+  </p>
+  <p data-lang="pl">
+    Szczegóły pipeline (chunk / embed / search): <a class="inline" href="/docs/how-memory-works.html">Jak działa pamięć</a>.
+  </p>
+  <p class="cite">src/main/index.ts brain:run · deploy.ts · Brain tab auto-deploy toggle</p>
+
+  <!-- ═══════════════ NOT AUTO ═══════════════ -->
+  <h2 data-lang="en">3. What people often overclaim</h2>
+  <h2 data-lang="pl">3. Czego nie należy przeceniać</h2>
+
+  <ul data-lang="en">
+    <li><strong>No Desktop chat sniffer</strong> — tool text and product copy both say Desktop does not capture chats by itself.</li>
+    <li><strong>No built-in scheduler</strong> — CLI docs mention you <em>can</em> cron the CLI with a passphrase; that is your OS job, not an in-app daemon.</li>
+    <li><strong>Floating monitor</strong> — status PiP when minimized; opens “How it works”. Zero session capture.</li>
+    <li><strong>Connect “wired”</strong> — MCP config file present ≠ agent already searched or checkpointed. Handshake + tool calls prove the loop.</li>
+    <li><strong>Distill ≠ checkpoint</strong> — distill is retroactive LLM summary of adapter history; checkpoint is structured now from the agent. Same topic can have both.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Brak sniffera czatu w Desktop</strong> — opisy narzędzi i copy produktu mówią to samo: Desktop sam nie zrzuca czatów.</li>
+    <li><strong>Brak wbudowanego schedulera</strong> — CLI wspomina, że <em>możesz</em> cronować CLI z passphrase; to zadanie OS, nie demon w aplikacji.</li>
+    <li><strong>Pływający monitor</strong> — PiP statusu po minimalizacji; otwiera „Jak to działa”. Zero rejestracji sesji.</li>
+    <li><strong>Connect „połączony”</strong> — plik MCP ≠ agent już szukał albo robił checkpoint. Handshake + wywołania narzędzi dowodzą pętli.</li>
+    <li><strong>Distill ≠ checkpoint</strong> — distill to retrospektywne LLM z historii adaptera; checkpoint to struktura „teraz” od agenta. Ten sam temat może mieć oba.</li>
+  </ul>
+
+  <!-- ═══════════════ MENTAL MODEL ═══════════════ -->
+  <h2 data-lang="en">Mental model</h2>
+  <h2 data-lang="pl">Model myślowy</h2>
+  <pre data-lang="en">YOU start distill / import
+  → product: notes + index (+ optional remote deploy)
+
+AGENT (rules + MCP) on milestone
+  → checkpoint_session  [if autoCheckpoint ON]
+  → product: write + index file
+
+YOU say “zapisz do Pomnia”
+  → save_conversation
+  → product: write + index file
+
+Nobody called MCP
+  → nothing from this live chat lands in vault</pre>
+  <pre data-lang="pl">TY startujesz distill / import
+  → produkt: notatki + indeks (+ opcjonalny remote deploy)
+
+AGENT (reguły + MCP) przy milestone
+  → checkpoint_session  [gdy autoCheckpoint ON]
+  → produkt: zapis + indeks pliku
+
+TY mówisz „zapisz do Pomnia”
+  → save_conversation
+  → produkt: zapis + indeks pliku
+
+Nikt nie wołał MCP
+  → nic z tego żywego czatu nie ląduje w vault</pre>
+
+  <p data-lang="en">
+    MCP wiring: <a class="inline" href="/docs/mcp.html">Connect MCP</a>.
+    Paths &amp; encryption: <a class="inline" href="/docs/architecture.html">Architecture</a>.
+  </p>
+  <p data-lang="pl">
+    Podłączenie MCP: <a class="inline" href="/docs/mcp.html">Podłącz MCP</a>.
+    Ścieżki i szyfrowanie: <a class="inline" href="/docs/architecture.html">Architektura</a>.
+  </p>
+
+  <footer>
+    <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <span>·</span>
+    <a href="/docs/how-memory-works.html">How memory works</a>
+    <span>·</span>
+    <a href="/docs/automation.html">Automation</a>
+    <span>·</span>
+    <a href="/docs/architecture.html">Architecture</a>
+    <span>·</span>
+    <a href="/docs/mcp.html">MCP</a>
+    <span>·</span>
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>
