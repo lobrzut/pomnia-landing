@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Start here — Pomnia Docs</title>
-<meta name="description" content="Get Pomnia running: install, vault, distill, connect MCP. Local-first encrypted memory for your AI agents.">
+<meta name="description" content="Get Pomnia running: install, vault, distill, connect MCP. Local-first memory — AES vault blobs + plaintext knowledge honesty.">
 <link rel="canonical" href="https://pomnia.ai/docs/">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
@@ -196,12 +196,12 @@
       <tr>
         <td><strong>Pomnia Vault</strong></td>
         <td>Folder you choose (e.g. <code>C:\Vault</code>)</td>
-        <td>Encrypted chats + documents (+ skills, USER.md, distilled notes)</td>
+        <td><strong>Encrypted</strong> chat/doc blobs (<code>AES-256-GCM</code>). <strong>Plaintext</strong> sidecars: <code>skills/</code>, <code>USER.md</code>, <code>sessions/</code>, <code>distilled/</code></td>
       </tr>
       <tr>
         <td><strong>Brain data</strong></td>
         <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
-        <td>RAG index (<code>library.db</code>) + distill notes — on disk, not vault-encrypted</td>
+        <td>Rebuildable RAG index (<code>library.db</code>) — full chunk text + embeddings, not vault-encrypted; survives lock</td>
       </tr>
     </tbody>
   </table>
@@ -213,21 +213,21 @@
       <tr>
         <td><strong>Pomnia Vault</strong></td>
         <td>Folder, który wybierasz (np. <code>C:\Vault</code>)</td>
-        <td>Zaszyfrowane czaty + dokumenty (+ skills, USER.md, notatki)</td>
+        <td><strong>Zaszyfrowane</strong> bloby czatów/dokumentów (<code>AES-256-GCM</code>). <strong>Plaintext</strong> obok: <code>skills/</code>, <code>USER.md</code>, <code>sessions/</code>, <code>distilled/</code></td>
       </tr>
       <tr>
         <td><strong>Brain data</strong></td>
         <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
-        <td>Indeks RAG (<code>library.db</code>) + notatki distill — na dysku, poza szyfrem vaultu</td>
+        <td>Odtwarzalny indeks RAG (<code>library.db</code>) — pełny tekst chunków + embeddingi, poza szyfrem vaultu; przeżywa lock</td>
       </tr>
     </tbody>
   </table>
-  <p data-lang="en">Vault = archive and backup. Brain data = semantic search engine.</p>
-  <p data-lang="pl">Vault = archiwum i backup. Brain data = silnik wyszukiwania semantycznego.</p>
+  <p data-lang="en">Vault blobs = sealed archive. Sidecars + <code>library.db</code> = local plaintext knowledge surface agents search — protect those folders. See <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
+  <p data-lang="pl">Bloby vaultu = zamknięte archiwum. Sidecary + <code>library.db</code> = lokalna powierzchnia wiedzy (plaintext), którą agenci przeszukują — chroń te foldery. Zobacz <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
 
   <div id="steps"></div>
-  <h2 data-lang="en">Five steps to “Cursor remembers me”</h2>
-  <h2 data-lang="pl">Pięć kroków do „Cursor mnie pamięta”</h2>
+  <h2 data-lang="en">Five steps until your agents remember you</h2>
+  <h2 data-lang="pl">Pięć kroków, aż agenci Cię zapamiętają</h2>
 
   <ol data-lang="en">
     <li>
