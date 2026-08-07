@@ -54,6 +54,8 @@
   .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker a.crumb { color: var(--cyan); }
+  .kicker a.crumb:hover { color: var(--ink); }
   .kicker {
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
@@ -67,7 +69,7 @@
     font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
     padding-bottom: 18px; border-bottom: 1px solid var(--line);
   }
-  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a { color: var(--ink-dim); }
   .docs-nav a:hover { color: var(--cyan); }
   .docs-nav a.on { color: var(--ink); }
 
@@ -121,9 +123,9 @@
 <body>
 
 <header class="top">
-  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <a class="mark" href="../" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
   <nav>
-    <a class="here" href="/docs/">Docs</a>
+    <a href="./">Docs</a>
     <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
     <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
     <div class="lang" role="group" aria-label="Language">
@@ -134,40 +136,44 @@
 </header>
 
 <div class="wrap">
-  <p class="kicker" data-lang="en">docs · how memory works</p>
-  <p class="kicker" data-lang="pl">docs · jak działa pamięć</p>
+  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · how memory works</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · jak działa pamięć</p>
 
   <h1 data-lang="en">How memory works</h1>
   <h1 data-lang="pl">Jak działa pamięć</h1>
 
   <p class="lede" data-lang="en">
-    The three boxes (<a class="inline" href="/docs/where-is-my-data.html">folder / index / app</a>) tell you
+    The three boxes (<a class="inline" href="where-is-my-data.html">folder / index / app</a>) tell you
     <em>where</em> things live. This page tells you <em>how text becomes recall</em> —
     distill, chunks, embeddings, search. Written from the current code, not a pitch deck.
   </p>
   <p class="lede" data-lang="pl">
-    Trzy pudełka (<a class="inline" href="/docs/where-is-my-data.html">folder / indeks / aplikacja</a>) mówią
+    Trzy pudełka (<a class="inline" href="where-is-my-data.html">folder / indeks / aplikacja</a>) mówią
     <em>gdzie</em> leżą rzeczy. Ta strona mówi <em>jak tekst staje się pamięcią</em> —
     distill, chunki, embeddingi, wyszukiwanie. Z aktualnego kodu, nie z folderu marketingu.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
-    <a href="/docs/">Start here</a>
-    <a href="/docs/capabilities.html">Capabilities</a>    <a href="/docs/where-is-my-data.html">Where is my data?</a>
-    <a class="on" href="/docs/how-memory-works.html">How memory works</a>
-    <a href="/docs/automation.html">Automation</a>
-    <a href="/docs/architecture.html">Architecture</a>
-    <a href="/docs/mcp.html">Connect MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="./">Start here</a>
+    <a href="capabilities.html">Capabilities</a>    <a href="where-is-my-data.html">Where is my data?</a>
+    <a class="on" href="how-memory-works.html">How memory works</a>
+    <a href="automation.html">Automation</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="mcp.html">Connect MCP</a>
+    <a href="updates-install.html">Updates &amp; install</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
-    <a href="/docs/">Zacznij tutaj</a>
-    <a href="/docs/capabilities.html">Możliwości</a>    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
-    <a class="on" href="/docs/how-memory-works.html">Jak działa pamięć</a>
-    <a href="/docs/automation.html">Automatyzacja</a>
-    <a href="/docs/architecture.html">Architektura</a>
-    <a href="/docs/mcp.html">Podłącz MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="./">Zacznij tutaj</a>
+    <a href="capabilities.html">Możliwości</a>    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a class="on" href="how-memory-works.html">Jak działa pamięć</a>
+    <a href="automation.html">Automatyzacja</a>
+    <a href="architecture.html">Architektura</a>
+    <a href="mcp.html">Podłącz MCP</a>
+    <a href="updates-install.html">Aktualizacje i instalacja</a>
+    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
 
   <div class="note" data-lang="en">
@@ -276,14 +282,14 @@
     <code>save_conversation</code> / <code>checkpoint_session</code> write what the agent structured <em>now</em>
     into <code>sessions/</code> (or <code>sessions/checkpoints/</code>). Same topic can have both — two descriptions, not a 1:1 duplicate.
     Most sessions never get a manual save; Distill is how the backlog becomes memory.
-    What runs without “zapisz”: <a class="inline" href="/docs/automation.html">Automation</a>.
+    What runs without “zapisz”: <a class="inline" href="automation.html">Automation</a>.
   </p>
   <p data-lang="pl">
     To <strong>nie te same pliki</strong>. Distill później czyta surowy log adaptera (batch, retroaktywnie).
     <code>save_conversation</code> / <code>checkpoint_session</code> zapisują to, co agent ustrukturyzował <em>teraz</em>,
     do <code>sessions/</code> (lub <code>sessions/checkpoints/</code>). Ten sam temat może mieć oba — dwa opisy, nie duplikat 1:1.
     Większość sesji nie dostaje ręcznego zapisu; Distill ogarnia backlog.
-    Co leci bez „zapisz”: <a class="inline" href="/docs/automation.html">Automatyzacja</a>.
+    Co leci bez „zapisz”: <a class="inline" href="automation.html">Automatyzacja</a>.
   </p>
 
   <!-- ═══════════════ CHUNK ═══════════════ -->
@@ -337,13 +343,13 @@
   </p>
 
   <ul data-lang="en">
-    <li><strong>Where:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (or equivalent under <code>~/.pomnia</code> on other OS) — <strong>plaintext</strong> chunk text + vectors. The vault password does not seal this file. See <a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a>.</li>
+    <li><strong>Where:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (or equivalent under <code>~/.pomnia</code> on other OS) — <strong>plaintext</strong> chunk text + vectors. The vault password does not seal this file. See <a class="inline" href="where-is-my-data.html">Where is my data?</a>.</li>
     <li><strong>What gets walked on a full refresh:</strong> under the vault root, mainly <code>distilled/</code>, <code>sessions/</code>, <code>library/</code> text — never <code>skills/</code>, <code>_review/</code>, <code>blobs/</code>, <code>snapshots/</code>.</li>
     <li><strong>Incremental:</strong> unchanged files are skipped via mtime+size, then content SHA-256 fingerprints in an <code>indexed_files</code> table. “Refresh index” should usually be fast after the first pass.</li>
     <li><strong>Documents:</strong> encrypted source stays in vault blobs; search uses a <em>logical</em> path like <code>…/library/&lt;docId&gt;</code> as the key in <code>library.db</code>.</li>
   </ul>
   <ul data-lang="pl">
-    <li><strong>Gdzie:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (albo <code>~/.pomnia</code>) — <strong>plaintext</strong> chunków + wektory. Hasło vaultu tego pliku nie zamyka. Zob. <a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a>.</li>
+    <li><strong>Gdzie:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (albo <code>~/.pomnia</code>) — <strong>plaintext</strong> chunków + wektory. Hasło vaultu tego pliku nie zamyka. Zob. <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>.</li>
     <li><strong>Co wchodzi przy pełnym odświeżeniu:</strong> pod rootem vaultu głównie <code>distilled/</code>, <code>sessions/</code>, tekst z <code>library/</code> — nigdy <code>skills/</code>, <code>_review/</code>, <code>blobs/</code>, <code>snapshots/</code>.</li>
     <li><strong>Przyrostowo:</strong> niezmienione pliki są pomijane (mtime+size, potem SHA-256 w tabeli <code>indexed_files</code>). „Odśwież indeks” zwykle jest szybkie po pierwszym przebiegu.</li>
     <li><strong>Dokumenty:</strong> zaszyfrowane źródło zostaje w blobach; wyszukiwanie używa <em>logicznej</em> ścieżki <code>…/library/&lt;docId&gt;</code> jako klucza w <code>library.db</code>.</li>
@@ -443,32 +449,36 @@ oba   → chunk(1800/200) → embed(nomic) → library.db
 pytanie → hybrid search → top chunki (plaintext + score)</pre>
 
   <p data-lang="en">
-    Paths, unlock/lock, and encryption boundary: <a class="inline" href="/docs/architecture.html">Architecture</a>.
-    Three boxes for strangers: <a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a>.
+    Paths, unlock/lock, and encryption boundary: <a class="inline" href="architecture.html">Architecture</a>.
+    Three boxes for strangers: <a class="inline" href="where-is-my-data.html">Where is my data?</a>.
   </p>
   <p data-lang="pl">
-    Ścieżki, unlock/lock i granica szyfrowania: <a class="inline" href="/docs/architecture.html">Architektura</a>.
-    Trzy pudełka dla nowych: <a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a>.
+    Ścieżki, unlock/lock i granica szyfrowania: <a class="inline" href="architecture.html">Architektura</a>.
+    Trzy pudełka dla nowych: <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>.
   </p>
 
   <footer>
-    <a href="/">pomnia.ai</a>
+    <a href="../">pomnia.ai</a>
     <span>·</span>
-    <a href="/docs/">Start here</a>
+    <a href="./">Start here</a>
     <span>·</span>
-    <a href="/docs/capabilities.html">Capabilities</a>
+    <a href="capabilities.html">Capabilities</a>
     <span>·</span>
-    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
     <span>·</span>
-    <a href="/docs/how-memory-works.html">How memory works</a>
+    <a href="how-memory-works.html">How memory works</a>
     <span>·</span>
-    <a href="/docs/automation.html">Automation</a>
+    <a href="automation.html">Automation</a>
     <span>·</span>
-    <a href="/docs/architecture.html">Architecture</a>
+    <a href="architecture.html">Architecture</a>
     <span>·</span>
-    <a href="/docs/mcp.html">MCP</a>
+    <a href="mcp.html">MCP</a>
     <span>·</span>
-    <a href="/privacy.html">Privacy</a>
+    <a href="updates-install.html">Updates</a>
+    <span>·</span>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <span>·</span>
+    <a href="../privacy.html">Privacy</a>
     <span>·</span>
     <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
     <span>·</span>

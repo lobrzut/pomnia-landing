@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Connect MCP — Pomnia Docs</title>
-<meta name="description" content="Connect Cursor (or any MCP client) to Pomnia Brain — embedded localhost or remote homelab.">
-<link rel="canonical" href="https://pomnia.ai/docs/mcp.html">
+<title>Updates &amp; install — Pomnia Docs</title>
+<meta name="description" content="Windows install: unsigned SmartScreen path, hash check, notify-only updates — no silent auto-install.">
+<link rel="canonical" href="https://pomnia.ai/docs/updates-install.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -131,153 +131,170 @@
 </header>
 
 <div class="wrap">
-  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · mcp</p>
-  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · mcp</p>
+  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · updates &amp; install</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · aktualizacje i instalacja</p>
 
-  <h1 data-lang="en">Connect MCP</h1>
-  <h1 data-lang="pl">Podłącz MCP</h1>
+  <h1 data-lang="en">Updates &amp; install</h1>
+  <h1 data-lang="pl">Aktualizacje i instalacja</h1>
 
   <p class="lede" data-lang="en">
-    Wire Cursor (or any MCP client) to Pomnia Brain so agents can call
-    <code>search_library</code> / <code>get_user_profile</code> against <strong>your</strong> memory.
+    Windows installer from GitHub. Builds are <strong>unsigned</strong> at premiere —
+    SmartScreen is expected. Updates are <strong>notify-only</strong>: you download the next setup yourself.
   </p>
   <p class="lede" data-lang="pl">
-    Podłącz Cursor (lub inny klient MCP) do Brain Pomni, żeby agenci wołali
-    <code>search_library</code> / <code>get_user_profile</code> na <strong>Twojej</strong> pamięci.
+    Instalator Windows z GitHuba. Buildy premiere są <strong>niepodpisane</strong> —
+    SmartScreen to norma. Aktualizacje są <strong>tylko powiadomieniem</strong>: kolejny setup pobierasz sam.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
     <a href="./">Start here</a>
-    <a href="capabilities.html">Capabilities</a>    <a href="where-is-my-data.html">Where is my data?</a>
+    <a href="capabilities.html">Capabilities</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
     <a href="how-memory-works.html">How memory works</a>
     <a href="automation.html">Automation</a>
     <a href="architecture.html">Architecture</a>
-    <a class="on" href="mcp.html">Connect MCP</a>
-    <a href="updates-install.html">Updates &amp; install</a>
+    <a href="mcp.html">Connect MCP</a>
+    <a class="on" href="updates-install.html">Updates &amp; install</a>
     <a href="troubleshooting.html">Troubleshooting</a>
     <a href="../privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
     <a href="./">Zacznij tutaj</a>
-    <a href="capabilities.html">Możliwości</a>    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a href="capabilities.html">Możliwości</a>
+    <a href="where-is-my-data.html">Gdzie są dane?</a>
     <a href="how-memory-works.html">Jak działa pamięć</a>
     <a href="automation.html">Automatyzacja</a>
     <a href="architecture.html">Architektura</a>
-    <a class="on" href="mcp.html">Podłącz MCP</a>
-    <a href="updates-install.html">Aktualizacje i instalacja</a>
+    <a href="mcp.html">Podłącz MCP</a>
+    <a class="on" href="updates-install.html">Aktualizacje i instalacja</a>
     <a href="troubleshooting.html">Rozwiązywanie problemów</a>
     <a href="../privacy.html">Privacy</a>
   </nav>
 
   <div class="note" data-lang="en">
-    Prefer the in-app <strong>Connect</strong> tab when you have the Windows installer —
-    it copies a ready snippet. This page is the manual map.
-    Folder vs search card: <a class="inline" href="where-is-my-data.html">Where is my data?</a>
-    · pipeline: <a class="inline" href="how-memory-works.html">How memory works</a>
-    · auto-checkpoint vs phrase: <a class="inline" href="automation.html">Automation</a>
-    · paths: <a class="inline" href="architecture.html">Architecture</a>.
+    Trust posture (encryption, no telemetry): <a class="inline" href="../privacy.html">Privacy</a>
+    · stuck after install: <a class="inline" href="troubleshooting.html">Troubleshooting</a>
+    · first run: <a class="inline" href="./">Start here</a>.
   </div>
   <div class="note" data-lang="pl">
-    Gdy masz instalator Windows, użyj zakładki <strong>Connect</strong> w aplikacji —
-    kopiuje gotowy snippet. Ta strona to mapa ręczna.
-    Folder vs indeks: <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>
-    · pipeline: <a class="inline" href="how-memory-works.html">Jak działa pamięć</a>
-    · auto-checkpoint vs fraza: <a class="inline" href="automation.html">Automatyzacja</a>
-    · ścieżki: <a class="inline" href="architecture.html">Architektura</a>.
+    Zaufanie (szyfrowanie, brak telemetry): <a class="inline" href="../privacy.html">Privacy</a>
+    · utknąłeś po instalacji: <a class="inline" href="troubleshooting.html">Rozwiązywanie problemów</a>
+    · pierwszy start: <a class="inline" href="./">Zacznij tutaj</a>.
   </div>
 
-  <h2 data-lang="en">Embedded (Pomnia app on this machine)</h2>
-  <h2 data-lang="pl">Embedded (aplikacja Pomnia na tej maszynie)</h2>
-  <p data-lang="en">
-    Local Brain inside Pomnia = <strong>one</strong> MCP server on
-    <code>http://127.0.0.1:7862/mcp</code>, no Bearer token.
-  </p>
-  <p data-lang="pl">
-    Lokalny Brain w Pomni = <strong>jeden</strong> serwer MCP na
-    <code>http://127.0.0.1:7862/mcp</code>, bez tokena Bearer.
-  </p>
+  <h2 data-lang="en">Download</h2>
+  <h2 data-lang="pl">Pobieranie</h2>
   <ol data-lang="en">
-    <li>Open Pomnia → <strong>Connect</strong> → mode <strong>Embedded</strong>.</li>
-    <li>Copy the Cursor snippet → paste into <code>~/.cursor/mcp.json</code> (or merge carefully).</li>
-    <li>Cursor → Command Palette → <strong>Developer: Reload Window</strong>.</li>
-    <li>Settings → MCP: server <code>pomnia</code> should show Connected.</li>
+    <li>Open <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>.</li>
+    <li>Grab <code>Pomnia-x.y.z-setup.exe</code> (NSIS installer).</li>
+    <li>Run it. Vault path and passphrase stay yours — the installer does not invent a cloud account.</li>
   </ol>
   <ol data-lang="pl">
-    <li>Pomnia → <strong>Connect</strong> → tryb <strong>Embedded</strong>.</li>
-    <li>Skopiuj snippet Cursora → wklej do <code>~/.cursor/mcp.json</code> (albo zmerguj ostrożnie).</li>
-    <li>Cursor → Command Palette → <strong>Developer: Reload Window</strong>.</li>
-    <li>Settings → MCP: serwer <code>pomnia</code> = Connected.</li>
+    <li>Otwórz <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>.</li>
+    <li>Pobierz <code>Pomnia-x.y.z-setup.exe</code> (instalator NSIS).</li>
+    <li>Uruchom. Ścieżka vaultu i hasło zostają u Ciebie — instalator nie zakłada konta w chmurze.</li>
   </ol>
 
-  <h2 data-lang="en">Remote (homelab Brain)</h2>
-  <h2 data-lang="pl">Remote (Brain w homelabie)</h2>
+  <h2 data-lang="en">Unsigned &amp; SmartScreen</h2>
+  <h2 data-lang="pl">Bez podpisu i SmartScreen</h2>
   <p data-lang="en">
-    Always configure <strong>three</strong> client keys. A lone <code>pomnia</code> entry is incomplete
-    (legacy keys <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> still work in status checks).
+    Open-source Windows builds ship <strong>without Authenticode</strong> for now.
+    Each new <code>setup.exe</code> hash starts at zero reputation — Windows SmartScreen and some AVs warn.
+    That is expected noise, not a malware verdict.
   </p>
   <p data-lang="pl">
-    Zawsze <strong>trzy</strong> klucze po stronie klienta. Sam <code>pomnia</code> = niepełna konfiguracja
-    (legacy <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
+    Buildy open-source na Windows idą na razie <strong>bez Authenticode</strong>.
+    Każdy nowy hash <code>setup.exe</code> ma zerową reputację — SmartScreen i część AV ostrzegają.
+    To oczekiwany szum, nie werdykt „wirus”.
+  </p>
+  <ul data-lang="en">
+    <li><strong>SmartScreen:</strong> More info → <strong>Run anyway</strong>.</li>
+    <li><strong>Do not turn off antivirus</strong> to “make install work.” Trust the file once if you chose to install from our release.</li>
+    <li>Folder exclusions only if AV keeps quarantining the install directory or vault — workaround, not the product goal.</li>
+    <li>Long-term fix: code signing (tracked in the product repo).</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>SmartScreen:</strong> Więcej informacji → <strong>Uruchom mimo to</strong>.</li>
+    <li><strong>Nie wyłączaj antywirusa</strong>, żeby „instalacja przeszła”. Ufaj plikowi raz, jeśli celowo instalujesz z naszego release.</li>
+    <li>Wykluczenia folderu tylko gdy AV wciąż kwarantannuje katalog instalacji albo vault — obejście, nie cel produktu.</li>
+    <li>Docelowo: podpis kodu (tracked w repo produktu).</li>
+  </ul>
+
+  <h2 data-lang="en">Verify the installer (when a hash is published)</h2>
+  <h2 data-lang="pl">Weryfikacja instalatora (gdy jest hash)</h2>
+  <p data-lang="en">
+    Prefer checking a SHA-256 published next to the release asset (or in release notes).
+    If no hash file is attached yet, rely on downloading only from
+    <code>github.com/lobrzut/pomnia/releases</code> — do not trust mirrored copies.
+  </p>
+  <p data-lang="pl">
+    Najlepiej sprawdź SHA-256 opublikowany przy assetcie (albo w notatkach release).
+    Jeśli hasha jeszcze nie ma — pobieraj wyłącznie z
+    <code>github.com/lobrzut/pomnia/releases</code>; nie ufaj lustrzanym kopiom.
+  </p>
+  <pre>Get-FileHash .\Pomnia-x.y.z-setup.exe -Algorithm SHA256</pre>
+  <p data-lang="en">Compare the digest to the published value character-for-character.</p>
+  <p data-lang="pl">Porównaj digest ze opublikowaną wartością znak po znaku.</p>
+
+  <h2 data-lang="en">What <code>latest.yml</code> is (and is not)</h2>
+  <h2 data-lang="pl">Czym jest <code>latest.yml</code> (a czym nie)</h2>
+  <p data-lang="en">
+    Release packaging may include <code>latest.yml</code> / <code>.blockmap</code> beside the exe
+    (electron-builder metadata). That does <strong>not</strong> mean Pomnia silently downloads and installs updates.
+  </p>
+  <p data-lang="pl">
+    Przy release mogą leżeć <code>latest.yml</code> / <code>.blockmap</code> obok exe
+    (metadane electron-buildera). To <strong>nie</strong> znaczy, że Pomnia cicho pobiera i instaluje update.
   </p>
   <table data-lang="en">
     <thead>
-      <tr><th>MCP key</th><th>Path on Brain proxy</th></tr>
+      <tr><th>Behavior</th><th>Reality today</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
-      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
-      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
+      <tr><td>Check for newer version</td><td>Yes — app asks GitHub Releases API</td></tr>
+      <tr><td>Auto-download / auto-install</td><td><strong>No</strong> — notify only; you fetch the next setup</td></tr>
+      <tr><td>Why no silent update</td><td>Unsigned binary + open vault — consent before replace</td></tr>
     </tbody>
   </table>
   <table data-lang="pl">
     <thead>
-      <tr><th>Klucz MCP</th><th>Ścieżka na proxy Brain</th></tr>
+      <tr><th>Zachowanie</th><th>Stan dziś</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
-      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
-      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
+      <tr><td>Sprawdzenie nowszej wersji</td><td>Tak — aplikacja pyta API GitHub Releases</td></tr>
+      <tr><td>Auto-download / auto-install</td><td><strong>Nie</strong> — tylko powiadomienie; setup bierzesz sam</td></tr>
+      <tr><td>Dlaczego bez cichego update</td><td>Niepodpisany binar + otwarty vault — zgoda przed podmianą</td></tr>
     </tbody>
   </table>
+
+  <h2 data-lang="en">Updating</h2>
+  <h2 data-lang="pl">Aktualizacja</h2>
+  <ol data-lang="en">
+    <li>When the app says a newer release exists (or you check Releases yourself), download the new <code>setup.exe</code>.</li>
+    <li>Quit Pomnia fully (tray → <strong>Quit</strong>) so NSIS can replace files.</li>
+    <li>Run the new installer over the old one. Your vault folder is not wiped by a normal upgrade.</li>
+  </ol>
+  <ol data-lang="pl">
+    <li>Gdy aplikacja zgłosi nowszy release (albo sam sprawdzisz Releases), pobierz nowy <code>setup.exe</code>.</li>
+    <li>Wyjdź z Pomni do końca (tray → <strong>Quit</strong>), żeby NSIS mógł podmienić pliki.</li>
+    <li>Odpal nowy instalator na starej instalacji. Zwykły upgrade nie kasuje folderu vaultu.</li>
+  </ol>
   <p data-lang="en">
-    Token: Brain dashboard on <code>:7860</code> (same host as MCP, different port) → Settings / API tokens.
-    MCP itself is on <code>:7862</code>.
+    If setup says the app “cannot be closed”: Quit from the tray, close the installer dialog, try again.
   </p>
   <p data-lang="pl">
-    Token: dashboard Brain na <code>:7860</code> (ten sam host, inny port) → Settings / API tokens.
-    Sam MCP: <code>:7862</code>.
+    Jeśli setup mówi, że aplikacji „nie da się zamknąć”: Quit z tray, zamknij dialog instalatora, spróbuj ponownie.
   </p>
 
-  <h2 data-lang="en">Template (replace host + token)</h2>
-  <h2 data-lang="pl">Szablon (podstaw host + token)</h2>
-  <pre>{
-  "mcpServers": {
-    "pomnia": {
-      "url": "http://YOUR-HOST:7862/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    },
-    "pomnia-vault": {
-      "url": "http://YOUR-HOST:7862/servers/brain-vault/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    },
-    "pomnia-library": {
-      "url": "http://YOUR-HOST:7862/servers/brain-library/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    }
-  }
-}</pre>
-  <p data-lang="en">Do not commit a real token. On macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
-  <p data-lang="pl">Nie commituj prawdziwego tokena. Na macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
-
-  <h2 data-lang="en">Verify</h2>
-  <h2 data-lang="pl">Weryfikacja</h2>
+  <h2 data-lang="en">Not on this page</h2>
+  <h2 data-lang="pl">Czego tu nie ma</h2>
   <ul data-lang="en">
-    <li>Cursor → Settings → MCP: three servers Connected (remote) or one (embedded).</li>
-    <li>Ask the agent something only your vault knows — it should call <code>get_user_profile</code> / <code>search_library</code>.</li>
+    <li>macOS / Linux installers — not shipping yet.</li>
+    <li>Cloud vault sync — not yet (see Start here “does not include”).</li>
   </ul>
   <ul data-lang="pl">
-    <li>Cursor → Settings → MCP: trzy serwery Connected (remote) albo jeden (embedded).</li>
-    <li>Zapytaj agenta o coś tylko z Twojego vaultu — powinien wołać <code>get_user_profile</code> / <code>search_library</code>.</li>
+    <li>Instalatory macOS / Linux — jeszcze nie.</li>
+    <li>Sync vault do chmury — jeszcze nie (patrz Start here „czego nie ma”).</li>
   </ul>
 
   <footer>

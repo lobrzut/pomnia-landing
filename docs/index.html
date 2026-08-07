@@ -54,6 +54,8 @@
   .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker a.crumb { color: var(--cyan); }
+  .kicker a.crumb:hover { color: var(--ink); }
   .kicker {
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
@@ -67,7 +69,7 @@
     font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
     padding-bottom: 18px; border-bottom: 1px solid var(--line);
   }
-  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a { color: var(--ink-dim); }
   .docs-nav a:hover { color: var(--cyan); }
   .docs-nav a.on { color: var(--ink); }
 
@@ -133,9 +135,9 @@
 <body>
 
 <header class="top">
-  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <a class="mark" href="../" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
   <nav>
-    <a class="here" href="/docs/">Docs</a>
+    <a class="here" href="./">Docs</a>
     <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
     <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
     <div class="lang" role="group" aria-label="Language">
@@ -146,8 +148,8 @@
 </header>
 
 <div class="wrap">
-  <p class="kicker" data-lang="en">docs · start here</p>
-  <p class="kicker" data-lang="pl">docs · zacznij tutaj</p>
+  <p class="kicker" data-lang="en"><a class="crumb" href="../">← Home</a> · docs · start here</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="../">← Home</a> · docs · zacznij tutaj</p>
 
   <h1 data-lang="en">Start here</h1>
   <h1 data-lang="pl">Zacznij tutaj</h1>
@@ -164,61 +166,73 @@
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
-    <a class="on" href="/docs/">Start here</a>
-    <a href="/docs/capabilities.html">Capabilities</a>    <a href="/docs/where-is-my-data.html">Where is my data?</a>
-    <a href="/docs/how-memory-works.html">How memory works</a>
-    <a href="/docs/automation.html">Automation</a>
-    <a href="/docs/architecture.html">Architecture</a>
-    <a href="/docs/mcp.html">Connect MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a class="on" href="./">Start here</a>
+    <a href="capabilities.html">Capabilities</a>    <a href="where-is-my-data.html">Where is my data?</a>
+    <a href="how-memory-works.html">How memory works</a>
+    <a href="automation.html">Automation</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="mcp.html">Connect MCP</a>
+    <a href="updates-install.html">Updates &amp; install</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
-    <a class="on" href="/docs/">Zacznij tutaj</a>
-    <a href="/docs/capabilities.html">Możliwości</a>    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
-    <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
-    <a href="/docs/automation.html">Automatyzacja</a>
-    <a href="/docs/architecture.html">Architektura</a>
-    <a href="/docs/mcp.html">Podłącz MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a class="on" href="./">Zacznij tutaj</a>
+    <a href="capabilities.html">Możliwości</a>    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a href="how-memory-works.html">Jak działa pamięć</a>
+    <a href="automation.html">Automatyzacja</a>
+    <a href="architecture.html">Architektura</a>
+    <a href="mcp.html">Podłącz MCP</a>
+    <a href="updates-install.html">Aktualizacje i instalacja</a>
+    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
 
   <div class="toc" data-lang="en">
     <a href="#steps">5 steps</a>
     <a href="#picture">3 boxes</a>
-    <a href="/docs/capabilities.html">Capabilities →</a>    <a href="/docs/where-is-my-data.html">Where is my data? →</a>
-    <a href="/docs/how-memory-works.html">How memory works →</a>
-    <a href="/docs/automation.html">Automation →</a>
-    <a href="/docs/mcp.html">Connect MCP →</a>
+    <a href="capabilities.html">Capabilities →</a>    <a href="where-is-my-data.html">Where is my data? →</a>
+    <a href="how-memory-works.html">How memory works →</a>
+    <a href="automation.html">Automation →</a>
+    <a href="mcp.html">Connect MCP →</a>
+    <a href="updates-install.html">Updates &amp; install →</a>
+    <a href="troubleshooting.html">Troubleshooting →</a>
     <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download Windows</a>
   </div>
   <div class="toc" data-lang="pl">
     <a href="#steps">5 kroków</a>
     <a href="#picture">3 pudełka</a>
-    <a href="/docs/capabilities.html">Możliwości →</a>    <a href="/docs/where-is-my-data.html">Gdzie są dane? →</a>
-    <a href="/docs/how-memory-works.html">Jak działa pamięć →</a>
-    <a href="/docs/automation.html">Automatyzacja →</a>
-    <a href="/docs/mcp.html">Podłącz MCP →</a>
+    <a href="capabilities.html">Możliwości →</a>    <a href="where-is-my-data.html">Gdzie są dane? →</a>
+    <a href="how-memory-works.html">Jak działa pamięć →</a>
+    <a href="automation.html">Automatyzacja →</a>
+    <a href="mcp.html">Podłącz MCP →</a>
+    <a href="updates-install.html">Aktualizacje i instalacja →</a>
+    <a href="troubleshooting.html">Rozwiązywanie problemów →</a>
     <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Pobierz Windows</a>
   </div>
 
   <div class="note" data-lang="en">
     <strong>Early public · unsigned.</strong> Windows SmartScreen may warn —
-    choose More info → Run anyway. Prefer verifying the installer hash from GitHub release assets when published.
+    choose More info → Run anyway. Full path (hash, notify-only updates):
+    <a href="updates-install.html" style="color:var(--cyan)">Updates &amp; install</a>.
+    Stuck? <a href="troubleshooting.html" style="color:var(--cyan)">Troubleshooting</a>.
     Feedback: <a href="mailto:hello@pomnia.ai" style="color:var(--cyan)">hello@pomnia.ai</a>.
   </div>
   <div class="note" data-lang="pl">
     <strong>Wczesny public · bez podpisu.</strong> SmartScreen może ostrzec —
-    Więcej informacji → Uruchom mimo to. Hash instalatora sprawdzaj w assetach GitHub Releases, gdy jest opublikowany.
+    Więcej informacji → Uruchom mimo to. Pełna ścieżka (hash, update tylko jako powiadomienie):
+    <a href="updates-install.html" style="color:var(--cyan)">Aktualizacje i instalacja</a>.
+    Utknąłeś? <a href="troubleshooting.html" style="color:var(--cyan)">Rozwiązywanie problemów</a>.
     Feedback: <a href="mailto:hello@pomnia.ai" style="color:var(--cyan)">hello@pomnia.ai</a>.
   </div>
 
   <div class="cta-row" data-lang="en">
     <a class="cta" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
-    <a class="ghost" href="/docs/mcp.html">Connect your agent via MCP →</a>
+    <a class="ghost" href="mcp.html">Connect your agent via MCP →</a>
   </div>
   <div class="cta-row" data-lang="pl">
     <a class="cta" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Pobierz na Windows</a>
-    <a class="ghost" href="/docs/mcp.html">Podłącz agenta przez MCP →</a>
+    <a class="ghost" href="mcp.html">Podłącz agenta przez MCP →</a>
   </div>
 
   <div id="picture"></div>
@@ -234,8 +248,8 @@
     <li><strong>Karta katalogowa (Indeks)</strong> — odtwarzalny katalog na tym PC, żeby agenci szybko znajdowali treść; plaintext, hasło vaultu go nie zamyka.</li>
     <li><strong>Aplikacja</strong> — otwiera folder, buduje katalog, drzwi MCP do dowolnego agenta.</li>
   </ul>
-  <p data-lang="en">Diagram + honesty: <a href="/docs/where-is-my-data.html" style="color:var(--cyan)">Where is my data?</a>. How distill/chunk/search work: <a href="/docs/how-memory-works.html" style="color:var(--cyan)">How memory works</a>. What runs without “zapisz”: <a href="/docs/automation.html" style="color:var(--cyan)">Automation</a>. Paths &amp; unlock: <a href="/docs/architecture.html" style="color:var(--cyan)">Architecture</a> · <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
-  <p data-lang="pl">Diagram + uczciwość: <a href="/docs/where-is-my-data.html" style="color:var(--cyan)">Gdzie są moje dane?</a>. Jak działa distill/chunk/search: <a href="/docs/how-memory-works.html" style="color:var(--cyan)">Jak działa pamięć</a>. Co leci bez „zapisz”: <a href="/docs/automation.html" style="color:var(--cyan)">Automatyzacja</a>. Ścieżki i unlock: <a href="/docs/architecture.html" style="color:var(--cyan)">Architektura</a> · <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
+  <p data-lang="en">Diagram + honesty: <a href="where-is-my-data.html" style="color:var(--cyan)">Where is my data?</a>. How distill/chunk/search work: <a href="how-memory-works.html" style="color:var(--cyan)">How memory works</a>. What runs without “zapisz”: <a href="automation.html" style="color:var(--cyan)">Automation</a>. Paths &amp; unlock: <a href="architecture.html" style="color:var(--cyan)">Architecture</a> · <a href="../privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
+  <p data-lang="pl">Diagram + uczciwość: <a href="where-is-my-data.html" style="color:var(--cyan)">Gdzie są moje dane?</a>. Jak działa distill/chunk/search: <a href="how-memory-works.html" style="color:var(--cyan)">Jak działa pamięć</a>. Co leci bez „zapisz”: <a href="automation.html" style="color:var(--cyan)">Automatyzacja</a>. Ścieżki i unlock: <a href="architecture.html" style="color:var(--cyan)">Architektura</a> · <a href="../privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
 
   <div id="steps"></div>
   <h2 data-lang="en">Five steps until your agents remember you</h2>
@@ -249,8 +263,8 @@ ollama pull qwen2.5:14b         # required for distill</pre>
     </li>
     <li><strong>Vault + backup</strong> — first-run wizard or Dashboard → create/open vault → Backup detected sources (Claude Code, Cursor, …).</li>
     <li><strong>Distill</strong> — prepare memory from the backlog (Brain tab → Distill). Raw chats become condensed notes + search card entries.</li>
-    <li><strong>Connect (MCP)</strong> — Connect tab → on this machine (default) or your server → copy the snippet into Cursor → Reload Window. Details: <a href="/docs/mcp.html" style="color:var(--cyan)">MCP quickstart</a>.</li>
-    <li><strong>Verify</strong> — Settings → Diagnostics should be green. In Cursor, ask about something from an older session — the agent should call <code>search_library</code>.</li>
+    <li><strong>Connect (MCP)</strong> — Connect tab → on this machine (default) or your server → copy the snippet into Cursor → Reload Window. Details: <a href="mcp.html" style="color:var(--cyan)">MCP quickstart</a>.</li>
+    <li><strong>Verify</strong> — Settings → Diagnostics should be green. In Cursor, ask about something from an older session — the agent should call <code>search_library</code>. Red rows: <a href="troubleshooting.html" style="color:var(--cyan)">Troubleshooting</a>.</li>
   </ol>
   <ol data-lang="pl">
     <li>
@@ -260,19 +274,19 @@ ollama pull qwen2.5:14b         # wymagane do distill</pre>
     </li>
     <li><strong>Vault + backup</strong> — kreator albo Dashboard → utwórz/otwórz vault → Backup wykrytych źródeł (Claude Code, Cursor…).</li>
     <li><strong>Distill</strong> — przygotuj pamięć z backlogu (zakładka Brain → Distill). Surowy czat → skondensowane notatki + wpisy w karcie katalogowej.</li>
-    <li><strong>Connect (MCP)</strong> — zakładka Connect → na tej maszynie (domyślnie) lub Twój serwer → skopiuj snippet do Cursora → Reload Window. Szczegóły: <a href="/docs/mcp.html" style="color:var(--cyan)">MCP quickstart</a>.</li>
-    <li><strong>Weryfikacja</strong> — Settings → Diagnostyka na zielono. W Cursorze zapytaj o coś ze starej sesji — agent powinien wołać <code>search_library</code>.</li>
+    <li><strong>Connect (MCP)</strong> — zakładka Connect → na tej maszynie (domyślnie) lub Twój serwer → skopiuj snippet do Cursora → Reload Window. Szczegóły: <a href="mcp.html" style="color:var(--cyan)">MCP quickstart</a>.</li>
+    <li><strong>Weryfikacja</strong> — Settings → Diagnostyka na zielono. W Cursorze zapytaj o coś ze starej sesji — agent powinien wołać <code>search_library</code>. Czerwone wiersze: <a href="troubleshooting.html" style="color:var(--cyan)">Rozwiązywanie problemów</a>.</li>
   </ol>
 
   <h2 data-lang="en">Where search runs</h2>
   <h2 data-lang="pl">Gdzie działa wyszukiwanie</h2>
   <ul data-lang="en">
     <li><strong>On this machine</strong> (start here) — search inside Pomnia on <code>127.0.0.1:7862</code>. Needs Ollama locally.</li>
-    <li><strong>On your server</strong> (later / homelab) — remote search + Bearer token. Wiring details: <a href="/docs/mcp.html" style="color:var(--cyan)">Connect MCP</a>.</li>
+    <li><strong>On your server</strong> (later / homelab) — remote search + Bearer token. Wiring details: <a href="mcp.html" style="color:var(--cyan)">Connect MCP</a>.</li>
   </ul>
   <ul data-lang="pl">
     <li><strong>Na tej maszynie</strong> (zacznij tu) — wyszukiwanie w Pomni na <code>127.0.0.1:7862</code>. Ollama lokalnie.</li>
-    <li><strong>Na Twoim serwerze</strong> (później / homelab) — zdalne wyszukiwanie + token Bearer. Podłączenie: <a href="/docs/mcp.html" style="color:var(--cyan)">Podłącz MCP</a>.</li>
+    <li><strong>Na Twoim serwerze</strong> (później / homelab) — zdalne wyszukiwanie + token Bearer. Podłączenie: <a href="mcp.html" style="color:var(--cyan)">Podłącz MCP</a>.</li>
   </ul>
 
   <h2 data-lang="en">What this early build does not include</h2>
@@ -289,21 +303,25 @@ ollama pull qwen2.5:14b         # wymagane do distill</pre>
   </ul>
 
   <footer>
-    <a href="/">pomnia.ai</a>
+    <a href="../">pomnia.ai</a>
     <span>·</span>
-    <a href="/docs/capabilities.html">Capabilities</a>
+    <a href="capabilities.html">Capabilities</a>
     <span>·</span>
-    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
     <span>·</span>
-    <a href="/docs/how-memory-works.html">How memory works</a>
+    <a href="how-memory-works.html">How memory works</a>
     <span>·</span>
-    <a href="/docs/automation.html">Automation</a>
+    <a href="automation.html">Automation</a>
     <span>·</span>
-    <a href="/docs/architecture.html">Architecture</a>
+    <a href="architecture.html">Architecture</a>
     <span>·</span>
-    <a href="/docs/mcp.html">MCP</a>
+    <a href="mcp.html">MCP</a>
     <span>·</span>
-    <a href="/privacy.html">Privacy</a>
+    <a href="updates-install.html">Updates</a>
+    <span>·</span>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <span>·</span>
+    <a href="../privacy.html">Privacy</a>
     <span>·</span>
     <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
     <span>·</span>
