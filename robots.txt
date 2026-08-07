@@ -1,0 +1,9 @@
+# pomnia.ai — allow indexing of the marketing + docs surface.
+# Legacy waitlist page is kept in-repo for reference only.
+
+User-agent: *
+Allow: /
+
+Disallow: /index-classic.html
+
+Sitemap: https://pomnia.ai/sitemap.xml

@@ -14,8 +14,8 @@ Static site for [pomnia.ai](https://pomnia.ai). No build step — plain HTML.
 - `docs/updates-install.html` — Windows install, SmartScreen, notify-only updates (PL|EN)
 - `docs/troubleshooting.html` — Diagnostics + common premiere blockers (PL|EN)
 - `docs/start-here.html` — redirect → `/docs/`
-- `index-classic.html` — earlier waitlist/beta page, kept for reference.
-  Not linked from anywhere; do not deploy it as `index.html`.
+- `index-classic.html` — legacy URL; redirects to `/` with `noindex` (do not revive as the homepage).
+- `sitemap.xml` / `robots.txt` / `llms.txt` — crawler + agent discovery aids.
 - **Deploy:** Cloudflare Pages — connect `lobrzut/pomnia-landing`, production branch `main`,
   build command empty, output directory `/` (repo root). Custom domain `pomnia.ai` + `www`.
 
