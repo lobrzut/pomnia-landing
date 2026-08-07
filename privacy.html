@@ -79,6 +79,7 @@
 
   <div class="top">
     <a class="mark" href="/">pomn<span class="nd">i</span>a</a>
+    <a class="back" href="/docs/">docs</a>
     <a class="back" href="/">← back to the site</a>
   </div>
 
@@ -118,9 +119,13 @@
 
   <h2>The application itself</h2>
   <p>
-    Pomnia stores your vault on your own machine, or on a server you run. It is encrypted
-    with <code>AES-256-GCM</code> and a key derived from a passphrase that is never stored
-    anywhere — lose it and the vault is unrecoverable, including by me.
+    Pomnia stores your vault on your own machine, or on a server you run. Chat and document
+    blobs are encrypted with <code>AES-256-GCM</code> and a key derived from a passphrase
+    that is never stored anywhere — lose it and those blobs are unrecoverable, including by me.
+    Sidecar files that travel with the vault folder (<code>skills/</code>, <code>USER.md</code>,
+    <code>sessions/</code>, distilled notes) and the local Brain search index
+    (<code>library.db</code>) are plaintext on disk by design — protect the folder like any
+    other local data.
   </p>
   <p>
     Distillation runs against your own Ollama instance. <strong>No vault content is ever
