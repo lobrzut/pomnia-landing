@@ -62,6 +62,15 @@
   .lede { color: var(--ink-dim); font-size: 17px; max-width: 38em; margin-bottom: 36px; text-wrap: balance; }
   .lede strong { color: var(--ink); font-weight: 600; }
 
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 28px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
   .toc {
     display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 40px;
     font-family: var(--mono); font-size: 13px;
@@ -107,8 +116,10 @@
   html.lang-pl [data-lang="pl"] { display: revert; }
   html.lang-pl table[data-lang="pl"] { display: table; }
   html.lang-pl .cta-row[data-lang="pl"],
-  html.lang-pl .note[data-lang="pl"], html.lang-pl .toc[data-lang="pl"] { display: revert; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .toc[data-lang="pl"],
+  html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
   html.lang-pl .toc[data-lang="pl"] { display: flex; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
   html.lang-pl .cta-row[data-lang="pl"] { display: flex; }
 
   footer {
@@ -152,15 +163,30 @@
     To nie wrapper agentów — to pamięć, którą posiadasz.
   </p>
 
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a class="on" href="/docs/">Start here</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/mcp.html">Connect MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a class="on" href="/docs/">Zacznij tutaj</a>
+    <a href="/docs/architecture.html">Architektura</a>
+    <a href="/docs/mcp.html">Podłącz MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+
   <div class="toc" data-lang="en">
     <a href="#steps">5 steps</a>
     <a href="#stores">Two stores</a>
+    <a href="/docs/architecture.html">Architecture →</a>
     <a href="/docs/mcp.html">Connect MCP →</a>
     <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download Windows</a>
   </div>
   <div class="toc" data-lang="pl">
     <a href="#steps">5 kroków</a>
     <a href="#stores">Dwa magazyny</a>
+    <a href="/docs/architecture.html">Architektura →</a>
     <a href="/docs/mcp.html">Podłącz MCP →</a>
     <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Pobierz Windows</a>
   </div>
@@ -222,8 +248,8 @@
       </tr>
     </tbody>
   </table>
-  <p data-lang="en">Vault blobs = sealed archive. Sidecars + <code>library.db</code> = local plaintext knowledge surface agents search — protect those folders. See <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
-  <p data-lang="pl">Bloby vaultu = zamknięte archiwum. Sidecary + <code>library.db</code> = lokalna powierzchnia wiedzy (plaintext), którą agenci przeszukują — chroń te foldery. Zobacz <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
+  <p data-lang="en">Vault blobs = sealed archive. Sidecars + <code>library.db</code> = local plaintext knowledge surface agents search — protect those folders. Full map (unlock/lock, pipelines): <a href="/docs/architecture.html" style="color:var(--cyan)">Architecture</a> · <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
+  <p data-lang="pl">Bloby vaultu = zamknięte archiwum. Sidecary + <code>library.db</code> = lokalna powierzchnia wiedzy (plaintext), którą agenci przeszukują — chroń te foldery. Pełna mapa (unlock/lock, pipeline’y): <a href="/docs/architecture.html" style="color:var(--cyan)">Architektura</a> · <a href="/privacy.html" style="color:var(--cyan)">Privacy</a>.</p>
 
   <div id="steps"></div>
   <h2 data-lang="en">Five steps until your agents remember you</h2>
@@ -278,6 +304,8 @@ ollama pull qwen2.5:14b         # wymagane do distill</pre>
 
   <footer>
     <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/architecture.html">Architecture</a>
     <span>·</span>
     <a href="/docs/mcp.html">MCP</a>
     <span>·</span>
