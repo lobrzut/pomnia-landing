@@ -5,16 +5,19 @@ Static site for [pomnia.ai](https://pomnia.ai). No build step — plain HTML.
 - `index.html` — marketing page
 - `privacy.html` — site privacy + product encryption honesty
 - `docs/index.html` — Start here (PL|EN)
+- `docs/capabilities.html` — what Pomnia can / cannot do (PL|EN)
 - `docs/where-is-my-data.html` — premiere 3-box mental model (folder / index / app)
 - `docs/how-memory-works.html` — distill / chunk / embed / search deep-dive (PL|EN)
 - `docs/automation.html` — what is automatic vs agent+MCP discipline (PL|EN)
 - `docs/architecture.html` — Vault vs AppData paths, unlock/lock, pipelines (PL|EN)
 - `docs/mcp.html` — Connect MCP quickstart (PL|EN)
+- `docs/updates-install.html` — Windows install, SmartScreen, notify-only updates (PL|EN)
+- `docs/troubleshooting.html` — Diagnostics + common premiere blockers (PL|EN)
 - `docs/start-here.html` — redirect → `/docs/`
 - `index-classic.html` — earlier waitlist/beta page, kept for reference.
   Not linked from anywhere; do not deploy it as `index.html`.
-- **Deploy:** see [`docs/LANDING-DEPLOY.md`](../docs/LANDING-DEPLOY.md) in the product repo
-  (Cloudflare Pages: output directory = this folder).
+- **Deploy:** Cloudflare Pages — connect `lobrzut/pomnia-landing`, production branch `main`,
+  build command empty, output directory `/` (repo root). Custom domain `pomnia.ai` + `www`.
 
 ## Preview locally
 
@@ -30,8 +33,7 @@ Hero + nav + closing CTA point at:
 
 `https://github.com/lobrzut/pomnia/releases/latest`
 
-That always resolves to whatever GitHub marks as Latest (today still may lag local
-`package.json` until a premiere publish lands).
+That always resolves to whatever GitHub marks as Latest (currently `v0.1.58`).
 
 ## Ground rules for this page
 
