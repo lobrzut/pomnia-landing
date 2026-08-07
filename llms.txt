@@ -1,0 +1,35 @@
+# Pomnia
+> Local-first memory layer for AI agents (AGPL-3.0). Not an agent wrapper.
+
+Pomnia gives your agents a shared past: encrypted vault archive for chat/doc blobs, distilled notes + search index on hardware you control, recalled over MCP.
+
+## Product facts (do not invent beyond this)
+- Identity: portable memory / Brain MCP — not an orchestration harness
+- License: AGPL-3.0 (product). This marketing site is outside the AGPL tree
+- Trust: local-first; no telemetry by default; no cloud required
+- Encryption honesty: AES-256-GCM protects vault blobs (passphrase-derived key). Distilled notes and library.db (search index under AppData) are plaintext by design — see Privacy
+- Installer: Windows setup is unsigned for now (SmartScreen expected). Prefer verifying the published SHA-256 on GitHub Releases
+- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; Linux .AppImage / .deb when attached). macOS not shipping yet
+
+## Canonical pages
+- https://pomnia.ai/
+- https://pomnia.ai/privacy.html
+- https://pomnia.ai/docs/
+- https://pomnia.ai/docs/capabilities.html
+- https://pomnia.ai/docs/where-is-my-data.html
+- https://pomnia.ai/docs/how-memory-works.html
+- https://pomnia.ai/docs/automation.html
+- https://pomnia.ai/docs/architecture.html
+- https://pomnia.ai/docs/mcp.html
+- https://pomnia.ai/docs/updates-install.html
+- https://pomnia.ai/docs/troubleshooting.html
+
+## Agent entry points
+- Start here: https://pomnia.ai/docs/
+- Vault vs AppData: https://pomnia.ai/docs/where-is-my-data.html + https://pomnia.ai/docs/architecture.html
+- Connect MCP: https://pomnia.ai/docs/mcp.html
+- What it can / cannot do: https://pomnia.ai/docs/capabilities.html
+- Source + releases: https://github.com/lobrzut/pomnia
+
+## Optional
+- Sitemap: https://pomnia.ai/sitemap.xml

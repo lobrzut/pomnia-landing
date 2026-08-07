@@ -21,7 +21,31 @@
 <meta name="twitter:description" content="One local vault (AES-256-GCM blobs) + MCP recall. Local-first, no cloud required — see privacy for the plaintext honesty boundary.">
 <meta name="twitter:image" content="https://pomnia.ai/icon.png">
 <title>Pomnia — the memory layer for your AI</title>
-<meta name="description" content="Your AI forgets you every morning. Pomnia is the local-first memory your agents share — encrypted vault archive for chats/docs, distilled on your GPU, recalled by any MCP-speaking agent.">
+<meta name="description" content="Your AI forgets you every morning. Pomnia is the local-first memory your agents share — encrypted vault archive for chats/docs, distilled on hardware you control, recalled by any MCP-speaking agent.">
+<meta name="robots" content="index, follow">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Pomnia",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, Linux",
+  "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+  "url": "https://pomnia.ai/",
+  "downloadUrl": "https://github.com/lobrzut/pomnia/releases/latest",
+  "description": "Local-first memory layer for AI agents: AES-256-GCM vault blobs, distilled knowledge on hardware you control, recalled over MCP. Not an agent wrapper.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Pomnia",
+    "url": "https://pomnia.ai/"
+  }
+}
+</script>
 <style>
   /* ── Pomnia brand tokens ─────────────────────────────────────────────── */
   :root {
@@ -107,13 +131,13 @@
   .cta-row  { animation-delay: 0.92s; }
   .hint     { animation-delay: 1.10s; }
 
-  /* renamed from .etym — busts stale CSS that had text-transform: lowercase */
-  .etymology {
+  /* Hero etymology — keep source casing (Old Polish). Never lowercase. */
+  .etymology, .etym {
     font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
     color: var(--ink-faint);
-    text-transform: none;
+    text-transform: none !important;
   }
-  .etymology b { color: var(--ink-dim); font-weight: 500; text-transform: none; }
+  .etymology b, .etym b { color: var(--ink-dim); font-weight: 500; text-transform: none !important; }
 
   .wordmark {
     font-size: clamp(78px, 15vw, 182px);
@@ -483,7 +507,8 @@
       <p class="flow-caption reveal d1">
         Chats are read from the assistants that keep them in a readable store; the distilled
         memory flows back out to <strong>any</strong> MCP-speaking agent — over <code>MCP</code>,
-        the protocol they all already speak. No plugins, no per-tool setup ritual.
+        the protocol they all already speak. After one Connect snippet in your client, recall is just
+        <code>search_library</code> — no per-vendor memory plugins.
       </p>
     </section>
 
@@ -518,6 +543,10 @@
           Windows installer · ~136&nbsp;MB · free · no account ·
           <a class="wl-privacy" href="/privacy.html">privacy</a>
         </p>
+        <p class="wl-note">
+          Linux <code>.AppImage</code> / <code>.deb</code> are on the same
+          <a class="wl-privacy" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a> page when CI attaches them.
+        </p>
 
         <p class="wl-note">
           Not signed yet, so Windows will say <em>“Windows protected your PC”</em> —
@@ -526,7 +555,7 @@
         </p>
 
         <p class="wl-note wl-next">
-          macOS and a packaged server are next. Star the repo and GitHub will tell you.
+          macOS installer is next. Star the repo and GitHub will tell you.
         </p>
       </div>
 
@@ -548,6 +577,8 @@
         <p class="foot-etym">pomnia — from Old Polish <b>pomnieć</b>: to remember.</p>
         <p class="copy">
           <a class="foot-mail" href="/docs/">Docs</a>
+          <span class="sep">·</span>
+          <a class="foot-mail" href="/privacy.html">Privacy</a>
           <span class="sep">·</span>
           <a class="foot-mail" href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
           <span class="sep">·</span>
