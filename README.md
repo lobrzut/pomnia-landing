@@ -7,6 +7,7 @@ Static site for [pomnia.ai](https://pomnia.ai). No build step — plain HTML.
 - `docs/index.html` — Start here (PL|EN)
 - `docs/where-is-my-data.html` — premiere 3-box mental model (folder / index / app)
 - `docs/how-memory-works.html` — distill / chunk / embed / search deep-dive (PL|EN)
+- `docs/automation.html` — what is automatic vs agent+MCP discipline (PL|EN)
 - `docs/architecture.html` — Vault vs AppData paths, unlock/lock, pipelines (PL|EN)
 - `docs/mcp.html` — Connect MCP quickstart (PL|EN)
 - `docs/start-here.html` — redirect → `/docs/`
