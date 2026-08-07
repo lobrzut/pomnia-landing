@@ -122,18 +122,22 @@
       <tr>
         <td><strong>Pomnia Vault</strong></td>
         <td>Folder you choose (e.g. <code>C:\Vault</code>)</td>
-        <td>Encrypted chats + docs (+ skills, USER.md, distilled notes…)</td>
+        <td><strong>Encrypted</strong> chat/doc blobs (<code>AES-256-GCM</code>). <strong>Plaintext</strong> sidecars beside them: <code>skills/</code>, <code>USER.md</code>, <code>sessions/</code>, <code>distilled/</code></td>
       </tr>
       <tr>
         <td><strong>Brain data</strong></td>
         <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
-        <td>RAG index (<code>library.db</code>) + distill notes — on-disk, not vault-encrypted</td>
+        <td>Rebuildable RAG index (<code>library.db</code>) — <strong>full chunk text + embeddings</strong>, not vault-encrypted. Survives vault lock; not wiped on lock.</td>
       </tr>
     </tbody>
   </table>
-  <p>Vault = archive and backup. Brain data = semantic search engine.</p>
+  <p>
+    Vault blobs = sealed archive (passphrase). The knowledge agents actually search
+    (sidecars + <code>library.db</code>) is local plaintext — protect those folders like any notes on disk.
+    See <a class="inline" href="/privacy.html">Privacy</a>.
+  </p>
 
-  <h2>Five steps to “Cursor remembers me”</h2>
+  <h2>Five steps until your agents remember you</h2>
 
   <h2>1. Download &amp; install</h2>
   <p>
