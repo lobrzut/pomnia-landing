@@ -54,6 +54,8 @@
   .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker a.crumb { color: var(--cyan); }
+  .kicker a.crumb:hover { color: var(--ink); }
   .kicker {
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
@@ -67,7 +69,7 @@
     font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
     padding-bottom: 18px; border-bottom: 1px solid var(--line);
   }
-  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a { color: var(--ink-dim); }
   .docs-nav a:hover { color: var(--cyan); }
   .docs-nav a.on { color: var(--ink); }
 
@@ -117,9 +119,9 @@
 <body>
 
 <header class="top">
-  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <a class="mark" href="../" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
   <nav>
-    <a class="here" href="/docs/">Docs</a>
+    <a href="./">Docs</a>
     <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
     <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
     <div class="lang" role="group" aria-label="Language">
@@ -130,57 +132,61 @@
 </header>
 
 <div class="wrap">
-  <p class="kicker" data-lang="en">docs · architecture</p>
-  <p class="kicker" data-lang="pl">docs · architektura</p>
+  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · architecture</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · architektura</p>
 
   <h1 data-lang="en">Architecture in one screen</h1>
   <h1 data-lang="pl">Architektura na jednym ekranie</h1>
 
   <p class="lede" data-lang="en">
     Deeper map after the premiere story.
-    First hold <a href="/docs/where-is-my-data.html" style="color:var(--cyan)">three boxes</a>:
+    First hold <a href="where-is-my-data.html" style="color:var(--cyan)">three boxes</a>:
     your folder, the search card on this PC, the app.
-    How distill/chunk/search work: <a href="/docs/how-memory-works.html" style="color:var(--cyan)">How memory works</a>.
+    How distill/chunk/search work: <a href="how-memory-works.html" style="color:var(--cyan)">How memory works</a>.
     Below: vault vs AppData paths, unlock/lock.
   </p>
   <p class="lede" data-lang="pl">
     Głębsza mapa po premiere’owym obrazku.
-    Najpierw trzy pudełka: <a href="/docs/where-is-my-data.html" style="color:var(--cyan)">Gdzie są moje dane?</a>
+    Najpierw trzy pudełka: <a href="where-is-my-data.html" style="color:var(--cyan)">Gdzie są moje dane?</a>
     — folder, karta katalogowa, aplikacja.
-    Jak działa distill/chunk/search: <a href="/docs/how-memory-works.html" style="color:var(--cyan)">Jak działa pamięć</a>.
+    Jak działa distill/chunk/search: <a href="how-memory-works.html" style="color:var(--cyan)">Jak działa pamięć</a>.
     Niżej: ścieżki vault vs AppData, unlock/lock.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
-    <a href="/docs/">Start here</a>
-    <a href="/docs/capabilities.html">Capabilities</a>    <a href="/docs/where-is-my-data.html">Where is my data?</a>
-    <a href="/docs/how-memory-works.html">How memory works</a>
-    <a href="/docs/automation.html">Automation</a>
-    <a class="on" href="/docs/architecture.html">Architecture</a>
-    <a href="/docs/mcp.html">Connect MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="./">Start here</a>
+    <a href="capabilities.html">Capabilities</a>    <a href="where-is-my-data.html">Where is my data?</a>
+    <a href="how-memory-works.html">How memory works</a>
+    <a href="automation.html">Automation</a>
+    <a class="on" href="architecture.html">Architecture</a>
+    <a href="mcp.html">Connect MCP</a>
+    <a href="updates-install.html">Updates &amp; install</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
-    <a href="/docs/">Zacznij tutaj</a>
-    <a href="/docs/capabilities.html">Możliwości</a>    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
-    <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
-    <a href="/docs/automation.html">Automatyzacja</a>
-    <a class="on" href="/docs/architecture.html">Architektura</a>
-    <a href="/docs/mcp.html">Podłącz MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="./">Zacznij tutaj</a>
+    <a href="capabilities.html">Możliwości</a>    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a href="how-memory-works.html">Jak działa pamięć</a>
+    <a href="automation.html">Automatyzacja</a>
+    <a class="on" href="architecture.html">Architektura</a>
+    <a href="mcp.html">Podłącz MCP</a>
+    <a href="updates-install.html">Aktualizacje i instalacja</a>
+    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
 
   <div class="note" data-lang="en">
     <strong>Honesty boundary.</strong> Passphrase protects vault blobs (<code>AES-256-GCM</code>).
     Sidecars (<code>skills/</code>, <code>USER.md</code>, <code>sessions/</code>, distilled notes) and
     <code>library.db</code> are <strong>plaintext on disk</strong>. Disk access = readable memory without the password.
-    Full trust text: <a class="inline" href="/privacy.html">Privacy</a> · product <code>SECURITY.md</code> on GitHub.
+    Full trust text: <a class="inline" href="../privacy.html">Privacy</a> · product <code>SECURITY.md</code> on GitHub.
   </div>
   <div class="note" data-lang="pl">
     <strong>Granica uczciwości.</strong> Hasło chroni bloby vaultu (<code>AES-256-GCM</code>).
     Sidecary (<code>skills/</code>, <code>USER.md</code>, <code>sessions/</code>, notatki distill) i
     <code>library.db</code> to <strong>plaintext na dysku</strong>. Dostęp do dysku = treść wiedzy bez hasła.
-    Pełny tekst zaufania: <a class="inline" href="/privacy.html">Privacy</a> · <code>SECURITY.md</code> w repo.
+    Pełny tekst zaufania: <a class="inline" href="../privacy.html">Privacy</a> · <code>SECURITY.md</code> w repo.
   </div>
 
   <h2 data-lang="en">Folder vs search card (paths)</h2>
@@ -254,12 +260,12 @@
   <ul data-lang="en">
     <li><strong>Embedded</strong> — Brain inside Pomnia on <code>127.0.0.1:7862</code>; one MCP server <code>pomnia</code>; needs Ollama on the same machine.</li>
     <li><strong>Remote</strong> — your homelab Brain; Bearer token; always three client keys (<code>pomnia</code>, <code>pomnia-vault</code>, <code>pomnia-library</code>).</li>
-    <li>Step-by-step wiring: <a class="inline" href="/docs/mcp.html">Connect MCP</a>.</li>
+    <li>Step-by-step wiring: <a class="inline" href="mcp.html">Connect MCP</a>.</li>
   </ul>
   <ul data-lang="pl">
     <li><strong>Embedded</strong> — Brain w Pomni na <code>127.0.0.1:7862</code>; jeden serwer MCP <code>pomnia</code>; Ollama na tej samej maszynie.</li>
     <li><strong>Remote</strong> — Brain w homelabie; token Bearer; zawsze trzy klucze (<code>pomnia</code>, <code>pomnia-vault</code>, <code>pomnia-library</code>).</li>
-    <li>Krok po kroku: <a class="inline" href="/docs/mcp.html">Podłącz MCP</a>.</li>
+    <li>Krok po kroku: <a class="inline" href="mcp.html">Podłącz MCP</a>.</li>
   </ul>
 
   <h2 data-lang="en">Two content pipelines</h2>
@@ -317,21 +323,25 @@
   </ul>
 
   <footer>
-    <a href="/">pomnia.ai</a>
+    <a href="../">pomnia.ai</a>
     <span>·</span>
-    <a href="/docs/">Start here</a>
+    <a href="./">Start here</a>
     <span>·</span>
-    <a href="/docs/capabilities.html">Capabilities</a>
+    <a href="capabilities.html">Capabilities</a>
     <span>·</span>
-    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
     <span>·</span>
-    <a href="/docs/how-memory-works.html">How memory works</a>
+    <a href="how-memory-works.html">How memory works</a>
     <span>·</span>
-    <a href="/docs/automation.html">Automation</a>
+    <a href="automation.html">Automation</a>
     <span>·</span>
-    <a href="/docs/mcp.html">MCP</a>
+    <a href="mcp.html">MCP</a>
     <span>·</span>
-    <a href="/privacy.html">Privacy</a>
+    <a href="updates-install.html">Updates</a>
+    <span>·</span>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <span>·</span>
+    <a href="../privacy.html">Privacy</a>
     <span>·</span>
     <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
     <span>·</span>

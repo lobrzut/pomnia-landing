@@ -54,6 +54,8 @@
   .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker a.crumb { color: var(--cyan); }
+  .kicker a.crumb:hover { color: var(--ink); }
   .kicker {
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
     text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
@@ -67,7 +69,7 @@
     font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
     padding-bottom: 18px; border-bottom: 1px solid var(--line);
   }
-  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a { color: var(--ink-dim); }
   .docs-nav a:hover { color: var(--cyan); }
   .docs-nav a.on { color: var(--ink); }
 
@@ -106,9 +108,9 @@
 <body>
 
 <header class="top">
-  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <a class="mark" href="../" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
   <nav>
-    <a class="here" href="/docs/">Docs</a>
+    <a href="./">Docs</a>
     <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
     <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
     <div class="lang" role="group" aria-label="Language">
@@ -119,8 +121,8 @@
 </header>
 
 <div class="wrap">
-  <p class="kicker" data-lang="en">docs · capabilities</p>
-  <p class="kicker" data-lang="pl">docs · możliwości</p>
+  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · capabilities</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · możliwości</p>
 
   <h1 data-lang="en">What Pomnia can do</h1>
   <h1 data-lang="pl">Co Pomnia potrafi</h1>
@@ -135,24 +137,28 @@
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
-    <a href="/docs/">Start here</a>
-    <a class="on" href="/docs/capabilities.html">Capabilities</a>
-    <a href="/docs/where-is-my-data.html">Where is my data?</a>
-    <a href="/docs/how-memory-works.html">How memory works</a>
-    <a href="/docs/automation.html">Automation</a>
-    <a href="/docs/architecture.html">Architecture</a>
-    <a href="/docs/mcp.html">Connect MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="./">Start here</a>
+    <a class="on" href="capabilities.html">Capabilities</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
+    <a href="how-memory-works.html">How memory works</a>
+    <a href="automation.html">Automation</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="mcp.html">Connect MCP</a>
+    <a href="updates-install.html">Updates &amp; install</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
-    <a href="/docs/">Zacznij tutaj</a>
-    <a class="on" href="/docs/capabilities.html">Możliwości</a>
-    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
-    <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
-    <a href="/docs/automation.html">Automatyzacja</a>
-    <a href="/docs/architecture.html">Architektura</a>
-    <a href="/docs/mcp.html">Podłącz MCP</a>
-    <a href="/privacy.html">Privacy</a>
+    <a href="./">Zacznij tutaj</a>
+    <a class="on" href="capabilities.html">Możliwości</a>
+    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a href="how-memory-works.html">Jak działa pamięć</a>
+    <a href="automation.html">Automatyzacja</a>
+    <a href="architecture.html">Architektura</a>
+    <a href="mcp.html">Podłącz MCP</a>
+    <a href="updates-install.html">Aktualizacje i instalacja</a>
+    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
+    <a href="../privacy.html">Privacy</a>
   </nav>
 
   <div class="note" data-lang="en">
@@ -172,7 +178,7 @@
     <li>
       <strong>Vault create / unlock / lock</strong> — pick a folder (any name, including <code>*.pomnia</code>);
       AES-256-GCM blobs for chat/document archives; passphrase via scrypt. Lock clears the key from RAM — it does <em>not</em> wipe the search index.
-      Details: <a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a> · <a class="inline" href="/docs/architecture.html">Architecture</a>.
+      Details: <a class="inline" href="where-is-my-data.html">Where is my data?</a> · <a class="inline" href="architecture.html">Architecture</a>.
     </li>
     <li>
       <strong>Backup live assistants</strong> — Claude Code, Cursor, Claude Desktop, Antigravity, VS Code / Windsurf, Continue (hybrid or snapshot per source).
@@ -182,14 +188,14 @@
     </li>
     <li>
       <strong>Distill</strong> — Ollama turns chats into condensed markdown notes (Summary / Decisions / …) and feeds the search card. You start it; it is not a silent daemon.
-      Pipeline: <a class="inline" href="/docs/how-memory-works.html">How memory works</a>. Who runs what: <a class="inline" href="/docs/automation.html">Automation</a>.
+      Pipeline: <a class="inline" href="how-memory-works.html">How memory works</a>. Who runs what: <a class="inline" href="automation.html">Automation</a>.
     </li>
     <li>
       <strong>Search</strong> — hybrid semantic + keyword over distilled notes + library. In-app (Chats / Brain) and via MCP <code>search_library</code>. Index lives as plaintext <code>library.db</code> under AppData (rebuildable).
     </li>
     <li>
       <strong>Connect MCP</strong> — snippet for Cursor (and other MCP clients). Default: embedded Brain on <code>127.0.0.1:7862</code>. Advanced: remote / homelab Brain + Bearer.
-      <a class="inline" href="/docs/mcp.html">Connect MCP</a>.
+      <a class="inline" href="mcp.html">Connect MCP</a>.
     </li>
     <li>
       <strong>MCP tools agents actually get</strong> —
@@ -216,7 +222,7 @@
     <li>
       <strong>Vault: utwórz / odblokuj / zablokuj</strong> — wybierasz folder (dowolna nazwa, też <code>*.pomnia</code>);
       bloby AES-256-GCM na archiwa czatów/dokumentów; hasło przez scrypt. Lock czyści klucz z RAM — <em>nie</em> kasuje indeksu wyszukiwania.
-      Szczegóły: <a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a> · <a class="inline" href="/docs/architecture.html">Architektura</a>.
+      Szczegóły: <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a> · <a class="inline" href="architecture.html">Architektura</a>.
     </li>
     <li>
       <strong>Backup żywych asystentów</strong> — Claude Code, Cursor, Claude Desktop, Antigravity, VS Code / Windsurf, Continue (hybrid lub snapshot zależnie od źródła).
@@ -226,14 +232,14 @@
     </li>
     <li>
       <strong>Distill</strong> — Ollama zamienia czaty w skondensowane notatki markdown (Summary / Decisions / …) i karmi kartę katalogową. Ty to uruchamiasz; to nie cichy demon.
-      Pipeline: <a class="inline" href="/docs/how-memory-works.html">Jak działa pamięć</a>. Kto co robi: <a class="inline" href="/docs/automation.html">Automatyzacja</a>.
+      Pipeline: <a class="inline" href="how-memory-works.html">Jak działa pamięć</a>. Kto co robi: <a class="inline" href="automation.html">Automatyzacja</a>.
     </li>
     <li>
       <strong>Wyszukiwanie</strong> — hybrydowe (semantyka + słowa kluczowe) po notatkach distill + bibliotece. W aplikacji (Czaty / Brain) i przez MCP <code>search_library</code>. Indeks = plaintext <code>library.db</code> w AppData (odtwarzalny).
     </li>
     <li>
       <strong>Connect MCP</strong> — snippet do Cursora (i innych klientów MCP). Domyślnie: embedded Brain na <code>127.0.0.1:7862</code>. Zaawansowane: remote / homelab + Bearer.
-      <a class="inline" href="/docs/mcp.html">Podłącz MCP</a>.
+      <a class="inline" href="mcp.html">Podłącz MCP</a>.
     </li>
     <li>
       <strong>Narzędzia MCP, które agenci naprawdę dostają</strong> —
@@ -263,7 +269,7 @@
   <ul data-lang="en">
     <li><strong>Not an agent</strong> — no orchestration harness, no “run my agents for me.” Agents live in Cursor / Claude / … and call Pomnia for memory.</li>
     <li><strong>Not a cloud chat</strong> — no Pomnia-hosted conversations; no vendor cloud required for the default path.</li>
-    <li><strong>Does not silently capture live IDE chats</strong> — adapters read stores only when you Backup / Distill / Import. Full dump needs the save phrase; see <a class="inline" href="/docs/automation.html">Automation</a>.</li>
+    <li><strong>Does not silently capture live IDE chats</strong> — adapters read stores only when you Backup / Distill / Import. Full dump needs the save phrase; see <a class="inline" href="automation.html">Automation</a>.</li>
     <li><strong>Password ≠ full-disk secrecy</strong> — distilled notes, <code>skills/</code>, <code>USER.md</code>, sessions, and <code>library.db</code> are plaintext on disk by design. Lock ≠ wipe index.</li>
     <li><strong>Not signed yet</strong> — Windows SmartScreen may warn; expected for early public builds.</li>
     <li><strong>Not yet:</strong> cloud vault sync, macOS/Linux public installer, silent auto-update install, full OCR of every PDF page.</li>
@@ -272,7 +278,7 @@
   <ul data-lang="pl">
     <li><strong>Nie jest agentem</strong> — bez harnessu orkiestracji, bez „uruchom mi agentów”. Agenci żyją w Cursorze / Claude / … i wołają Pomnię po pamięć.</li>
     <li><strong>Nie jest chmurowym czatem</strong> — brak rozmów hostowanych przez Pomnię; domyślna ścieżka nie wymaga chmury vendora.</li>
-    <li><strong>Nie podsłuchuje cicho żywych czatów IDE</strong> — adaptery czytają store dopiero przy Backup / Distill / Import. Pełny dump wymaga frazy zapisu; zob. <a class="inline" href="/docs/automation.html">Automatyzacja</a>.</li>
+    <li><strong>Nie podsłuchuje cicho żywych czatów IDE</strong> — adaptery czytają store dopiero przy Backup / Distill / Import. Pełny dump wymaga frazy zapisu; zob. <a class="inline" href="automation.html">Automatyzacja</a>.</li>
     <li><strong>Hasło ≠ pełna tajemnica dysku</strong> — notatki distill, <code>skills/</code>, <code>USER.md</code>, sessions i <code>library.db</code> są plaintext na dysku by design. Lock ≠ wipe indeksu.</li>
     <li><strong>Jeszcze bez podpisu</strong> — SmartScreen na Windows może ostrzec; normalne dla wczesnego publica.</li>
     <li><strong>Jeszcze nie:</strong> sync vault do chmury, publiczny instalator macOS/Linux, cicha auto-instalacja update, pełny OCR wszystkich stron PDF.</li>
@@ -282,40 +288,44 @@
   <h2 data-lang="en">Go deeper</h2>
   <h2 data-lang="pl">Idź głębiej</h2>
   <ul data-lang="en">
-    <li><a class="inline" href="/docs/">Start here</a> — install → vault → distill → MCP → verify</li>
-    <li><a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a> — folder / index / app</li>
-    <li><a class="inline" href="/docs/how-memory-works.html">How memory works</a> — distill / chunk / embed / search</li>
-    <li><a class="inline" href="/docs/automation.html">Automation</a> — what runs by itself vs agent discipline</li>
-    <li><a class="inline" href="/docs/architecture.html">Architecture</a> — paths, unlock, honesty boundary</li>
-    <li><a class="inline" href="/docs/mcp.html">Connect MCP</a> — embedded vs remote snippets</li>
+    <li><a class="inline" href="./">Start here</a> — install → vault → distill → MCP → verify</li>
+    <li><a class="inline" href="where-is-my-data.html">Where is my data?</a> — folder / index / app</li>
+    <li><a class="inline" href="how-memory-works.html">How memory works</a> — distill / chunk / embed / search</li>
+    <li><a class="inline" href="automation.html">Automation</a> — what runs by itself vs agent discipline</li>
+    <li><a class="inline" href="architecture.html">Architecture</a> — paths, unlock, honesty boundary</li>
+    <li><a class="inline" href="mcp.html">Connect MCP</a> — embedded vs remote snippets</li>
   </ul>
   <ul data-lang="pl">
-    <li><a class="inline" href="/docs/">Zacznij tutaj</a> — instalacja → vault → distill → MCP → weryfikacja</li>
-    <li><a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a> — folder / indeks / aplikacja</li>
-    <li><a class="inline" href="/docs/how-memory-works.html">Jak działa pamięć</a> — distill / chunk / embed / search</li>
-    <li><a class="inline" href="/docs/automation.html">Automatyzacja</a> — co leci samo vs dyscyplina agenta</li>
-    <li><a class="inline" href="/docs/architecture.html">Architektura</a> — ścieżki, unlock, granica uczciwości</li>
-    <li><a class="inline" href="/docs/mcp.html">Podłącz MCP</a> — snippet embedded vs remote</li>
+    <li><a class="inline" href="./">Zacznij tutaj</a> — instalacja → vault → distill → MCP → weryfikacja</li>
+    <li><a class="inline" href="where-is-my-data.html">Gdzie są dane?</a> — folder / indeks / aplikacja</li>
+    <li><a class="inline" href="how-memory-works.html">Jak działa pamięć</a> — distill / chunk / embed / search</li>
+    <li><a class="inline" href="automation.html">Automatyzacja</a> — co leci samo vs dyscyplina agenta</li>
+    <li><a class="inline" href="architecture.html">Architektura</a> — ścieżki, unlock, granica uczciwości</li>
+    <li><a class="inline" href="mcp.html">Podłącz MCP</a> — snippet embedded vs remote</li>
   </ul>
 
   <footer>
-    <a href="/">pomnia.ai</a>
+    <a href="../">pomnia.ai</a>
     <span>·</span>
-    <a href="/docs/">Start here</a>
+    <a href="./">Start here</a>
     <span>·</span>
-    <a href="/docs/capabilities.html">Capabilities</a>
+    <a href="capabilities.html">Capabilities</a>
     <span>·</span>
-    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
     <span>·</span>
-    <a href="/docs/how-memory-works.html">How memory works</a>
+    <a href="how-memory-works.html">How memory works</a>
     <span>·</span>
-    <a href="/docs/automation.html">Automation</a>
+    <a href="automation.html">Automation</a>
     <span>·</span>
-    <a href="/docs/architecture.html">Architecture</a>
+    <a href="architecture.html">Architecture</a>
     <span>·</span>
-    <a href="/docs/mcp.html">MCP</a>
+    <a href="mcp.html">MCP</a>
     <span>·</span>
-    <a href="/privacy.html">Privacy</a>
+    <a href="updates-install.html">Updates</a>
+    <span>·</span>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <span>·</span>
+    <a href="../privacy.html">Privacy</a>
     <span>·</span>
     <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
     <span>·</span>

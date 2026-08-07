@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Connect MCP — Pomnia Docs</title>
-<meta name="description" content="Connect Cursor (or any MCP client) to Pomnia Brain — embedded localhost or remote homelab.">
-<link rel="canonical" href="https://pomnia.ai/docs/mcp.html">
+<title>Troubleshooting — Pomnia Docs</title>
+<meta name="description" content="Diagnostics green checklist, Ollama/models, MCP Partial, Import vs backup, SmartScreen — common premiere blockers.">
+<link rel="canonical" href="https://pomnia.ai/docs/troubleshooting.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -131,154 +131,184 @@
 </header>
 
 <div class="wrap">
-  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · mcp</p>
-  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · mcp</p>
+  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · troubleshooting</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · rozwiązywanie problemów</p>
 
-  <h1 data-lang="en">Connect MCP</h1>
-  <h1 data-lang="pl">Podłącz MCP</h1>
+  <h1 data-lang="en">Troubleshooting</h1>
+  <h1 data-lang="pl">Rozwiązywanie problemów</h1>
 
   <p class="lede" data-lang="en">
-    Wire Cursor (or any MCP client) to Pomnia Brain so agents can call
-    <code>search_library</code> / <code>get_user_profile</code> against <strong>your</strong> memory.
+    Premiere blockers in one place: Diagnostics first, then the symptom table.
+    Most “nothing works” cases are Ollama, missing models, or MCP wiring.
   </p>
   <p class="lede" data-lang="pl">
-    Podłącz Cursor (lub inny klient MCP) do Brain Pomni, żeby agenci wołali
-    <code>search_library</code> / <code>get_user_profile</code> na <strong>Twojej</strong> pamięci.
+    Blokery premiere w jednym miejscu: najpierw Diagnostyka, potem tabela symptomów.
+    Większość „nic nie działa” to Ollama, brak modeli albo MCP.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
     <a href="./">Start here</a>
-    <a href="capabilities.html">Capabilities</a>    <a href="where-is-my-data.html">Where is my data?</a>
+    <a href="capabilities.html">Capabilities</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
     <a href="how-memory-works.html">How memory works</a>
     <a href="automation.html">Automation</a>
     <a href="architecture.html">Architecture</a>
-    <a class="on" href="mcp.html">Connect MCP</a>
+    <a href="mcp.html">Connect MCP</a>
     <a href="updates-install.html">Updates &amp; install</a>
-    <a href="troubleshooting.html">Troubleshooting</a>
+    <a class="on" href="troubleshooting.html">Troubleshooting</a>
     <a href="../privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
     <a href="./">Zacznij tutaj</a>
-    <a href="capabilities.html">Możliwości</a>    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a href="capabilities.html">Możliwości</a>
+    <a href="where-is-my-data.html">Gdzie są dane?</a>
     <a href="how-memory-works.html">Jak działa pamięć</a>
     <a href="automation.html">Automatyzacja</a>
     <a href="architecture.html">Architektura</a>
-    <a class="on" href="mcp.html">Podłącz MCP</a>
+    <a href="mcp.html">Podłącz MCP</a>
     <a href="updates-install.html">Aktualizacje i instalacja</a>
-    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
+    <a class="on" href="troubleshooting.html">Rozwiązywanie problemów</a>
     <a href="../privacy.html">Privacy</a>
   </nav>
 
   <div class="note" data-lang="en">
-    Prefer the in-app <strong>Connect</strong> tab when you have the Windows installer —
-    it copies a ready snippet. This page is the manual map.
-    Folder vs search card: <a class="inline" href="where-is-my-data.html">Where is my data?</a>
-    · pipeline: <a class="inline" href="how-memory-works.html">How memory works</a>
-    · auto-checkpoint vs phrase: <a class="inline" href="automation.html">Automation</a>
-    · paths: <a class="inline" href="architecture.html">Architecture</a>.
+    Install / SmartScreen: <a class="inline" href="updates-install.html">Updates &amp; install</a>
+    · MCP snippets: <a class="inline" href="mcp.html">Connect MCP</a>
+    · folder vs index: <a class="inline" href="where-is-my-data.html">Where is my data?</a>.
   </div>
   <div class="note" data-lang="pl">
-    Gdy masz instalator Windows, użyj zakładki <strong>Connect</strong> w aplikacji —
-    kopiuje gotowy snippet. Ta strona to mapa ręczna.
-    Folder vs indeks: <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>
-    · pipeline: <a class="inline" href="how-memory-works.html">Jak działa pamięć</a>
-    · auto-checkpoint vs fraza: <a class="inline" href="automation.html">Automatyzacja</a>
-    · ścieżki: <a class="inline" href="architecture.html">Architektura</a>.
+    Instalacja / SmartScreen: <a class="inline" href="updates-install.html">Aktualizacje i instalacja</a>
+    · snippet MCP: <a class="inline" href="mcp.html">Podłącz MCP</a>
+    · folder vs indeks: <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>.
   </div>
 
-  <h2 data-lang="en">Embedded (Pomnia app on this machine)</h2>
-  <h2 data-lang="pl">Embedded (aplikacja Pomnia na tej maszynie)</h2>
+  <h2 data-lang="en">Start with Diagnostics</h2>
+  <h2 data-lang="pl">Zacznij od Diagnostyki</h2>
   <p data-lang="en">
-    Local Brain inside Pomnia = <strong>one</strong> MCP server on
-    <code>http://127.0.0.1:7862/mcp</code>, no Bearer token.
+    <strong>Settings → Diagnostics</strong> should go green for: Ollama, required models,
+    vault open, brain-core / embedded Brain, MCP reachable.
+    Fix red rows top-down before hunting exotic bugs.
   </p>
   <p data-lang="pl">
-    Lokalny Brain w Pomni = <strong>jeden</strong> serwer MCP na
-    <code>http://127.0.0.1:7862/mcp</code>, bez tokena Bearer.
+    <strong>Settings → Diagnostyka</strong> na zielono: Ollama, wymagane modele,
+    otwarty vault, brain-core / embedded Brain, MCP osiągalny.
+    Napraw czerwone od góry — zanim szukasz egzotyki.
   </p>
-  <ol data-lang="en">
-    <li>Open Pomnia → <strong>Connect</strong> → mode <strong>Embedded</strong>.</li>
-    <li>Copy the Cursor snippet → paste into <code>~/.cursor/mcp.json</code> (or merge carefully).</li>
-    <li>Cursor → Command Palette → <strong>Developer: Reload Window</strong>.</li>
-    <li>Settings → MCP: server <code>pomnia</code> should show Connected.</li>
-  </ol>
-  <ol data-lang="pl">
-    <li>Pomnia → <strong>Connect</strong> → tryb <strong>Embedded</strong>.</li>
-    <li>Skopiuj snippet Cursora → wklej do <code>~/.cursor/mcp.json</code> (albo zmerguj ostrożnie).</li>
-    <li>Cursor → Command Palette → <strong>Developer: Reload Window</strong>.</li>
-    <li>Settings → MCP: serwer <code>pomnia</code> = Connected.</li>
-  </ol>
+  <pre>ollama pull nomic-embed-text    # search / embed
+ollama pull qwen2.5:14b         # distill (or your chosen chat model)</pre>
 
-  <h2 data-lang="en">Remote (homelab Brain)</h2>
-  <h2 data-lang="pl">Remote (Brain w homelabie)</h2>
-  <p data-lang="en">
-    Always configure <strong>three</strong> client keys. A lone <code>pomnia</code> entry is incomplete
-    (legacy keys <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> still work in status checks).
-  </p>
-  <p data-lang="pl">
-    Zawsze <strong>trzy</strong> klucze po stronie klienta. Sam <code>pomnia</code> = niepełna konfiguracja
-    (legacy <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
-  </p>
+  <h2 data-lang="en">Symptom → fix</h2>
+  <h2 data-lang="pl">Symptom → naprawa</h2>
   <table data-lang="en">
     <thead>
-      <tr><th>MCP key</th><th>Path on Brain proxy</th></tr>
+      <tr><th>Symptom</th><th>What to do</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
-      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
-      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
+      <tr>
+        <td>Distill won’t start / stays idle</td>
+        <td>Ollama offline or distill model missing — Brain → Pull model; confirm Ollama is running on this PC (embedded).</td>
+      </tr>
+      <tr>
+        <td>Search returns nothing / empty Brain</td>
+        <td>Need <code>nomic-embed-text</code>, then Refresh index / distill so the search card has chunks. Folder full ≠ index built.</td>
+      </tr>
+      <tr>
+        <td>Cursor MCP “Not connected” / Partial</td>
+        <td>Copy snippet from Connect; merge into <code>~/.cursor/mcp.json</code>; Command Palette → Reload Window. Embedded = one server; remote = three keys + Bearer.</td>
+      </tr>
+      <tr>
+        <td>Agent never calls Pomnia tools</td>
+        <td>Handshake / rules must mention MCP <code>pomnia</code>. Ask something only your vault knows. See <a class="inline" href="mcp.html">Connect MCP</a> → Verify.</td>
+      </tr>
+      <tr>
+        <td>0 chats after Cursor backup</td>
+        <td>Huge <code>state.vscdb</code> often fails live backup — use <strong>Import</strong> (export ZIP/JSON) instead of the live adapter path.</td>
+      </tr>
+      <tr>
+        <td>SmartScreen / AV on setup.exe</td>
+        <td>Expected for unsigned builds — <a class="inline" href="updates-install.html">Updates &amp; install</a>. Do not disable AV.</td>
+      </tr>
+      <tr>
+        <td>Installer “cannot be closed”</td>
+        <td>Tray → Quit Pomnia, dismiss setup, run again (NSIS replaces <code>Pomnia.exe</code>).</td>
+      </tr>
+      <tr>
+        <td>Forgot passphrase</td>
+        <td>No recovery key from us — vault blobs stay sealed. Sidecar notes / index on disk are separate; see <a class="inline" href="../privacy.html">Privacy</a>.</td>
+      </tr>
+      <tr>
+        <td>Update check silent / “unreachable”</td>
+        <td>Offline, proxy, or GitHub rate limit — check Releases in the browser. App never auto-installs.</td>
+      </tr>
     </tbody>
   </table>
   <table data-lang="pl">
     <thead>
-      <tr><th>Klucz MCP</th><th>Ścieżka na proxy Brain</th></tr>
+      <tr><th>Symptom</th><th>Co zrobić</th></tr>
     </thead>
     <tbody>
-      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
-      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
-      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
+      <tr>
+        <td>Distill nie startuje / stoi</td>
+        <td>Ollama offline albo brak modelu distill — Brain → Pull model; Ollama musi działać na tym PC (embedded).</td>
+      </tr>
+      <tr>
+        <td>Search puste / Brain nic nie zwraca</td>
+        <td>Potrzebujesz <code>nomic-embed-text</code>, potem Refresh index / distill, żeby karta katalogowa miała chunki. Pełny folder ≠ zbudowany indeks.</td>
+      </tr>
+      <tr>
+        <td>Cursor MCP „Not connected” / Partial</td>
+        <td>Snippet z Connect → <code>~/.cursor/mcp.json</code> → Reload Window. Embedded = jeden serwer; remote = trzy klucze + Bearer.</td>
+      </tr>
+      <tr>
+        <td>Agent nie woła narzędzi Pomni</td>
+        <td>Handshake / reguły muszą wskazywać MCP <code>pomnia</code>. Zapytaj o coś tylko z vaultu. Zobacz <a class="inline" href="mcp.html">Podłącz MCP</a> → Weryfikacja.</td>
+      </tr>
+      <tr>
+        <td>0 czatów po backupie Cursora</td>
+        <td>Duży <code>state.vscdb</code> często pada na live backup — użyj <strong>Import</strong> (ZIP/JSON) zamiast ścieżki live adaptera.</td>
+      </tr>
+      <tr>
+        <td>SmartScreen / AV na setup.exe</td>
+        <td>Norma dla niepodpisanych buildów — <a class="inline" href="updates-install.html">Aktualizacje i instalacja</a>. Nie wyłączaj AV.</td>
+      </tr>
+      <tr>
+        <td>Installer „nie da się zamknąć”</td>
+        <td>Tray → Quit Pomnia, zamknij setup, odpal ponownie (NSIS podmienia <code>Pomnia.exe</code>).</td>
+      </tr>
+      <tr>
+        <td>Zapomniane hasło</td>
+        <td>Nie mamy recovery key — bloby vaultu zostają zamknięte. Sidecary / indeks na dysku to osobna sprawa; <a class="inline" href="../privacy.html">Privacy</a>.</td>
+      </tr>
+      <tr>
+        <td>Update check cichy / „unreachable”</td>
+        <td>Offline, proxy albo limit GitHuba — sprawdź Releases w przeglądarce. Aplikacja nigdy nie instaluje sama.</td>
+      </tr>
     </tbody>
   </table>
+
+  <h2 data-lang="en">Backup vs Import (short)</h2>
+  <h2 data-lang="pl">Backup vs Import (krótko)</h2>
   <p data-lang="en">
-    Token: Brain dashboard on <code>:7860</code> (same host as MCP, different port) → Settings / API tokens.
-    MCP itself is on <code>:7862</code>.
+    <strong>Backup</strong> = live adapters reading known app paths on this machine.
+    <strong>Import</strong> = you bring a file (ZIP / JSON / MD). When live Cursor backup returns empty,
+    prefer Import from an export — don’t keep retrying the same live path.
   </p>
   <p data-lang="pl">
-    Token: dashboard Brain na <code>:7860</code> (ten sam host, inny port) → Settings / API tokens.
-    Sam MCP: <code>:7862</code>.
+    <strong>Backup</strong> = live adaptery czytające znane ścieżki aplikacji na tej maszynie.
+    <strong>Import</strong> = Ty dostarczasz plik (ZIP / JSON / MD). Gdy live backup Cursora wraca pusty —
+    wolisz Import z eksportu; nie spammuj tą samą ścieżką live.
   </p>
 
-  <h2 data-lang="en">Template (replace host + token)</h2>
-  <h2 data-lang="pl">Szablon (podstaw host + token)</h2>
-  <pre>{
-  "mcpServers": {
-    "pomnia": {
-      "url": "http://YOUR-HOST:7862/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    },
-    "pomnia-vault": {
-      "url": "http://YOUR-HOST:7862/servers/brain-vault/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    },
-    "pomnia-library": {
-      "url": "http://YOUR-HOST:7862/servers/brain-library/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    }
-  }
-}</pre>
-  <p data-lang="en">Do not commit a real token. On macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
-  <p data-lang="pl">Nie commituj prawdziwego tokena. Na macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
-
-  <h2 data-lang="en">Verify</h2>
-  <h2 data-lang="pl">Weryfikacja</h2>
-  <ul data-lang="en">
-    <li>Cursor → Settings → MCP: three servers Connected (remote) or one (embedded).</li>
-    <li>Ask the agent something only your vault knows — it should call <code>get_user_profile</code> / <code>search_library</code>.</li>
-  </ul>
-  <ul data-lang="pl">
-    <li>Cursor → Settings → MCP: trzy serwery Connected (remote) albo jeden (embedded).</li>
-    <li>Zapytaj agenta o coś tylko z Twojego vaultu — powinien wołać <code>get_user_profile</code> / <code>search_library</code>.</li>
-  </ul>
+  <h2 data-lang="en">Logs</h2>
+  <h2 data-lang="pl">Logi</h2>
+  <p data-lang="en">
+    Windows: <code>%AppData%\Pomnia\logs\</code>. Attach a recent log when writing
+    <a class="inline" href="mailto:hello@pomnia.ai">hello@pomnia.ai</a> — strip secrets first.
+  </p>
+  <p data-lang="pl">
+    Windows: <code>%AppData%\Pomnia\logs\</code>. Przy mailu na
+    <a class="inline" href="mailto:hello@pomnia.ai">hello@pomnia.ai</a> dołącz świeży log — najpierw wytnij sekrety.
+  </p>
 
   <footer>
     <a href="../">pomnia.ai</a>
