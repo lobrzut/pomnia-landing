@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connect MCP — Pomnia Docs</title>
+<meta name="description" content="Connect Cursor (or any MCP client) to Pomnia Brain — embedded localhost or remote homelab.">
+<link rel="canonical" href="https://pomnia.ai/docs/mcp.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.here { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 38em; margin-bottom: 36px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ol, ul { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  pre {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    background: var(--abyss); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; overflow-x: auto; margin: 0 0 18px; color: var(--ink-dim);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--ink-faint); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; }
+  td { color: var(--ink-dim); }
+  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
+  a.inline:hover { border-color: var(--cyan); }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl .note[data-lang="pl"] { display: revert; }
+  html.lang-pl table[data-lang="pl"] { display: table; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a class="here" href="/docs/">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en">docs · mcp</p>
+  <p class="kicker" data-lang="pl">docs · mcp</p>
+
+  <h1 data-lang="en">Connect MCP</h1>
+  <h1 data-lang="pl">Podłącz MCP</h1>
+
+  <p class="lede" data-lang="en">
+    Wire Cursor (or any MCP client) to Pomnia Brain so agents can call
+    <code>search_library</code> / <code>get_user_profile</code> against <strong>your</strong> memory.
+  </p>
+  <p class="lede" data-lang="pl">
+    Podłącz Cursor (lub inny klient MCP) do Brain Pomni, żeby agenci wołali
+    <code>search_library</code> / <code>get_user_profile</code> na <strong>Twojej</strong> pamięci.
+  </p>
+
+  <div class="note" data-lang="en">
+    Prefer the in-app <strong>Connect</strong> tab when you have the Windows installer —
+    it copies a ready snippet. This page is the manual map.
+    Back to <a class="inline" href="/docs/">Start here</a>.
+  </div>
+  <div class="note" data-lang="pl">
+    Gdy masz instalator Windows, użyj zakładki <strong>Connect</strong> w aplikacji —
+    kopiuje gotowy snippet. Ta strona to mapa ręczna.
+    Wróć do <a class="inline" href="/docs/">Zacznij tutaj</a>.
+  </div>
+
+  <h2 data-lang="en">Embedded (Pomnia app on this machine)</h2>
+  <h2 data-lang="pl">Embedded (aplikacja Pomnia na tej maszynie)</h2>
+  <p data-lang="en">
+    Local Brain inside Pomnia = <strong>one</strong> MCP server on
+    <code>http://127.0.0.1:7862/mcp</code>, no Bearer token.
+  </p>
+  <p data-lang="pl">
+    Lokalny Brain w Pomni = <strong>jeden</strong> serwer MCP na
+    <code>http://127.0.0.1:7862/mcp</code>, bez tokena Bearer.
+  </p>
+  <ol data-lang="en">
+    <li>Open Pomnia → <strong>Connect</strong> → mode <strong>Embedded</strong>.</li>
+    <li>Copy the Cursor snippet → paste into <code>~/.cursor/mcp.json</code> (or merge carefully).</li>
+    <li>Cursor → Command Palette → <strong>Developer: Reload Window</strong>.</li>
+    <li>Settings → MCP: server <code>pomnia</code> should show Connected.</li>
+  </ol>
+  <ol data-lang="pl">
+    <li>Pomnia → <strong>Connect</strong> → tryb <strong>Embedded</strong>.</li>
+    <li>Skopiuj snippet Cursora → wklej do <code>~/.cursor/mcp.json</code> (albo zmerguj ostrożnie).</li>
+    <li>Cursor → Command Palette → <strong>Developer: Reload Window</strong>.</li>
+    <li>Settings → MCP: serwer <code>pomnia</code> = Connected.</li>
+  </ol>
+
+  <h2 data-lang="en">Remote (homelab Brain)</h2>
+  <h2 data-lang="pl">Remote (Brain w homelabie)</h2>
+  <p data-lang="en">
+    Always configure <strong>three</strong> client keys. A lone <code>pomnia</code> entry is incomplete
+    (legacy keys <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> still work in status checks).
+  </p>
+  <p data-lang="pl">
+    Zawsze <strong>trzy</strong> klucze po stronie klienta. Sam <code>pomnia</code> = niepełna konfiguracja
+    (legacy <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
+  </p>
+  <table data-lang="en">
+    <thead>
+      <tr><th>MCP key</th><th>Path on Brain proxy</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
+      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
+      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
+    </tbody>
+  </table>
+  <table data-lang="pl">
+    <thead>
+      <tr><th>Klucz MCP</th><th>Ścieżka na proxy Brain</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
+      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
+      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
+    </tbody>
+  </table>
+  <p data-lang="en">
+    Token: Brain dashboard on <code>:7860</code> (same host as MCP, different port) → Settings / API tokens.
+    MCP itself is on <code>:7862</code>.
+  </p>
+  <p data-lang="pl">
+    Token: dashboard Brain na <code>:7860</code> (ten sam host, inny port) → Settings / API tokens.
+    Sam MCP: <code>:7862</code>.
+  </p>
+
+  <h2 data-lang="en">Template (replace host + token)</h2>
+  <h2 data-lang="pl">Szablon (podstaw host + token)</h2>
+  <pre>{
+  "mcpServers": {
+    "pomnia": {
+      "url": "http://YOUR-HOST:7862/sse",
+      "headers": { "Authorization": "Bearer btk_…" }
+    },
+    "pomnia-vault": {
+      "url": "http://YOUR-HOST:7862/servers/brain-vault/sse",
+      "headers": { "Authorization": "Bearer btk_…" }
+    },
+    "pomnia-library": {
+      "url": "http://YOUR-HOST:7862/servers/brain-library/sse",
+      "headers": { "Authorization": "Bearer btk_…" }
+    }
+  }
+}</pre>
+  <p data-lang="en">Do not commit a real token. On macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
+  <p data-lang="pl">Nie commituj prawdziwego tokena. Na macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
+
+  <h2 data-lang="en">Verify</h2>
+  <h2 data-lang="pl">Weryfikacja</h2>
+  <ul data-lang="en">
+    <li>Cursor → Settings → MCP: three servers Connected (remote) or one (embedded).</li>
+    <li>Ask the agent something only your vault knows — it should call <code>get_user_profile</code> / <code>search_library</code>.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li>Cursor → Settings → MCP: trzy serwery Connected (remote) albo jeden (embedded).</li>
+    <li>Zapytaj agenta o coś tylko z Twojego vaultu — powinien wołać <code>get_user_profile</code> / <code>search_library</code>.</li>
+  </ul>
+
+  <footer>
+    <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>

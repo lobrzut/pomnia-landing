@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start here — Pomnia Docs</title>
+<meta name="description" content="Get Pomnia running: install, vault, distill, connect MCP. Local-first encrypted memory for your AI agents.">
+<link rel="canonical" href="https://pomnia.ai/docs/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.here { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 38em; margin-bottom: 36px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .toc {
+    display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 40px;
+    font-family: var(--mono); font-size: 13px;
+  }
+  .toc a { color: var(--cyan); border-bottom: 1px solid transparent; }
+  .toc a:hover { border-color: var(--cyan); }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 40px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  pre {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    background: var(--abyss); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; overflow-x: auto; margin: 0 0 18px; color: var(--ink-dim);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--ink-faint); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; }
+  td { color: var(--ink-dim); }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin: 28px 0 8px; }
+  .cta {
+    display: inline-block; font-size: 14px; font-weight: 600; color: #fff;
+    padding: 12px 22px; border-radius: 999px;
+    background: linear-gradient(115deg, #8b5cf6, var(--iris) 55%, var(--cyan));
+  }
+  .ghost { font-size: 14px; color: var(--ink-faint); border-bottom: 1px solid transparent; }
+  .ghost:hover { color: var(--ink-dim); border-color: var(--ink-faint); }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl table[data-lang="pl"] { display: table; }
+  html.lang-pl .cta-row[data-lang="pl"],
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .toc[data-lang="pl"] { display: revert; }
+  html.lang-pl .toc[data-lang="pl"] { display: flex; }
+  html.lang-pl .cta-row[data-lang="pl"] { display: flex; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a class="here" href="/docs/">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en">docs · start here</p>
+  <p class="kicker" data-lang="pl">docs · zacznij tutaj</p>
+
+  <h1 data-lang="en">Start here</h1>
+  <h1 data-lang="pl">Zacznij tutaj</h1>
+
+  <p class="lede" data-lang="en">
+    Pomnia is a <strong>local-first memory layer</strong>: one encrypted vault for your AI chats,
+    distilled on hardware you control, readable by any agent that speaks MCP.
+    Not an agent wrapper — memory you own.
+  </p>
+  <p class="lede" data-lang="pl">
+    Pomnia to <strong>lokalna warstwa pamięci</strong>: jeden zaszyfrowany vault na rozmowy z AI,
+    destylacja na Twoim sprzęcie, odczyt przez dowolnego agenta MCP.
+    To nie wrapper agentów — to pamięć, którą posiadasz.
+  </p>
+
+  <div class="toc" data-lang="en">
+    <a href="#steps">5 steps</a>
+    <a href="#stores">Two stores</a>
+    <a href="/docs/mcp.html">Connect MCP →</a>
+    <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download Windows</a>
+  </div>
+  <div class="toc" data-lang="pl">
+    <a href="#steps">5 kroków</a>
+    <a href="#stores">Dwa magazyny</a>
+    <a href="/docs/mcp.html">Podłącz MCP →</a>
+    <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Pobierz Windows</a>
+  </div>
+
+  <div class="note" data-lang="en">
+    <strong>Early public · unsigned.</strong> Windows SmartScreen may warn —
+    choose More info → Run anyway. SHA-256 is published with every release.
+    Feedback: <a href="mailto:hello@pomnia.ai" style="color:var(--cyan)">hello@pomnia.ai</a>.
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>Wczesny public · bez podpisu.</strong> SmartScreen może ostrzec —
+    Więcej informacji → Uruchom mimo to. SHA-256 przy każdym release.
+    Feedback: <a href="mailto:hello@pomnia.ai" style="color:var(--cyan)">hello@pomnia.ai</a>.
+  </div>
+
+  <div class="cta-row" data-lang="en">
+    <a class="cta" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
+    <a class="ghost" href="/docs/mcp.html">Connect Cursor via MCP →</a>
+  </div>
+  <div class="cta-row" data-lang="pl">
+    <a class="cta" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Pobierz na Windows</a>
+    <a class="ghost" href="/docs/mcp.html">Podłącz Cursor przez MCP →</a>
+  </div>
+
+  <div id="stores"></div>
+  <h2 data-lang="en">Two stores — don’t mix them up</h2>
+  <h2 data-lang="pl">Dwa magazyny — nie myl ich</h2>
+  <table data-lang="en">
+    <thead>
+      <tr><th>Name</th><th>Where</th><th>Holds</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Pomnia Vault</strong></td>
+        <td>Folder you choose (e.g. <code>C:\Vault</code>)</td>
+        <td>Encrypted chats + documents (+ skills, USER.md, distilled notes)</td>
+      </tr>
+      <tr>
+        <td><strong>Brain data</strong></td>
+        <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
+        <td>RAG index (<code>library.db</code>) + distill notes — on disk, not vault-encrypted</td>
+      </tr>
+    </tbody>
+  </table>
+  <table data-lang="pl">
+    <thead>
+      <tr><th>Nazwa</th><th>Gdzie</th><th>Co trzyma</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Pomnia Vault</strong></td>
+        <td>Folder, który wybierasz (np. <code>C:\Vault</code>)</td>
+        <td>Zaszyfrowane czaty + dokumenty (+ skills, USER.md, notatki)</td>
+      </tr>
+      <tr>
+        <td><strong>Brain data</strong></td>
+        <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
+        <td>Indeks RAG (<code>library.db</code>) + notatki distill — na dysku, poza szyfrem vaultu</td>
+      </tr>
+    </tbody>
+  </table>
+  <p data-lang="en">Vault = archive and backup. Brain data = semantic search engine.</p>
+  <p data-lang="pl">Vault = archiwum i backup. Brain data = silnik wyszukiwania semantycznego.</p>
+
+  <div id="steps"></div>
+  <h2 data-lang="en">Five steps to “Cursor remembers me”</h2>
+  <h2 data-lang="pl">Pięć kroków do „Cursor mnie pamięta”</h2>
+
+  <ol data-lang="en">
+    <li>
+      <strong>Ollama + models</strong> — install <a href="https://ollama.com" rel="noopener" style="color:var(--cyan)">Ollama</a>, then:
+      <pre>ollama pull nomic-embed-text    # required for search
+ollama pull qwen2.5:14b         # required for distill</pre>
+    </li>
+    <li><strong>Vault + backup</strong> — first-run wizard or Dashboard → create/open vault → Backup detected sources (Claude Code, Cursor, …).</li>
+    <li><strong>Distill</strong> — Brain tab → check Ollama → Distill backlog. Raw chats become condensed notes and a vector index.</li>
+    <li><strong>Connect (MCP)</strong> — Connect tab → pick embedded or remote → copy the snippet into Cursor → Reload Window. Details: <a href="/docs/mcp.html" style="color:var(--cyan)">MCP quickstart</a>.</li>
+    <li><strong>Verify</strong> — Settings → Diagnostics should be green. In Cursor, ask about something from an older session — the agent should call <code>search_library</code>.</li>
+  </ol>
+  <ol data-lang="pl">
+    <li>
+      <strong>Ollama + modele</strong> — zainstaluj <a href="https://ollama.com" rel="noopener" style="color:var(--cyan)">Ollama</a>, potem:
+      <pre>ollama pull nomic-embed-text    # wymagane do wyszukiwania
+ollama pull qwen2.5:14b         # wymagane do distill</pre>
+    </li>
+    <li><strong>Vault + backup</strong> — kreator albo Dashboard → utwórz/otwórz vault → Backup wykrytych źródeł (Claude Code, Cursor…).</li>
+    <li><strong>Distill</strong> — zakładka Brain → status Ollama → Distill backlog. Surowy czat → skondensowane notatki + indeks.</li>
+    <li><strong>Connect (MCP)</strong> — zakładka Connect → embedded lub remote → skopiuj snippet do Cursora → Reload Window. Szczegóły: <a href="/docs/mcp.html" style="color:var(--cyan)">MCP quickstart</a>.</li>
+    <li><strong>Weryfikacja</strong> — Settings → Diagnostyka na zielono. W Cursorze zapytaj o coś ze starej sesji — agent powinien wołać <code>search_library</code>.</li>
+  </ol>
+
+  <h2 data-lang="en">Brain modes</h2>
+  <h2 data-lang="pl">Tryby Brain</h2>
+  <ul data-lang="en">
+    <li><strong>Embedded</strong> (recommended to start) — Brain inside Pomnia on <code>127.0.0.1:7862</code>. Needs Ollama on the same machine.</li>
+    <li><strong>Remote</strong> (homelab) — your Brain server on LAN. Needs Bearer token + MCP proxy. Always configure three servers: <code>pomnia</code>, <code>pomnia-vault</code>, <code>pomnia-library</code>.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Embedded</strong> (zalecane na start) — Brain w Pomni na <code>127.0.0.1:7862</code>. Ollama na tej samej maszynie.</li>
+    <li><strong>Remote</strong> (homelab) — serwer Brain w LAN. Token Bearer + proxy MCP. Zawsze trzy serwery: <code>pomnia</code>, <code>pomnia-vault</code>, <code>pomnia-library</code>.</li>
+  </ul>
+
+  <h2 data-lang="en">What this early build does not include</h2>
+  <h2 data-lang="pl">Czego ta wczesna wersja jeszcze nie ma</h2>
+  <ul data-lang="en">
+    <li>Code-signed installer (SmartScreen / Gatekeeper)</li>
+    <li>macOS or Linux installer</li>
+    <li>Cloud vault sync</li>
+  </ul>
+  <ul data-lang="pl">
+    <li>Podpisany instalator (SmartScreen / Gatekeeper)</li>
+    <li>Instalator macOS lub Linux</li>
+    <li>Sync vault do chmury</li>
+  </ul>
+
+  <footer>
+    <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/mcp.html">MCP</a>
+    <span>·</span>
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>
