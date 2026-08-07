@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How memory works — Pomnia Docs</title>
+<meta name="description" content="How Pomnia turns chats and documents into searchable memory: distill, chunk, embed, hybrid search. Honest deep-dive, not marketing.">
+<link rel="canonical" href="https://pomnia.ai/docs/how-memory-works.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.here { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 40em; margin-bottom: 28px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 36px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
+  h3 { font-size: 16px; font-weight: 600; margin: 28px 0 10px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  pre {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
+    background: var(--abyss); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 18px; overflow-x: auto; margin: 0 0 18px; color: var(--ink-dim);
+  }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: 14.5px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--ink-faint); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; }
+  td { color: var(--ink-dim); }
+  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
+  a.inline:hover { border-color: var(--cyan); }
+  .cite {
+    font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
+    margin: -6px 0 16px;
+  }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl table[data-lang="pl"] { display: table; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a class="here" href="/docs/">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en">docs · how memory works</p>
+  <p class="kicker" data-lang="pl">docs · jak działa pamięć</p>
+
+  <h1 data-lang="en">How memory works</h1>
+  <h1 data-lang="pl">Jak działa pamięć</h1>
+
+  <p class="lede" data-lang="en">
+    The three boxes (<a class="inline" href="/docs/where-is-my-data.html">folder / index / app</a>) tell you
+    <em>where</em> things live. This page tells you <em>how text becomes recall</em> —
+    distill, chunks, embeddings, search. Written from the current code, not a pitch deck.
+  </p>
+  <p class="lede" data-lang="pl">
+    Trzy pudełka (<a class="inline" href="/docs/where-is-my-data.html">folder / indeks / aplikacja</a>) mówią
+    <em>gdzie</em> leżą rzeczy. Ta strona mówi <em>jak tekst staje się pamięcią</em> —
+    distill, chunki, embeddingi, wyszukiwanie. Z aktualnego kodu, nie z folderu marketingu.
+  </p>
+
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a href="/docs/">Start here</a>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a class="on" href="/docs/how-memory-works.html">How memory works</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/mcp.html">Connect MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a href="/docs/">Zacznij tutaj</a>
+    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+    <a class="on" href="/docs/how-memory-works.html">Jak działa pamięć</a>
+    <a href="/docs/architecture.html">Architektura</a>
+    <a href="/docs/mcp.html">Podłącz MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+
+  <div class="note" data-lang="en">
+    <strong>Why this page exists.</strong> The pipeline moved a lot recently (quality gate, incremental index,
+    embedding prefixes, ranking). If you feel you “no longer understand how it works” — that is a documentation
+    failure, not a you failure. The interesting part <em>is</em> this pipeline: it is the product moat
+    (durable knowledge you own, not another chat UI).
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>Po co ta strona.</strong> Pipeline mocno się ruszył (quality gate, indeks przyrostowy,
+    prefiksy embeddingów, ranking). Jeśli czujesz, że „już nie rozumiesz jak to działa” — to wina dokumentacji,
+    nie Twoja. Ta część <em>jest</em> ciekawa: to moat produktu (trwała wiedza, którą posiadasz — nie kolejny chat UI).
+  </div>
+
+  <!-- ═══════════════ TWO PIPELINES ═══════════════ -->
+  <h2 data-lang="en">Two content paths (do not mix them)</h2>
+  <h2 data-lang="pl">Dwie ścieżki treści (nie mieszaj ich)</h2>
+
+  <table data-lang="en">
+    <thead><tr><th>Input</th><th>What happens</th><th>LLM?</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Chats</strong> (Cursor, Claude Code, …)</td>
+        <td>Backup/import → <strong>Distill</strong> (Ollama extracts a short note) → embed into <code>library.db</code></td>
+        <td>Yes — chat model (e.g. qwen2.5:14b)</td>
+      </tr>
+      <tr>
+        <td><strong>Documents</strong> (PDF, DOCX, EPUB)</td>
+        <td>Import → parse pages → <strong>direct index</strong> (chunk + embed). No summarizer.</td>
+        <td>No chat LLM — only the embed model</td>
+      </tr>
+      <tr>
+        <td><strong>Agent saves</strong> (<code>save_conversation</code> / checkpoint)</td>
+        <td>Structured <code>.md</code> written straight into <code>vault/sessions/</code> → indexed as text</td>
+        <td>The agent wrote it; Pomnia does not re-distill</td>
+      </tr>
+    </tbody>
+  </table>
+  <table data-lang="pl">
+    <thead><tr><th>Wejście</th><th>Co się dzieje</th><th>LLM?</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Czaty</strong> (Cursor, Claude Code, …)</td>
+        <td>Backup/import → <strong>Distill</strong> (Ollama wyciąga krótką notatkę) → embed do <code>library.db</code></td>
+        <td>Tak — model czatowy (np. qwen2.5:14b)</td>
+      </tr>
+      <tr>
+        <td><strong>Dokumenty</strong> (PDF, DOCX, EPUB)</td>
+        <td>Import → parse stron → <strong>bezpośredni indeks</strong> (chunk + embed). Bez streszczania.</td>
+        <td>Bez LLM czatowego — tylko model embed</td>
+      </tr>
+      <tr>
+        <td><strong>Zapisy agenta</strong> (<code>save_conversation</code> / checkpoint)</td>
+        <td>Gotowy <code>.md</code> ląduje w <code>vault/sessions/</code> → indeksowany jako tekst</td>
+        <td>Napisał agent; Pomnia nie destyluje ponownie</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="cite" data-lang="en">Sources: <code>src/core/brain/distill.ts</code>, <code>src/main/libraryIndex.ts</code>, <code>packages/brain-core/src/rag/indexer.ts</code></p>
+  <p class="cite" data-lang="pl">Źródła: <code>src/core/brain/distill.ts</code>, <code>src/main/libraryIndex.ts</code>, <code>packages/brain-core/src/rag/indexer.ts</code></p>
+
+  <p data-lang="en">
+    Rule of thumb: <strong>distill dialogue, index finished prose</strong>.
+    Do not run Distill on a PDF — that would ask a chat model to “summarize” a book you already have as text.
+  </p>
+  <p data-lang="pl">
+    Reguła: <strong>destyluj dialog, indeksuj gotową prozę</strong>.
+    Nie odpalaj Distill na PDF — to byłoby prośba do modelu czatowego o „streszczenie” książki, którą już masz jako tekst.
+  </p>
+
+  <!-- ═══════════════ DISTILL ═══════════════ -->
+  <h2 data-lang="en">1. Distill (chats only)</h2>
+  <h2 data-lang="pl">1. Distill (tylko czaty)</h2>
+
+  <p data-lang="en">
+    Distill takes a raw conversation (from a live adapter or an imported archive) and asks a local Ollama
+    chat model for <strong>durable knowledge only</strong>: summary, decisions, solutions, facts, open questions.
+    Language is preserved (PL stays PL). Empty filler is rejected.
+  </p>
+  <p data-lang="pl">
+    Distill bierze surową rozmowę (z adaptera live albo importu) i pyta lokalny model Ollama
+    o <strong>tylko trwałą wiedzę</strong>: summary, decisions, solutions, facts, open questions.
+    Język zostaje (PL zostaje PL). Pusty filler odpada.
+  </p>
+
+  <ul data-lang="en">
+    <li><strong>Worth distilling?</strong> At least 3 messages and 200 characters of content — shorter chats are skipped before any LLM call.</li>
+    <li><strong>Transcript budget:</strong> up to ~14 000 characters; longer chats send head + tail with a truncation marker.</li>
+    <li><strong>Quality score (0–10):</strong> heuristic on specificity vs generic phrases. Below <code>5.0</code> → labeled <code>garbage</code> (or empty → <code>stub</code>).</li>
+    <li><strong>Where the file lands:</strong> <code>ok</code> → <code>vault/distilled/</code>; <code>stub</code>/<code>garbage</code> → <code>vault/distilled/_review/</code> (that folder is <em>not</em> walked into the search index).</li>
+    <li><strong>After a good note:</strong> only the new <code>.md</code> paths are embedded into <code>library.db</code> (not a full vault re-walk).</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Czy warto destylować?</strong> Minimum 3 wiadomości i 200 znaków treści — krótsze odpada przed LLM.</li>
+    <li><strong>Budżet transkryptu:</strong> do ~14 000 znaków; dłuższe: head + tail ze znacznikiem ucięcia.</li>
+    <li><strong>Quality score (0–10):</strong> heurystyka konkret vs ogólniki. Poniżej <code>5.0</code> → <code>garbage</code> (puste → <code>stub</code>).</li>
+    <li><strong>Gdzie ląduje plik:</strong> <code>ok</code> → <code>vault/distilled/</code>; <code>stub</code>/<code>garbage</code> → <code>vault/distilled/_review/</code> (ten folder <em>nie</em> wchodzi do indeksu wyszukiwania).</li>
+    <li><strong>Po dobrej notatce:</strong> do <code>library.db</code> idą tylko nowe ścieżki <code>.md</code> (nie pełny spacer po vaultcie).</li>
+  </ul>
+  <p class="cite">src/core/brain/distill.ts · qualityGate.ts · deploy.ts · src/main/index.ts (post-distill indexFiles)</p>
+
+  <h3 data-lang="en">Distill vs “save to Pomnia” in chat</h3>
+  <h3 data-lang="pl">Distill vs „zapisz do Pomnia” w czacie</h3>
+  <p data-lang="en">
+    They are <strong>not the same file</strong>. Distill re-reads the raw adapter log later (batch, retroactive).
+    <code>save_conversation</code> / <code>checkpoint_session</code> write what the agent structured <em>now</em>
+    into <code>sessions/</code> (or <code>sessions/checkpoints/</code>). Same topic can have both — two descriptions, not a 1:1 duplicate.
+    Most sessions never get a manual save; Distill is how the backlog becomes memory.
+  </p>
+  <p data-lang="pl">
+    To <strong>nie te same pliki</strong>. Distill później czyta surowy log adaptera (batch, retroaktywnie).
+    <code>save_conversation</code> / <code>checkpoint_session</code> zapisują to, co agent ustrukturyzował <em>teraz</em>,
+    do <code>sessions/</code> (lub <code>sessions/checkpoints/</code>). Ten sam temat może mieć oba — dwa opisy, nie duplikat 1:1.
+    Większość sesji nie dostaje ręcznego zapisu; Distill ogarnia backlog.
+  </p>
+
+  <!-- ═══════════════ CHUNK ═══════════════ -->
+  <h2 data-lang="en">2. Chunking (how text is sliced)</h2>
+  <h2 data-lang="pl">2. Chunking (jak kroimy tekst)</h2>
+
+  <p data-lang="en">
+    Before embedding, text is split into overlapping windows. Same algorithm for distilled notes, session saves, and document pages.
+  </p>
+  <p data-lang="pl">
+    Przed embeddingiem tekst idzie w nakładające się okna. Ten sam algorytm dla notatek distill, zapisów sesji i stron dokumentów.
+  </p>
+  <ul data-lang="en">
+    <li><strong>Size:</strong> 1800 Unicode code points per chunk</li>
+    <li><strong>Overlap:</strong> 200 code points</li>
+    <li><strong>Prep:</strong> consecutive whitespace collapsed to single spaces</li>
+    <li><strong>Breaks:</strong> prefers sentence boundaries (<code>. </code>, <code>; </code>, newline, space) in the second half of the window</li>
+    <li><strong>Documents:</strong> each PDF page is chunked separately; <code>page_num</code> is kept. Markdown/session notes use <code>page_num = 1</code></li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Rozmiar:</strong> 1800 punktów kodowych Unicode na chunk</li>
+    <li><strong>Overlap:</strong> 200 punktów kodowych</li>
+    <li><strong>Prep:</strong> ciągi białych znaków → pojedyncze spacje</li>
+    <li><strong>Cięcia:</strong> preferencja na granicę zdania (<code>. </code>, <code>; </code>, newline, spacja) w drugiej połowie okna</li>
+    <li><strong>Dokumenty:</strong> każda strona PDF chunkowana osobno; zachowywane <code>page_num</code>. Notatki MD/sesje: <code>page_num = 1</code></li>
+  </ul>
+  <p class="cite">packages/brain-core/src/rag/chunk.ts (<code>CHUNK_CHAR = 1800</code>, <code>CHUNK_OVERLAP = 200</code>)</p>
+
+  <p data-lang="en">
+    Each row in the index stores roughly: path, display name, page number, chunk index, plaintext text, character count —
+    plus a vector row keyed by the same id.
+  </p>
+  <p data-lang="pl">
+    Każdy wiersz w indeksie trzyma mniej więcej: ścieżkę, nazwę, numer strony, indeks chunka, plaintext tekstu, liczbę znaków —
+    plus wiersz wektora pod tym samym id.
+  </p>
+
+  <!-- ═══════════════ EMBED / INDEX ═══════════════ -->
+  <h2 data-lang="en">3. Embeddings &amp; <code>library.db</code></h2>
+  <h2 data-lang="pl">3. Embeddingi i <code>library.db</code></h2>
+
+  <p data-lang="en">
+    Embeddings come from local Ollama, model <strong><code>nomic-embed-text</code></strong> (768 dimensions).
+    Text is asymmetric: documents are prefixed with <code>search_document: </code>, queries with <code>search_query: </code>
+    (Ollama does <em>not</em> add these itself — Pomnia must).
+  </p>
+  <p data-lang="pl">
+    Embeddingi z lokalnego Ollama, model <strong><code>nomic-embed-text</code></strong> (768 wymiarów).
+    Wyszukiwanie jest asymetryczne: dokumenty z prefiksem <code>search_document: </code>, zapytania <code>search_query: </code>
+    (Ollama sam ich <em>nie</em> dokłada — musi Pomnia).
+  </p>
+
+  <ul data-lang="en">
+    <li><strong>Where:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (or equivalent under <code>~/.pomnia</code> on other OS) — <strong>plaintext</strong> chunk text + vectors. The vault password does not seal this file. See <a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a>.</li>
+    <li><strong>What gets walked on a full refresh:</strong> under the vault root, mainly <code>distilled/</code>, <code>sessions/</code>, <code>library/</code> text — never <code>skills/</code>, <code>_review/</code>, <code>blobs/</code>, <code>snapshots/</code>.</li>
+    <li><strong>Incremental:</strong> unchanged files are skipped via mtime+size, then content SHA-256 fingerprints in an <code>indexed_files</code> table. “Refresh index” should usually be fast after the first pass.</li>
+    <li><strong>Documents:</strong> encrypted source stays in vault blobs; search uses a <em>logical</em> path like <code>…/library/&lt;docId&gt;</code> as the key in <code>library.db</code>.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Gdzie:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (albo <code>~/.pomnia</code>) — <strong>plaintext</strong> chunków + wektory. Hasło vaultu tego pliku nie zamyka. Zob. <a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a>.</li>
+    <li><strong>Co wchodzi przy pełnym odświeżeniu:</strong> pod rootem vaultu głównie <code>distilled/</code>, <code>sessions/</code>, tekst z <code>library/</code> — nigdy <code>skills/</code>, <code>_review/</code>, <code>blobs/</code>, <code>snapshots/</code>.</li>
+    <li><strong>Przyrostowo:</strong> niezmienione pliki są pomijane (mtime+size, potem SHA-256 w tabeli <code>indexed_files</code>). „Odśwież indeks” zwykle jest szybkie po pierwszym przebiegu.</li>
+    <li><strong>Dokumenty:</strong> zaszyfrowane źródło zostaje w blobach; wyszukiwanie używa <em>logicznej</em> ścieżki <code>…/library/&lt;docId&gt;</code> jako klucza w <code>library.db</code>.</li>
+  </ul>
+  <p class="cite">packages/brain-core/src/rag/embed.ts · indexer.ts</p>
+
+  <!-- ═══════════════ SEARCH ═══════════════ -->
+  <h2 data-lang="en">4. Search / retrieval</h2>
+  <h2 data-lang="pl">4. Wyszukiwanie</h2>
+
+  <p data-lang="en">
+    MCP tool <code>search_library</code> (and the in-app search) run <strong>hybrid</strong> retrieval:
+    embed the query → nearest vectors → boost by literal keywords in name/path/text → re-rank.
+    Always PL+EN hybrid — there is no separate “knowledge language” switch (UI language is chrome-only).
+  </p>
+  <p data-lang="pl">
+    Narzędzie MCP <code>search_library</code> (i wyszukiwanie w aplikacji) robi retrieval <strong>hybrydowy</strong>:
+    embed zapytania → najbliższe wektory → boost słów kluczowych w nazwie/ścieżce/tekście → re-rank.
+    Zawsze hybrydowo PL+EN — nie ma osobnego przełącznika „języka wiedzy” (język UI to tylko chrome).
+  </p>
+
+  <p data-lang="en">What each hit returns:</p>
+  <p data-lang="pl">Co zwraca każdy traf:</p>
+  <ul data-lang="en">
+    <li><code>path</code> — file (or logical library) path</li>
+    <li><code>chunkIdx</code>, <code>text</code> — which slice, plaintext excerpt</li>
+    <li><code>score</code> — combined score</li>
+    <li><code>meta</code> — name, page, semantic score, keyword hit counts, optional penalties/boosts</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><code>path</code> — ścieżka pliku (lub logiczna ścieżka library)</li>
+    <li><code>chunkIdx</code>, <code>text</code> — który kawałek, excerpt plaintext</li>
+    <li><code>score</code> — wynik łączony</li>
+    <li><code>meta</code> — nazwa, strona, score semantyczny, trafienia keyword, opcjonalne kary/boosty</li>
+  </ul>
+
+  <p data-lang="en">Ranking extras (on top of cosine similarity):</p>
+  <p data-lang="pl">Dodatki do rankingu (obok podobieństwa cosinusowego):</p>
+  <ul data-lang="en">
+    <li>Keyword in filename/path: +0.15 per term; in chunk text: +0.05</li>
+    <li>Path under <code>_weak/</code>: −0.15</li>
+    <li>Path under <code>sessions/</code> (human / agent-written saves): +0.05</li>
+    <li>Recency for <code>YYYY-MM-DD_…</code> note names: up to +0.25 under ~30 days, fading to 0 by ~2 years (date from filename, not mtime)</li>
+  </ul>
+  <ul data-lang="pl">
+    <li>Keyword w nazwie/ścieżce: +0.15 na token; w tekście chunka: +0.05</li>
+    <li>Ścieżka pod <code>_weak/</code>: −0.15</li>
+    <li>Ścieżka pod <code>sessions/</code> (zapisy ludzkie / agentowe): +0.05</li>
+    <li>Recency dla nazw <code>YYYY-MM-DD_…</code>: do +0.25 poniżej ~30 dni, do zera ~2 lata (data z nazwy, nie z mtime)</li>
+  </ul>
+  <p class="cite">packages/brain-core/src/rag/search.ts · mcp/tools/searchLibrary.ts</p>
+
+  <p data-lang="en">
+    Optional filter <code>source</code>: <code>all</code> | <code>vault</code> (.md notes) | <code>library</code> (non-md documents).
+  </p>
+  <p data-lang="pl">
+    Opcjonalny filtr <code>source</code>: <code>all</code> | <code>vault</code> (notatki .md) | <code>library</code> (dokumenty nie-md).
+  </p>
+
+  <!-- ═══════════════ RECENT CHANGES ═══════════════ -->
+  <h2 data-lang="en">What shifted recently (~last 1–2 weeks of product work)</h2>
+  <h2 data-lang="pl">Co się niedawno ruszyło (~ostatnie 1–2 tygodnie pracy produktowej)</h2>
+
+  <p data-lang="en">If your mental model froze on an older build, this is the delta that mattered:</p>
+  <p data-lang="pl">Jeśli Twój model myślowy zatrzymał się na starszym buildzie, to delta, która bolała:</p>
+  <ul data-lang="en">
+    <li><strong>Quality gate in the filesystem</strong> — low-quality distill notes go to <code>_review/</code> (skipped by index); path-based ranking for <code>_weak/</code> and <code>sessions/</code>.</li>
+    <li><strong>Garbage threshold raised to 5.0</strong> — more “generic OK” notes stay out of RAG.</li>
+    <li><strong>Incremental indexing</strong> — refresh skips unchanged files; fingerprints in <code>indexed_files</code>.</li>
+    <li><strong>No dual embed after distill</strong> — when embedded brain-core is running, only new note paths go into <code>library.db</code>; the old host-side JSON index is fallback only.</li>
+    <li><strong>Nomic task prefixes fixed</strong> — documents and queries finally use the prefixes the model was trained for (previously assumed Ollama added them; it did not).</li>
+    <li><strong>Chunking parity with the Python reference</strong> — Unicode code-point windows so Node and legacy indexes do not drift.</li>
+    <li><strong>Recency by filename date</strong> — not by mtime (copying a vault no longer makes everything “brand new”).</li>
+    <li><strong>Library consistency check</strong> — if the vault says a PDF is indexed but <code>library.db</code> has zero chunks, it is re-queued.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>Quality gate w systemie plików</strong> — słabe notatki distill → <code>_review/</code> (poza indeksem); ranking po ścieżce dla <code>_weak/</code> i <code>sessions/</code>.</li>
+    <li><strong>Próg garbage = 5.0</strong> — więcej „ogólnie OK” nie wchodzi do RAG.</li>
+    <li><strong>Indeks przyrostowy</strong> — odświeżenie pomija niezmienione; odciski w <code>indexed_files</code>.</li>
+    <li><strong>Bez podwójnego embed po distill</strong> — gdy działa embedded brain-core, do <code>library.db</code> idą tylko nowe notatki; stary JSON index hosta to fallback.</li>
+    <li><strong>Naprawione prefiksy nomic</strong> — dokumenty i query wreszcie z prefiksami, pod które model był trenowany (wcześniej zakładano, że Ollama je dokłada — nie dokłada).</li>
+    <li><strong>Chunking zgodny z referencją Python</strong> — okna w punktach kodowych Unicode, żeby Node i stary indeks się nie rozjeżdżały.</li>
+    <li><strong>Recency z daty w nazwie pliku</strong> — nie z mtime (kopiowanie vaultu nie robi wszystkiego „brand new”).</li>
+    <li><strong>Spójność biblioteki dokumentów</strong> — jeśli vault mówi „zindeksowane”, a w <code>library.db</code> zero chunków — wraca do kolejki.</li>
+  </ul>
+
+  <!-- ═══════════════ MENTAL MODEL ═══════════════ -->
+  <h2 data-lang="en">One-line mental model</h2>
+  <h2 data-lang="pl">Model myślowy w jednej linii</h2>
+  <pre data-lang="en">chats → distill → .md notes
+docs  → parse  → pages
+both  → chunk(1800/200) → embed(nomic) → library.db
+ask   → hybrid search → top chunks (plaintext + score)</pre>
+  <pre data-lang="pl">czaty → distill → notatki .md
+docs  → parse  → strony
+oba   → chunk(1800/200) → embed(nomic) → library.db
+pytanie → hybrid search → top chunki (plaintext + score)</pre>
+
+  <p data-lang="en">
+    Paths, unlock/lock, and encryption boundary: <a class="inline" href="/docs/architecture.html">Architecture</a>.
+    Three boxes for strangers: <a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a>.
+  </p>
+  <p data-lang="pl">
+    Ścieżki, unlock/lock i granica szyfrowania: <a class="inline" href="/docs/architecture.html">Architektura</a>.
+    Trzy pudełka dla nowych: <a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a>.
+  </p>
+
+  <footer>
+    <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <span>·</span>
+    <a href="/docs/how-memory-works.html">How memory works</a>
+    <span>·</span>
+    <a href="/docs/architecture.html">Architecture</a>
+    <span>·</span>
+    <a href="/docs/mcp.html">MCP</a>
+    <span>·</span>
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>
