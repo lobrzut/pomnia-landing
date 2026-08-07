@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Pomnia can do — Pomnia Docs</title>
+<meta name="description" content="Honest capability list: vault, backup/import, distill, search, MCP tools, skills, profile — and what Pomnia is not.">
+<link rel="canonical" href="https://pomnia.ai/docs/capabilities.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.here { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 40em; margin-bottom: 28px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 36px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
+  a.inline:hover { border-color: var(--cyan); }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a class="here" href="/docs/">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en">docs · capabilities</p>
+  <p class="kicker" data-lang="pl">docs · możliwości</p>
+
+  <h1 data-lang="en">What Pomnia can do</h1>
+  <h1 data-lang="pl">Co Pomnia potrafi</h1>
+
+  <p class="lede" data-lang="en">
+    Pomnia is a <strong>portable encrypted-archive memory layer</strong> plus MCP so agents can search and write that memory.
+    It is not an agent product and not a cloud chat app.
+  </p>
+  <p class="lede" data-lang="pl">
+    Pomnia to <strong>przenośna warstwa pamięci z zaszyfrowanym archiwum</strong> plus MCP, żeby agenci mogli szukać i dopisywać tę pamięć.
+    To nie produkt-agent i nie chmurowy czat.
+  </p>
+
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a href="/docs/">Start here</a>
+    <a class="on" href="/docs/capabilities.html">Capabilities</a>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="/docs/how-memory-works.html">How memory works</a>
+    <a href="/docs/automation.html">Automation</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/mcp.html">Connect MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a href="/docs/">Zacznij tutaj</a>
+    <a class="on" href="/docs/capabilities.html">Możliwości</a>
+    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+    <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
+    <a href="/docs/automation.html">Automatyzacja</a>
+    <a href="/docs/architecture.html">Architektura</a>
+    <a href="/docs/mcp.html">Podłącz MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+
+  <div class="note" data-lang="en">
+    <strong>Positioning:</strong> Desktop = chrome + ops (vault, backup, distill, Connect).
+    Agents type through MCP (<code>pomnia</code>). Memory you own — not a wrapper around Cursor/Claude.
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>Pozycjonowanie:</strong> Desktop = chrome + ops (vault, backup, distill, Connect).
+    Agenci piszą przez MCP (<code>pomnia</code>). Pamięć, którą posiadasz — nie wrapper wokół Cursora/Claude.
+  </div>
+
+  <!-- ═══════════════ CAN ═══════════════ -->
+  <h2 data-lang="en">What it does</h2>
+  <h2 data-lang="pl">Co robi</h2>
+
+  <ul data-lang="en">
+    <li>
+      <strong>Vault create / unlock / lock</strong> — pick a folder (any name, including <code>*.pomnia</code>);
+      AES-256-GCM blobs for chat/document archives; passphrase via scrypt. Lock clears the key from RAM — it does <em>not</em> wipe the search index.
+      Details: <a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a> · <a class="inline" href="/docs/architecture.html">Architecture</a>.
+    </li>
+    <li>
+      <strong>Backup live assistants</strong> — Claude Code, Cursor, Claude Desktop, Antigravity, VS Code / Windsurf, Continue (hybrid or snapshot per source).
+    </li>
+    <li>
+      <strong>Import</strong> — ZIP/JSON exports (Claude.ai, ChatGPT, Gemini, Grok) and documents (PDF, DOCX, EPUB). Sparse PDFs: thin OCR (tesseract, eng+pol) then direct index — not distill.
+    </li>
+    <li>
+      <strong>Distill</strong> — Ollama turns chats into condensed markdown notes (Summary / Decisions / …) and feeds the search card. You start it; it is not a silent daemon.
+      Pipeline: <a class="inline" href="/docs/how-memory-works.html">How memory works</a>. Who runs what: <a class="inline" href="/docs/automation.html">Automation</a>.
+    </li>
+    <li>
+      <strong>Search</strong> — hybrid semantic + keyword over distilled notes + library. In-app (Chats / Brain) and via MCP <code>search_library</code>. Index lives as plaintext <code>library.db</code> under AppData (rebuildable).
+    </li>
+    <li>
+      <strong>Connect MCP</strong> — snippet for Cursor (and other MCP clients). Default: embedded Brain on <code>127.0.0.1:7862</code>. Advanced: remote / homelab Brain + Bearer.
+      <a class="inline" href="/docs/mcp.html">Connect MCP</a>.
+    </li>
+    <li>
+      <strong>MCP tools agents actually get</strong> —
+      <code>search_library</code>, <code>save_conversation</code> (only on “save to Pomnia” / „zapisz do Pomnia”),
+      <code>checkpoint_session</code> (milestones when auto-checkpoint is ON),
+      <code>get_user_profile</code>, <code>memory</code> (USER.md),
+      <code>library_status</code>, <code>list_skills</code> / <code>get_skill</code> (and deprecated <code>list_cli_skills</code>).
+    </li>
+    <li>
+      <strong>Profile &amp; skills</strong> — vault <code>USER.md</code> (person patterns) + optional <code>AGENTS.md</code>; plaintext <code>skills/</code> workflows agents can load. Handshake phrase = agent proof that MCP is wired, not a Desktop unlock ritual.
+    </li>
+    <li>
+      <strong>Portable vault</strong> — copy the whole vault folder to another PC → Open vault → password. Export distilled notes from the UI / CLI.
+    </li>
+    <li>
+      <strong>Desktop chrome</strong> — PL|EN UI, tray (close/minimize to tray), Diagnostics, notify-only update check (GitHub Releases — no silent auto-install), floating “How it works” diagram (live distill / index / MCP status — not a session recorder).
+    </li>
+    <li>
+      <strong>CLI</strong> — headless scan / doctor / backup / list / verify / brain pipeline &amp; search (same engine as Desktop).
+    </li>
+  </ul>
+
+  <ul data-lang="pl">
+    <li>
+      <strong>Vault: utwórz / odblokuj / zablokuj</strong> — wybierasz folder (dowolna nazwa, też <code>*.pomnia</code>);
+      bloby AES-256-GCM na archiwa czatów/dokumentów; hasło przez scrypt. Lock czyści klucz z RAM — <em>nie</em> kasuje indeksu wyszukiwania.
+      Szczegóły: <a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a> · <a class="inline" href="/docs/architecture.html">Architektura</a>.
+    </li>
+    <li>
+      <strong>Backup żywych asystentów</strong> — Claude Code, Cursor, Claude Desktop, Antigravity, VS Code / Windsurf, Continue (hybrid lub snapshot zależnie od źródła).
+    </li>
+    <li>
+      <strong>Import</strong> — eksporty ZIP/JSON (Claude.ai, ChatGPT, Gemini, Grok) oraz dokumenty (PDF, DOCX, EPUB). Sparse PDF: thin OCR (tesseract, eng+pol), potem bezpośredni indeks — bez distill.
+    </li>
+    <li>
+      <strong>Distill</strong> — Ollama zamienia czaty w skondensowane notatki markdown (Summary / Decisions / …) i karmi kartę katalogową. Ty to uruchamiasz; to nie cichy demon.
+      Pipeline: <a class="inline" href="/docs/how-memory-works.html">Jak działa pamięć</a>. Kto co robi: <a class="inline" href="/docs/automation.html">Automatyzacja</a>.
+    </li>
+    <li>
+      <strong>Wyszukiwanie</strong> — hybrydowe (semantyka + słowa kluczowe) po notatkach distill + bibliotece. W aplikacji (Czaty / Brain) i przez MCP <code>search_library</code>. Indeks = plaintext <code>library.db</code> w AppData (odtwarzalny).
+    </li>
+    <li>
+      <strong>Connect MCP</strong> — snippet do Cursora (i innych klientów MCP). Domyślnie: embedded Brain na <code>127.0.0.1:7862</code>. Zaawansowane: remote / homelab + Bearer.
+      <a class="inline" href="/docs/mcp.html">Podłącz MCP</a>.
+    </li>
+    <li>
+      <strong>Narzędzia MCP, które agenci naprawdę dostają</strong> —
+      <code>search_library</code>, <code>save_conversation</code> (tylko na „zapisz do Pomnia” / “save to Pomnia”),
+      <code>checkpoint_session</code> (milestone gdy auto-checkpoint ON),
+      <code>get_user_profile</code>, <code>memory</code> (USER.md),
+      <code>library_status</code>, <code>list_skills</code> / <code>get_skill</code> (oraz deprecated <code>list_cli_skills</code>).
+    </li>
+    <li>
+      <strong>Profil i skills</strong> — vault <code>USER.md</code> (wzorce osoby) + opcjonalnie <code>AGENTS.md</code>; plaintext <code>skills/</code> do ładowania przez agentów. Fraza Handshake = dowód, że MCP działa — nie rytuał odblokowania Desktopu.
+    </li>
+    <li>
+      <strong>Przenośny vault</strong> — skopiuj cały folder na inny PC → Open vault → hasło. Eksport notatek distill z UI / CLI.
+    </li>
+    <li>
+      <strong>Chrome Desktop</strong> — UI PL|EN, tray (zamknięcie/minimalizacja do traya), Diagnostyka, sprawdzenie aktualizacji tylko jako powiadomienie (GitHub Releases — bez cichej instalacji), pływający diagram „Jak to działa” (live distill / indeks / MCP — nie rejestrator sesji).
+    </li>
+    <li>
+      <strong>CLI</strong> — headless scan / doctor / backup / list / verify / brain pipeline i search (ten sam silnik co Desktop).
+    </li>
+  </ul>
+
+  <!-- ═══════════════ DOES NOT ═══════════════ -->
+  <h2 data-lang="en">What it does not</h2>
+  <h2 data-lang="pl">Czego nie robi</h2>
+
+  <ul data-lang="en">
+    <li><strong>Not an agent</strong> — no orchestration harness, no “run my agents for me.” Agents live in Cursor / Claude / … and call Pomnia for memory.</li>
+    <li><strong>Not a cloud chat</strong> — no Pomnia-hosted conversations; no vendor cloud required for the default path.</li>
+    <li><strong>Does not silently capture live IDE chats</strong> — adapters read stores only when you Backup / Distill / Import. Full dump needs the save phrase; see <a class="inline" href="/docs/automation.html">Automation</a>.</li>
+    <li><strong>Password ≠ full-disk secrecy</strong> — distilled notes, <code>skills/</code>, <code>USER.md</code>, sessions, and <code>library.db</code> are plaintext on disk by design. Lock ≠ wipe index.</li>
+    <li><strong>Not signed yet</strong> — Windows SmartScreen may warn; expected for early public builds.</li>
+    <li><strong>Not yet:</strong> cloud vault sync, macOS/Linux public installer, silent auto-update install, full OCR of every PDF page.</li>
+  </ul>
+
+  <ul data-lang="pl">
+    <li><strong>Nie jest agentem</strong> — bez harnessu orkiestracji, bez „uruchom mi agentów”. Agenci żyją w Cursorze / Claude / … i wołają Pomnię po pamięć.</li>
+    <li><strong>Nie jest chmurowym czatem</strong> — brak rozmów hostowanych przez Pomnię; domyślna ścieżka nie wymaga chmury vendora.</li>
+    <li><strong>Nie podsłuchuje cicho żywych czatów IDE</strong> — adaptery czytają store dopiero przy Backup / Distill / Import. Pełny dump wymaga frazy zapisu; zob. <a class="inline" href="/docs/automation.html">Automatyzacja</a>.</li>
+    <li><strong>Hasło ≠ pełna tajemnica dysku</strong> — notatki distill, <code>skills/</code>, <code>USER.md</code>, sessions i <code>library.db</code> są plaintext na dysku by design. Lock ≠ wipe indeksu.</li>
+    <li><strong>Jeszcze bez podpisu</strong> — SmartScreen na Windows może ostrzec; normalne dla wczesnego publica.</li>
+    <li><strong>Jeszcze nie:</strong> sync vault do chmury, publiczny instalator macOS/Linux, cicha auto-instalacja update, pełny OCR wszystkich stron PDF.</li>
+  </ul>
+
+  <!-- ═══════════════ NEXT ═══════════════ -->
+  <h2 data-lang="en">Go deeper</h2>
+  <h2 data-lang="pl">Idź głębiej</h2>
+  <ul data-lang="en">
+    <li><a class="inline" href="/docs/">Start here</a> — install → vault → distill → MCP → verify</li>
+    <li><a class="inline" href="/docs/where-is-my-data.html">Where is my data?</a> — folder / index / app</li>
+    <li><a class="inline" href="/docs/how-memory-works.html">How memory works</a> — distill / chunk / embed / search</li>
+    <li><a class="inline" href="/docs/automation.html">Automation</a> — what runs by itself vs agent discipline</li>
+    <li><a class="inline" href="/docs/architecture.html">Architecture</a> — paths, unlock, honesty boundary</li>
+    <li><a class="inline" href="/docs/mcp.html">Connect MCP</a> — embedded vs remote snippets</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><a class="inline" href="/docs/">Zacznij tutaj</a> — instalacja → vault → distill → MCP → weryfikacja</li>
+    <li><a class="inline" href="/docs/where-is-my-data.html">Gdzie są dane?</a> — folder / indeks / aplikacja</li>
+    <li><a class="inline" href="/docs/how-memory-works.html">Jak działa pamięć</a> — distill / chunk / embed / search</li>
+    <li><a class="inline" href="/docs/automation.html">Automatyzacja</a> — co leci samo vs dyscyplina agenta</li>
+    <li><a class="inline" href="/docs/architecture.html">Architektura</a> — ścieżki, unlock, granica uczciwości</li>
+    <li><a class="inline" href="/docs/mcp.html">Podłącz MCP</a> — snippet embedded vs remote</li>
+  </ul>
+
+  <footer>
+    <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/docs/capabilities.html">Capabilities</a>
+    <span>·</span>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
+    <span>·</span>
+    <a href="/docs/how-memory-works.html">How memory works</a>
+    <span>·</span>
+    <a href="/docs/automation.html">Automation</a>
+    <span>·</span>
+    <a href="/docs/architecture.html">Architecture</a>
+    <span>·</span>
+    <a href="/docs/mcp.html">MCP</a>
+    <span>·</span>
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>
