@@ -137,22 +137,28 @@
   <h1 data-lang="pl">Architektura na jednym ekranie</h1>
 
   <p class="lede" data-lang="en">
-    Pomnia is two stores plus a gate. The vault holds sealed chat/doc <strong>blobs</strong>.
-    Brain holds the searchable knowledge surface. Unlock opens the gate — it does not encrypt what agents search.
+    Deeper map after the premiere story.
+    First hold <a href="/docs/where-is-my-data.html" style="color:var(--cyan)">three boxes</a>:
+    your folder, the search card on this PC, the app.
+    Below: vault vs AppData paths, unlock/lock, pipelines.
   </p>
   <p class="lede" data-lang="pl">
-    Pomnia to dwa magazyny i brama. Vault trzyma zamknięte <strong>bloby</strong> czatów/dokumentów.
-    Brain trzyma powierzchnię wiedzy do wyszukiwania. Unlock otwiera bramę — nie szyfruje tego, po czym agenci szukają.
+    Głębsza mapa po premiere’owym obrazku.
+    Najpierw trzy pudełka: <a href="/docs/where-is-my-data.html" style="color:var(--cyan)">Gdzie są moje dane?</a>
+    — folder, karta katalogowa, aplikacja.
+    Niżej: ścieżki vault vs AppData, unlock/lock, pipeline’y.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
     <a href="/docs/">Start here</a>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
     <a class="on" href="/docs/architecture.html">Architecture</a>
     <a href="/docs/mcp.html">Connect MCP</a>
     <a href="/privacy.html">Privacy</a>
   </nav>
   <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
     <a href="/docs/">Zacznij tutaj</a>
+    <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
     <a class="on" href="/docs/architecture.html">Architektura</a>
     <a href="/docs/mcp.html">Podłącz MCP</a>
     <a href="/privacy.html">Privacy</a>
@@ -171,43 +177,43 @@
     Pełny tekst zaufania: <a class="inline" href="/privacy.html">Privacy</a> · <code>SECURITY.md</code> w repo.
   </div>
 
-  <h2 data-lang="en">Two stores</h2>
-  <h2 data-lang="pl">Dwa magazyny</h2>
+  <h2 data-lang="en">Folder vs search card (paths)</h2>
+  <h2 data-lang="pl">Folder vs karta katalogowa (ścieżki)</h2>
   <table data-lang="en">
     <thead>
-      <tr><th>Store</th><th>Where</th><th>Encrypted?</th><th>Job</th></tr>
+      <tr><th>Box</th><th>Where</th><th>Encrypted?</th><th>Job</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Pomnia Vault</strong></td>
+        <td><strong>Vault folder</strong></td>
         <td>Folder you choose (e.g. <code>C:\Vault</code>)</td>
-        <td>Blobs yes · sidecars no</td>
+        <td>Blobs yes · notes beside them no</td>
         <td>Portable archive of chats/docs + knowledge files agents and you edit</td>
       </tr>
       <tr>
-        <td><strong>Brain data</strong></td>
+        <td><strong>Search index</strong></td>
         <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
         <td>No</td>
-        <td>Rebuildable RAG index (<code>library.db</code>): chunk text + embeddings</td>
+        <td>Rebuildable catalog (<code>library.db</code>): chunk text + embeddings</td>
       </tr>
     </tbody>
   </table>
   <table data-lang="pl">
     <thead>
-      <tr><th>Magazyn</th><th>Gdzie</th><th>Szyfr?</th><th>Rola</th></tr>
+      <tr><th>Pudełko</th><th>Gdzie</th><th>Szyfr?</th><th>Rola</th></tr>
     </thead>
     <tbody>
       <tr>
-        <td><strong>Pomnia Vault</strong></td>
+        <td><strong>Folder vaultu</strong></td>
         <td>Folder, który wybierasz (np. <code>C:\Vault</code>)</td>
-        <td>Bloby tak · sidecary nie</td>
+        <td>Bloby tak · notatki obok nie</td>
         <td>Przenośne archiwum czatów/docs + pliki wiedzy, które edytujesz Ty i agenci</td>
       </tr>
       <tr>
-        <td><strong>Brain data</strong></td>
+        <td><strong>Indeks wyszukiwania</strong></td>
         <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
         <td>Nie</td>
-        <td>Odtwarzalny indeks RAG (<code>library.db</code>): tekst chunków + embeddingi</td>
+        <td>Odtwarzalny katalog (<code>library.db</code>): tekst chunków + embeddingi</td>
       </tr>
     </tbody>
   </table>
@@ -308,6 +314,8 @@
     <a href="/">pomnia.ai</a>
     <span>·</span>
     <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/docs/where-is-my-data.html">Where is my data?</a>
     <span>·</span>
     <a href="/docs/mcp.html">MCP</a>
     <span>·</span>

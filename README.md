@@ -5,7 +5,8 @@ Static site for [pomnia.ai](https://pomnia.ai). No build step — plain HTML.
 - `index.html` — marketing page
 - `privacy.html` — site privacy + product encryption honesty
 - `docs/index.html` — Start here (PL|EN)
-- `docs/architecture.html` — Vault vs Brain data, unlock/lock, pipelines (PL|EN)
+- `docs/where-is-my-data.html` — premiere 3-box mental model (folder / index / app)
+- `docs/architecture.html` — Vault vs AppData paths, unlock/lock, pipelines (PL|EN)
 - `docs/mcp.html` — Connect MCP quickstart (PL|EN)
 - `docs/start-here.html` — redirect → `/docs/`
 - `index-classic.html` — earlier waitlist/beta page, kept for reference.
@@ -40,7 +41,7 @@ That always resolves to whatever GitHub marks as Latest (today still may lag loc
   Docs language toggle uses `localStorage` only (no network).
 - **Claims must match the product.** Memory layer (AGPL), not an agentic wrapper.
   Unsigned Windows + SmartScreen honesty stays in the hero and the download section.
-  Vault blob encryption ≠ plaintext sidecars / `library.db` — see Architecture + Privacy.
+  Vault blob encryption ≠ plaintext notes / search index — see Where is my data? + Privacy.
 - `prefers-reduced-motion` disables the background animation entirely.
 
 ## Numbers on the page that have to track reality
