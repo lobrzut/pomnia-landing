@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Where is my data? — Pomnia Docs</title>
+<meta name="description" content="Three boxes: Vault folder, search index on this machine, Pomnia app. The premiere mental model — honest about plaintext.">
+<link rel="canonical" href="https://pomnia.ai/docs/where-is-my-data.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.here { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 40em; margin-bottom: 28px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 36px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-faint); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  /* ── Three-box diagram ───────────────────────────────────────────────── */
+  .diagram {
+    display: grid; gap: 12px; margin: 0 0 36px;
+  }
+  @media (min-width: 640px) {
+    .diagram {
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: stretch;
+    }
+  }
+  .box {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 16px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .box .tag {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--cyan);
+  }
+  .box h2 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--ink); }
+  .box p { font-size: 13.5px; color: var(--ink-dim); margin: 0; line-height: 1.5; }
+  .box .where {
+    margin-top: auto; padding-top: 10px;
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-faint); line-height: 1.45;
+  }
+  .arrow {
+    display: none; align-self: center; color: var(--ink-faint);
+    font-family: var(--mono); font-size: 18px; padding: 0 2px;
+  }
+  @media (min-width: 640px) { .arrow { display: block; } }
+  .arrow-mobile {
+    display: block; text-align: center; color: var(--ink-faint);
+    font-family: var(--mono); font-size: 14px; line-height: 1;
+  }
+  @media (min-width: 640px) { .arrow-mobile { display: none; } }
+
+  h3 { font-size: 16px; font-weight: 600; margin: 36px 0 10px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ul { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
+  a.inline:hover { border-color: var(--cyan); }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"],
+  html.lang-pl .diagram[data-lang="pl"] { display: revert; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
+  html.lang-pl .diagram[data-lang="pl"] { display: grid; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a class="here" href="/docs/">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en">docs · where is my data</p>
+  <p class="kicker" data-lang="pl">docs · gdzie są moje dane</p>
+
+  <h1 data-lang="en">Where is my data?</h1>
+  <h1 data-lang="pl">Gdzie są moje dane?</h1>
+
+  <p class="lede" data-lang="en">
+    Hold this in twenty seconds: <strong>a folder you pick</strong>,
+    <strong>a search card on this PC</strong>, and <strong>the app that opens the door</strong>.
+    Under the hood there are more moving parts — for premiere, these three are enough.
+  </p>
+  <p class="lede" data-lang="pl">
+    Zapamiętaj w dwadzieścia sekund: <strong>folder, który wybierasz</strong>,
+    <strong>karta katalogowa na tym PC</strong> i <strong>aplikacja, która otwiera drzwi</strong>.
+    Pod spodem jest więcej kółek — na premierę wystarczą te trzy.
+  </p>
+
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a href="/docs/">Start here</a>
+    <a class="on" href="/docs/where-is-my-data.html">Where is my data?</a>
+    <a href="/docs/architecture.html">Architecture</a>
+    <a href="/docs/mcp.html">Connect MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a href="/docs/">Zacznij tutaj</a>
+    <a class="on" href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+    <a href="/docs/architecture.html">Architektura</a>
+    <a href="/docs/mcp.html">Podłącz MCP</a>
+    <a href="/privacy.html">Privacy</a>
+  </nav>
+
+  <!-- EN diagram -->
+  <div class="diagram" data-lang="en" role="img" aria-label="Vault folder, search index, Pomnia app">
+    <div class="box">
+      <span class="tag">1 · Vault</span>
+      <h2>Your folder</h2>
+      <p>The briefcase on disk: sealed chat/doc archives plus plain notes you (and agents) edit — skills, profile, sessions.</p>
+      <p class="where">Path you choose<br>e.g. <code>C:\Vault</code></p>
+    </div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <span class="arrow-mobile" aria-hidden="true">↓</span>
+    <div class="box">
+      <span class="tag">2 · Index</span>
+      <h2>Search card</h2>
+      <p>A rebuildable catalog so recall is fast. Plaintext chunk text + embeddings — not sealed by the vault password.</p>
+      <p class="where">This machine only<br><code>%AppData%/Pomnia/…</code></p>
+    </div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <span class="arrow-mobile" aria-hidden="true">↓</span>
+    <div class="box">
+      <span class="tag">3 · App</span>
+      <h2>Door + MCP</h2>
+      <p>Pomnia unlocks the folder, builds the catalog, and lets Cursor (or any MCP client) ask questions.</p>
+      <p class="where">Desktop app<br>local search on <code>:7862</code></p>
+    </div>
+  </div>
+
+  <!-- PL diagram -->
+  <div class="diagram" data-lang="pl" role="img" aria-label="Sejf, indeks, aplikacja Pomnia">
+    <div class="box">
+      <span class="tag">1 · Sejf</span>
+      <h2>Twój folder</h2>
+      <p>Teczka na dysku: zamknięte archiwum czatów/docs oraz zwykłe notatki, które edytujesz Ty (i agenci) — skills, profil, sesje.</p>
+      <p class="where">Ścieżka, którą wybierasz<br>np. <code>C:\Vault</code></p>
+    </div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <span class="arrow-mobile" aria-hidden="true">↓</span>
+    <div class="box">
+      <span class="tag">2 · Indeks</span>
+      <h2>Karta katalogowa</h2>
+      <p>Odtwarzalny katalog do szybkiego szukania. Plaintext chunków + embeddingi — hasło vaultu go nie zamyka.</p>
+      <p class="where">Tylko ta maszyna<br><code>%AppData%/Pomnia/…</code></p>
+    </div>
+    <span class="arrow" aria-hidden="true">→</span>
+    <span class="arrow-mobile" aria-hidden="true">↓</span>
+    <div class="box">
+      <span class="tag">3 · Aplikacja</span>
+      <h2>Drzwi + MCP</h2>
+      <p>Pomnia otwiera folder, buduje katalog i pozwala Cursorowi (lub innemu klientowi MCP) zadawać pytania.</p>
+      <p class="where">Aplikacja desktop<br>wyszukiwanie lokalne na <code>:7862</code></p>
+    </div>
+  </div>
+
+  <div class="note" data-lang="en">
+    <strong>Honest, short.</strong> The vault password seals <em>archive blobs</em> only.
+    Notes in the vault folder and the search index are readable if someone can read your disk.
+    Lock clears the key from RAM — it does <em>not</em> wipe the index.
+    Details: <a class="inline" href="/privacy.html">Privacy</a>.
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>Uczciwie, krótko.</strong> Hasło vaultu zamyka tylko <em>bloby archiwum</em>.
+    Notatki w folderze vaultu i indeks wyszukiwania da się przeczytać przy dostępie do dysku.
+    Lock czyści klucz z RAM — <em>nie</em> kasuje indeksu.
+    Szczegóły: <a class="inline" href="/privacy.html">Privacy</a>.
+  </div>
+
+  <h3 data-lang="en">What you can ignore for now</h3>
+  <h3 data-lang="pl">Co na razie możesz olać</h3>
+  <ul data-lang="en">
+    <li>Internal folder names under AppData, remote search servers, three MCP keys for homelab — power-user layer.</li>
+    <li>Distill vs direct document index — both feed the same search card; start with Backup → Distill.</li>
+    <li>Full unlock/lock mechanics and pipelines: <a class="inline" href="/docs/architecture.html">Architecture</a>.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li>Wewnętrzne nazwy pod AppData, zdalne serwery wyszukiwania, trzy klucze MCP do homelabu — warstwa power-user.</li>
+    <li>Distill vs indeks dokumentów — oba karmią tę samą kartę katalogową; zacznij od Backup → Distill.</li>
+    <li>Pełna mechanika unlock/lock i pipeline’y: <a class="inline" href="/docs/architecture.html">Architektura</a>.</li>
+  </ul>
+
+  <h3 data-lang="en">One path for first week</h3>
+  <h3 data-lang="pl">Jedna ścieżka na pierwszy tydzień</h3>
+  <p data-lang="en">
+    Create/open the vault folder → Backup chats → Distill → Connect MCP in the app → ask Cursor about an older session.
+    Step list: <a class="inline" href="/docs/">Start here</a>.
+  </p>
+  <p data-lang="pl">
+    Utwórz/otwórz folder vaultu → Backup czatów → Distill → Connect MCP w aplikacji → zapytaj Cursora o starą sesję.
+    Lista kroków: <a class="inline" href="/docs/">Zacznij tutaj</a>.
+  </p>
+
+  <footer>
+    <a href="/">pomnia.ai</a>
+    <span>·</span>
+    <a href="/docs/">Start here</a>
+    <span>·</span>
+    <a href="/docs/architecture.html">Architecture</a>
+    <span>·</span>
+    <a href="/docs/mcp.html">MCP</a>
+    <span>·</span>
+    <a href="/privacy.html">Privacy</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>

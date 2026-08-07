@@ -84,7 +84,7 @@
   </div>
 
   <h1>Privacy</h1>
-  <p class="updated">Last updated: 27 July 2026</p>
+  <p class="updated">Last updated: 7 August 2026</p>
 
   <div class="tldr">
     <p>
@@ -124,8 +124,28 @@
     that is never stored anywhere — lose it and those blobs are unrecoverable, including by me.
     Sidecar files that travel with the vault folder (<code>skills/</code>, <code>USER.md</code>,
     <code>sessions/</code>, distilled notes) and the local Brain search index
-    (<code>library.db</code>) are plaintext on disk by design — protect the folder like any
-    other local data.
+    (<code>library.db</code> under <code>%AppData%/Pomnia/brain-core-data/</code>) are plaintext
+    on disk by design — protect those folders like any other local notes.
+  </p>
+  <h2>„How is this encrypted if the index is outside the vault?”</h2>
+  <p>
+    <strong>Honest answer:</strong> the passphrase encrypts the <em>archive</em>
+    (raw chat snapshots and document blobs). It does <em>not</em> encrypt the knowledge
+    agents search. Distilled notes are readable markdown beside the vault header;
+    <code>library.db</code> stores full chunk text plus embeddings so search stays fast
+    without unlocking every blob. That is a deliberate trade-off, not a hidden full mirror
+    of sealed chats — but disk access to those paths can read recalled memory without the passphrase.
+  </p>
+  <p>
+    <strong>PL:</strong> Hasło chroni archiwum (snapshoty + bloby dokumentów). Nie chroni
+    pamięci wyszukiwanej przez agentów — notatki distill i <code>library.db</code> są
+    plaintext. Dostęp do dysku = treść wiedzy bez hasła.
+  </p>
+  <p>
+    <strong>What lock does and does not do:</strong> locking clears the passphrase-derived key
+    from memory; encrypted blobs stay sealed. It does <em>not</em> wipe <code>library.db</code>
+    or the plaintext sidecars. Uninstall may leave AppData behind — delete that folder if you
+    want the search index gone.
   </p>
   <p>
     Distillation runs against your own Ollama instance. <strong>No vault content is ever
