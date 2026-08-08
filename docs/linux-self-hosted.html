@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linux self-hosted — Pomnia Docs</title>
+<meta name="description" content="AppImage vs deb, vault ownership and takeover, ~/.config/Pomnia, updates without auto-install, Desktop vs brain-core server.">
+<link rel="canonical" href="https://pomnia.ai/docs/linux-self-hosted.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+  :root {
+    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
+    --ink-faint: #5b6178; --line: rgba(148, 163, 216, 0.14);
+    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
+    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--void); }
+  body {
+    font-family: var(--sans); color: var(--ink); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
+    background-repeat: no-repeat;
+  }
+  a { color: inherit; text-decoration: none; }
+  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
+
+  .top {
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
+  }
+  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+  .mark .nd { color: var(--mint); }
+  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
+  .top nav a { color: var(--ink-dim); }
+  .top nav a:hover { color: var(--ink); }
+  .top nav a.cta-mini {
+    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
+    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
+  }
+  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
+  .lang {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  }
+  .lang button {
+    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
+    font: inherit;
+  }
+  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
+  .kicker a.crumb { color: var(--cyan); }
+  .kicker a.crumb:hover { color: var(--ink); }
+  .kicker {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
+  }
+  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+  .lede { color: var(--ink-dim); font-size: 17px; max-width: 40em; margin-bottom: 28px; text-wrap: balance; }
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .docs-nav {
+    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 36px;
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
+    padding-bottom: 18px; border-bottom: 1px solid var(--line);
+  }
+  .docs-nav a { color: var(--ink-dim); }
+  .docs-nav a:hover { color: var(--cyan); }
+  .docs-nav a.on { color: var(--ink); }
+
+  .note {
+    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
+    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
+  }
+  .note strong { color: var(--ink); }
+
+  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
+  h3 { font-size: 16px; font-weight: 600; margin: 28px 0 10px; letter-spacing: -0.01em; }
+  p { color: var(--ink-dim); margin-bottom: 14px; }
+  ul, ol { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
+  li { margin-bottom: 8px; }
+  strong { color: var(--ink); font-weight: 600; }
+  code {
+    font-family: var(--mono); font-size: 0.9em;
+    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
+  }
+  pre {
+    font-family: var(--mono); font-size: 12.5px; line-height: 1.5;
+    background: var(--abyss); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 16px; overflow-x: auto; color: var(--ink); margin: 0 0 16px;
+  }
+  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
+  a.inline:hover { border-color: var(--cyan); }
+  table {
+    width: 100%; border-collapse: collapse; margin: 0 0 20px;
+    font-size: 14px; color: var(--ink-dim);
+  }
+  th, td {
+    text-align: left; padding: 10px 12px; border: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th { color: var(--ink); font-weight: 600; background: rgba(148,163,216,0.06); }
+
+  [data-lang="pl"] { display: none; }
+  html.lang-pl [data-lang="en"] { display: none; }
+  html.lang-pl [data-lang="pl"] { display: revert; }
+  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
+  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
+
+  footer {
+    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
+  }
+  footer a { color: var(--ink-dim); }
+  footer a:hover { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="mark" href="../" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
+  <nav>
+    <a href="./">Docs</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+  </nav>
+</header>
+
+<div class="wrap">
+  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · linux self-hosted</p>
+  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · linux self-hosted</p>
+
+  <h1 data-lang="en">Linux self-hosted</h1>
+  <h1 data-lang="pl">Linux self-hosted</h1>
+
+  <p class="lede" data-lang="en">
+    AGPL Desktop on Linux is <strong>AppImage or deb</strong> plus a folder you own.
+    Same product as Windows — not a cloud service. Unsigned builds: verify SHA-256.
+  </p>
+  <p class="lede" data-lang="pl">
+    AGPL Desktop na Linuxie to <strong>AppImage albo deb</strong> oraz folder, który jest Twój.
+    Ten sam produkt co Windows — nie chmura. Buildy niepodpisane: weryfikuj SHA-256.
+  </p>
+
+  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
+    <a href="./">Start here</a>
+    <a href="capabilities.html">Capabilities</a>
+    <a href="where-is-my-data.html">Where is my data?</a>
+    <a href="how-memory-works.html">How memory works</a>
+    <a href="automation.html">Automation</a>
+    <a href="architecture.html">Architecture</a>
+    <a href="mcp.html">Connect MCP</a>
+    <a href="updates-install.html">Updates &amp; install</a>
+    <a class="on" href="linux-self-hosted.html">Linux self-hosted</a>
+    <a href="troubleshooting.html">Troubleshooting</a>
+    <a href="../privacy.html">Privacy</a>
+  </nav>
+  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
+    <a href="./">Zacznij tutaj</a>
+    <a href="capabilities.html">Możliwości</a>
+    <a href="where-is-my-data.html">Gdzie są dane?</a>
+    <a href="how-memory-works.html">Jak działa pamięć</a>
+    <a href="automation.html">Automatyzacja</a>
+    <a href="architecture.html">Architektura</a>
+    <a href="mcp.html">Podłącz MCP</a>
+    <a href="updates-install.html">Aktualizacje i instalacja</a>
+    <a class="on" href="linux-self-hosted.html">Linux self-hosted</a>
+    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
+    <a href="../privacy.html">Privacy</a>
+  </nav>
+
+  <div class="note" data-lang="en">
+    <strong>Announceable?</strong> Docs and honest UX can ship now.
+    Public “Download for Linux” waits for a Release that actually lists AppImage/deb
+    <em>and</em> a smoke run on a real distro (vault → Ollama → MCP handshake).
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>Announceable?</strong> Docs i uczciwy UX mogą iść już.
+    Publiczne „Download for Linux” czeka na Release z AppImage/deb
+    <em>oraz</em> smoke na prawdziwej dystrybucji (vault → Ollama → handshake MCP).
+  </div>
+
+  <h2 data-lang="en">Install forms</h2>
+  <h2 data-lang="pl">Formy instalacji</h2>
+  <table data-lang="en">
+    <thead><tr><th>Form</th><th>Binary</th><th>App data</th><th>Vault</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>AppImage</td>
+        <td>Wherever you put <code>Pomnia-*.AppImage</code> (<code>chmod +x</code>)</td>
+        <td><code>~/.config/Pomnia</code></td>
+        <td>You pick (e.g. <code>~/Vault</code>)</td>
+      </tr>
+      <tr>
+        <td>deb</td>
+        <td>Under <code>/usr</code> / <code>/opt</code> (packager)</td>
+        <td><code>~/.config/Pomnia</code></td>
+        <td>You pick — never inside the package</td>
+      </tr>
+    </tbody>
+  </table>
+  <table data-lang="pl">
+    <thead><tr><th>Forma</th><th>Binar</th><th>Dane aplikacji</th><th>Vault</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>AppImage</td>
+        <td>Gdzie położysz <code>Pomnia-*.AppImage</code> (<code>chmod +x</code>)</td>
+        <td><code>~/.config/Pomnia</code></td>
+        <td>Ty wybierasz (np. <code>~/Vault</code>)</td>
+      </tr>
+      <tr>
+        <td>deb</td>
+        <td>Pod <code>/usr</code> / <code>/opt</code></td>
+        <td><code>~/.config/Pomnia</code></td>
+        <td>Ty wybierasz — nigdy w pakiecie</td>
+      </tr>
+    </tbody>
+  </table>
+  <pre data-lang="en">chmod +x Pomnia-x.y.z.AppImage
+sha256sum -c Pomnia-x.y.z.AppImage.sha256
+./Pomnia-x.y.z.AppImage</pre>
+  <pre data-lang="pl">chmod +x Pomnia-x.y.z.AppImage
+sha256sum -c Pomnia-x.y.z.AppImage.sha256
+./Pomnia-x.y.z.AppImage</pre>
+
+  <h2 data-lang="en">Who owns the vault</h2>
+  <h2 data-lang="pl">Kto jest właścicielem vaultu</h2>
+  <p data-lang="en">
+    <strong>You</strong> — the folder on disk. Pomnia does not create a cloud account.
+    Desktop and a headless <code>brain-core</code> server must not both write the same folder.
+  </p>
+  <p data-lang="pl">
+    <strong>Ty</strong> — folder na dysku. Pomnia nie zakłada konta w chmurze.
+    Desktop i headless <code>brain-core</code> nie mogą jednocześnie pisać do tego samego folderu.
+  </p>
+  <ol data-lang="en">
+    <li><strong>Desktop → server:</strong> quit Desktop writes → sync/copy vault → start server with vault root (claim if your unit supports it) → point agents at the server URL.</li>
+    <li><strong>Server → Desktop:</strong> stop server writes / read-only → copy vault → Open vault on Desktop → reindex local <code>library.db</code>.</li>
+  </ol>
+  <ol data-lang="pl">
+    <li><strong>Desktop → serwer:</strong> zatrzymaj zapis Desktopu → skopiuj vault → uruchom serwer z vault root → skieruj agentów na URL serwera.</li>
+    <li><strong>Serwer → Desktop:</strong> zatrzymaj zapis serwera / read-only → skopiuj vault → Otwórz vault na Desktopie → reindeksuj lokalne <code>library.db</code>.</li>
+  </ol>
+
+  <h2 data-lang="en">App data vs vault (plaintext honesty)</h2>
+  <h2 data-lang="pl">Dane aplikacji vs vault (uczciwość plaintext)</h2>
+  <ul data-lang="en">
+    <li><code>~/.config/Pomnia</code> — settings, logs, <code>brain-core-data/…/library.db</code> (search index: <strong>plaintext</strong>, rebuildable).</li>
+    <li>Vault folder — encrypted blobs + plaintext knowledge sidecars (<code>USER.md</code>, <code>distilled/</code>, …).</li>
+    <li>Lock does <strong>not</strong> wipe the index. Uninstall does <strong>not</strong> delete vault or XDG data.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><code>~/.config/Pomnia</code> — ustawienia, logi, <code>library.db</code> (indeks: <strong>plaintext</strong>, odbudowywalny).</li>
+    <li>Folder vaultu — zaszyfrowane bloby + plaintext sidecary wiedzy.</li>
+    <li>Lock <strong>nie</strong> kasuje indeksu. Odinstalowanie <strong>nie</strong> kasuje vaultu ani danych XDG.</li>
+  </ul>
+  <p data-lang="en">
+    In the app: <strong>Settings → Where data lives</strong> shows the live paths.
+    Also: <a class="inline" href="where-is-my-data.html">Where is my data?</a>
+  </p>
+  <p data-lang="pl">
+    W aplikacji: <strong>Ustawienia → Gdzie leżą dane</strong> pokazuje żywe ścieżki.
+    Też: <a class="inline" href="where-is-my-data.html">Gdzie są moje dane?</a>
+  </p>
+
+  <h2 data-lang="en">Updates (no fake auto-update)</h2>
+  <h2 data-lang="pl">Aktualizacje (bez fałszywego auto-update)</h2>
+  <p data-lang="en">
+    Settings → <strong>Check for updates</strong> asks GitHub. If newer: open Releases.
+    Replace the AppImage file or <code>dpkg -i</code> the new deb yourself.
+    Same notify-only story as Windows — no silent install.
+  </p>
+  <p data-lang="pl">
+    Ustawienia → <strong>Sprawdź aktualizacje</strong> pyta GitHuba. Gdy nowsze: otwórz Releases.
+    Podmień AppImage albo <code>dpkg -i</code> nowy deb sam.
+    Ta sama historia notify-only co Windows — bez cichej instalacji.
+  </p>
+  <p data-lang="en">Details: <a class="inline" href="updates-install.html">Updates &amp; install</a>.</p>
+  <p data-lang="pl">Szczegóły: <a class="inline" href="updates-install.html">Aktualizacje i instalacja</a>.</p>
+
+  <h2 data-lang="en">Desktop vs brain-core server</h2>
+  <h2 data-lang="pl">Desktop vs serwer brain-core</h2>
+  <table data-lang="en">
+    <thead><tr><th>Mode</th><th>Typical port</th><th>Role</th></tr></thead>
+    <tbody>
+      <tr><td>Desktop embedded</td><td><code>:7862</code></td><td>Local MCP for agents on the same machine</td></tr>
+      <tr><td>brain-core (systemd/Docker)</td><td>often <code>:7865</code></td><td>Homelab / VPS; Bearer token; optional read-only replica</td></tr>
+    </tbody>
+  </table>
+  <table data-lang="pl">
+    <thead><tr><th>Tryb</th><th>Port</th><th>Rola</th></tr></thead>
+    <tbody>
+      <tr><td>Desktop embedded</td><td><code>:7862</code></td><td>Lokalne MCP dla agentów na tej maszynie</td></tr>
+      <tr><td>brain-core (systemd/Docker)</td><td>często <code>:7865</code></td><td>Homelab / VPS; Bearer; opcjonalnie replika read-only</td></tr>
+    </tbody>
+  </table>
+  <p data-lang="en">
+    “Self-hosted” means <em>your</em> machine or VPS — Desktop alone counts.
+    The server is the headless twin, not a different product.
+  </p>
+  <p data-lang="pl">
+    „Self-hosted” = <em>Twoja</em> maszyna lub VPS — sam Desktop wystarcza.
+    Serwer to headless bliźniak, nie inny produkt.
+  </p>
+
+  <h2 data-lang="en">Uninstall / wipe</h2>
+  <h2 data-lang="pl">Odinstalowanie / wipe</h2>
+  <ul data-lang="en">
+    <li>Delete AppImage or <code>apt remove</code> / <code>dpkg -r</code> — app gone; <strong>data stays</strong>.</li>
+    <li>Wipe machine data: <code>rm -rf ~/.config/Pomnia</code></li>
+    <li>Wipe memory: delete/move the vault folder (and optionally the index).</li>
+  </ul>
+  <ul data-lang="pl">
+    <li>Usuń AppImage lub <code>apt remove</code> — aplikacja znika; <strong>dane zostają</strong>.</li>
+    <li>Wipe danych maszyny: <code>rm -rf ~/.config/Pomnia</code></li>
+    <li>Wipe pamięci: usuń/przenieś folder vaultu (i opcjonalnie indeks).</li>
+  </ul>
+
+  <h2 data-lang="en">Ollama &amp; Connect</h2>
+  <h2 data-lang="pl">Ollama i Connect</h2>
+  <p data-lang="en">
+    Install Ollama for your distro, start it, then use in-app pull for embed/chat models.
+    Connect snippets for Cursor live under <code>~/.config/Cursor/…</code> — single interactive user honesty (tokens name agents/machines, not Desktop seats).
+  </p>
+  <p data-lang="pl">
+    Zainstaluj Ollamę pod swoją dystrybucję, uruchom, potem pobierz modele przyciskiem w aplikacji.
+    Snippety Connect dla Cursora: <code>~/.config/Cursor/…</code> — jeden użytkownik interaktywny (tokeny nazywają agentów/maszyny, nie „miejsca” Desktopu).
+  </p>
+
+  <footer>
+    <a href="../">pomnia.ai</a>
+    <span>·</span>
+    <a href="./">Start here</a>
+    <span>·</span>
+    <a href="where-is-my-data.html">Where is my data?</a>
+    <span>·</span>
+    <a href="updates-install.html">Updates</a>
+    <span>·</span>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <span>·</span>
+    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    <span>·</span>
+    <span>AGPL-3.0</span>
+  </footer>
+</div>
+
+<script>
+(() => {
+  const html = document.documentElement;
+  const btnEn = document.getElementById('btn-en');
+  const btnPl = document.getElementById('btn-pl');
+  function setLang(lang) {
+    const pl = lang === 'pl';
+    html.classList.toggle('lang-pl', pl);
+    html.lang = lang;
+    btnEn.classList.toggle('active', !pl);
+    btnPl.classList.toggle('active', pl);
+    btnEn.setAttribute('aria-pressed', String(!pl));
+    btnPl.setAttribute('aria-pressed', String(pl));
+    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
+  }
+  btnEn.addEventListener('click', () => setLang('en'));
+  btnPl.addEventListener('click', () => setLang('pl'));
+  let saved = 'en';
+  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
+  setLang(saved === 'pl' ? 'pl' : 'en');
+})();
+</script>
+</body>
+</html>
