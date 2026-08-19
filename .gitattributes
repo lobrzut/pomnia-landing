@@ -1,0 +1,7 @@
+# Cloudflare parses _headers and _redirects line by line; a CR that survives a
+# checkout on Windows is a rule that may or may not apply. install.sh is piped
+# into sh by people following the front page, and CRLF there fails as
+# "bad interpreter". Both are LF everywhere, regardless of platform default.
+_headers      text eol=lf
+_redirects    text eol=lf
+*.sh          text eol=lf
