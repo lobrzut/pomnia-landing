@@ -117,31 +117,42 @@
   .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 0 22px -8px rgba(99,102,241,0.7); }
 
   /* ── Hero — orchestrated entrance ────────────────────────────────────── */
+  /* The first screen carries only four tiers: wordmark, proposition, actions,
+     installer. Padding clears the top bar; the gap breathes with the viewport
+     height so a 768px laptop is not squeezed and a tall monitor is not sparse. */
   .hero {
-    min-height: 100svh;
+    min-height: 100svh; max-width: none;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 0 24px; gap: 30px;
+    text-align: center;
+    /* Pulled under the top bar so hero + bar together are one screen; the top
+       padding then keeps the content itself clear of the bar. */
     margin-top: -64px;
+    padding: 86px 24px 52px;
+    gap: clamp(20px, 3.2vh, 40px);
   }
   .hero > * { opacity: 0; animation: rise 1s var(--ease) forwards; }
   @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-  .etymology { animation-delay: 0.15s; }
+  /* Badge and etymology share one line — two micro-labels, one tier. */
+  .hero-meta {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px 18px; flex-wrap: wrap; animation-delay: 0.15s;
+  }
   .wordmark { animation-delay: 0.30s; }
   .thesis   { animation-delay: 0.72s; }
   .cta-row  { animation-delay: 0.92s; }
-  .install-panel { animation-delay: 0.92s; }
-  .hint     { animation-delay: 1.10s; }
+  .install-panel { animation-delay: 1.05s; }
 
   /* Hero etymology — keep source casing (Old Polish). Never lowercase. */
   .etymology, .etym {
     font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
-    color: var(--ink-faint);
+    line-height: 1.7; color: var(--ink-faint);
     text-transform: none !important;
   }
   .etymology b, .etym b { color: var(--ink-dim); font-weight: 500; text-transform: none !important; }
 
+  /* Height-aware: on a short laptop viewport the wordmark must not eat the fold. */
   .wordmark {
-    font-size: clamp(78px, 15vw, 182px);
+    font-size: clamp(72px, min(14vw, 19vh), 182px);
     font-weight: 300;
     line-height: 0.95;
     letter-spacing: -0.03em;
@@ -176,9 +187,8 @@
 
   .cta-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; }
   .install-panel {
-    width: min(100%, 560px); margin-top: 4px;
+    width: min(100%, 560px);
     display: flex; flex-direction: column; align-items: center;
-    animation-delay: 0.92s;
   }
   .install-tabs {
     display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
@@ -194,15 +204,26 @@
     color: var(--ink); background: rgba(99, 102, 241, 0.22);
   }
   .install-pane[hidden] { display: none !important; }
-  .install-pane { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  /* width:100% stops the pane shrink-wrapping to the nowrap command, which
+     otherwise pushes the curl box past a narrow viewport. */
+  .install-pane { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .curl-wrap { width: min(100%, 560px); margin: 0 auto; }
+  .curl-label {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-faint);
+    text-align: left; margin-bottom: 8px;
+  }
   .curl-box {
     display: flex; align-items: stretch; width: 100%;
     border: 1px solid var(--line); border-radius: 12px;
     background: rgba(10, 12, 22, 0.82); overflow: hidden; text-align: left;
   }
+  /* min-width:0 lets the nowrap command scroll inside the box instead of
+     stretching the flex item past the viewport on narrow screens. */
   .curl-box code {
-    flex: 1; font-family: var(--mono); font-size: 12.5px; color: var(--ink);
+    flex: 1; min-width: 0; font-family: var(--mono); font-size: 12.5px; color: var(--ink);
     padding: 12px 14px; overflow-x: auto; white-space: nowrap;
+    scrollbar-width: thin; scrollbar-color: rgba(148, 163, 216, 0.3) transparent;
   }
   .curl-copy {
     flex: 0 0 auto; border: 0; border-left: 1px solid var(--line);
@@ -211,6 +232,16 @@
     padding: 0 14px; cursor: pointer;
   }
   .curl-copy:hover { color: var(--ink); }
+  .install-meta {
+    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+    line-height: 1.8; color: var(--ink-faint);
+  }
+  .install-meta a {
+    color: var(--ink-dim); text-decoration: none;
+    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .install-meta a:hover { color: var(--cyan); border-color: var(--cyan); }
   .cta {
     display: inline-block; text-decoration: none;
     font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
@@ -225,22 +256,59 @@
     box-shadow: 0 22px 60px -14px rgba(99, 102, 241, 1);
     background-position: 100% 0;
   }
+  /* Secondary action: outlined, same height as .cta (13px + 1px border) so the
+     two read as one row of buttons — quieter, but unmistakably a button. */
+  .cta-secondary {
+    display: inline-block; text-decoration: none;
+    font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
+    color: var(--ink); padding: 13px 28px; border-radius: 999px;
+    border: 1px solid rgba(148, 163, 216, 0.34);
+    background: rgba(17, 20, 31, 0.55);
+    transition: border-color .18s ease, background .18s ease, color .18s ease;
+  }
+  .cta-secondary:hover {
+    border-color: rgba(99, 102, 241, 0.6);
+    background: rgba(24, 28, 46, 0.8);
+  }
   .ghost { font-size: 14px; color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid transparent; transition: color .18s ease, border-color .18s ease; }
   .ghost:hover { color: var(--ink-dim); border-color: var(--ink-faint); }
 
-  .hint { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); letter-spacing: 0.06em; }
+  .hint { font-family: var(--mono); font-size: 12px; line-height: 1.9; color: var(--ink-faint); letter-spacing: 0.06em; }
   .hint .ok { color: var(--mint); }
   .alpha-pill {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
     color: var(--ink-faint); border: 1px solid var(--line); border-radius: 999px;
-    padding: 5px 12px; animation-delay: 0.05s;
+    padding: 5px 12px;
   }
-  .hero-honest {
-    max-width: 38em; font-family: var(--sans); font-size: 13.5px; line-height: 1.55;
-    letter-spacing: 0; color: var(--ink-faint); text-wrap: balance;
-    animation-delay: 1.22s;
+  /* Fine print: the honest notes stay, but never outrank the actions above them. */
+  .fineprint {
+    max-width: 62ch; margin: 0 auto; font-family: var(--sans);
+    font-size: 12.5px; line-height: 1.7; letter-spacing: 0;
+    color: var(--ink-faint); text-wrap: balance;
   }
-  .hero-honest strong { color: var(--ink-dim); font-weight: 600; }
+  .fineprint strong { color: var(--ink-dim); font-weight: 600; }
+  .fineprint code { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); }
+  .fineprint a {
+    color: var(--ink-dim); text-decoration: none;
+    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .fineprint a:hover { color: var(--cyan); border-color: var(--cyan); }
+
+  /* ── Under the fold: honest small print, deliberately out of the hero ──── */
+  .under-hero {
+    max-width: 940px; padding: 0 24px;
+    display: flex; flex-direction: column; align-items: center; gap: 34px;
+  }
+  .honest {
+    width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 60px;
+    padding-top: 32px; border-top: 1px solid var(--line);
+  }
+  .honest .fineprint { max-width: 46ch; margin: 0; text-align: left; text-wrap: pretty; }
+  .honest b { color: var(--ink-dim); font-weight: 600; }
+  @media (max-width: 860px) {
+    .honest { grid-template-columns: 1fr; gap: 20px; }
+  }
 
   /* ── Scroll reveals ──────────────────────────────────────────────────── */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
@@ -406,32 +474,19 @@
     html { scroll-behavior: auto; }
   }
 
-  /* ── Waitlist ────────────────────────────────────────────────────────── */
-  .wl-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  .wl {
-    display: flex; align-items: stretch; gap: 10px; flex-wrap: wrap;
-    justify-content: center; width: 100%; max-width: 520px;
+  /* ── Closing action block ────────────────────────────────────────────── */
+  .get-wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .get-actions {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    justify-content: center; width: 100%; max-width: 560px;
   }
-  .wl-btn { flex: 0 0 auto; border: 0; cursor: pointer; font-family: var(--sans); }
-  .wl-ghost { align-self: center; }
-  .wl-next { color: var(--ink-faint); opacity: 0.8; }
-  .wl-note {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.05em;
-    color: var(--ink-faint);
-  }
-  .wl-privacy {
-    color: var(--ink-faint); text-decoration: none;
-    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
-    transition: color .18s ease, border-color .18s ease;
-  }
-  .wl-privacy:hover { color: var(--ink-dim); border-color: var(--ink-dim); }
   .sr-only {
     position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
     overflow: hidden; clip: rect(0,0,0,0); border: 0;
   }
   @media (max-width: 520px) {
-    .wl { flex-direction: column; }
-    .wl-btn { width: 100%; text-align: center; }
+    .get-actions { flex-direction: column; align-items: stretch; }
+    .get-actions .cta, .get-actions .cta-secondary { width: 100%; text-align: center; }
   }
   .foot-tm,.foot-alpha{margin-top:.9rem;opacity:.55;font-size:.78rem;line-height:1.5;max-width:62ch}
   .foot-alpha{opacity:.7;max-width:68ch}
@@ -458,9 +513,11 @@
   </header>
 
   <main>
-    <section class="hero" style="padding-top:0; padding-bottom:0; max-width:none;">
-      <p class="alpha-pill">early public · alpha</p>
-      <p class="etymology">pomnieć · Old Polish · to remember.</p>
+    <section class="hero">
+      <div class="hero-meta">
+        <span class="alpha-pill">early public · alpha</span>
+        <span class="etymology">pomnieć · Old Polish · to remember.</span>
+      </div>
 
       <h1 class="wordmark" aria-label="pomnia">pomn<span class="i">i</span>a</h1>
 
@@ -469,36 +526,54 @@
         <strong>Pomnia is the memory your agents share</strong> — distilled on hardware you control, read back by any agent that speaks MCP.
       </p>
 
+      <div class="cta-row">
+        <a class="cta" href="/docs/">Start here — read the docs →</a>
+      </div>
+
       <div class="install-panel">
         <div class="install-tabs" role="tablist" aria-label="Install target">
           <button type="button" role="tab" id="tab-win" aria-controls="pane-win" aria-selected="true">Windows</button>
           <button type="button" role="tab" id="tab-linux" aria-controls="pane-linux" aria-selected="false">Linux server</button>
         </div>
         <div class="install-pane" id="pane-win" role="tabpanel" aria-labelledby="tab-win">
-          <div class="cta-row" style="margin:0">
-            <a class="cta" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
-            <a class="ghost" href="/docs/">Start here — read the docs →</a>
-          </div>
-          <p class="hero-honest" style="animation:none; opacity:1">
-            Desktop app (unsigned). Windows may say <em>“Windows protected your PC”</em> —
-            <strong>More info → Run anyway</strong>. Prefer verifying the installer hash on GitHub.
+          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
+          <p class="install-meta">
+            Desktop app · ~136&nbsp;MB · free · no account ·
+            <a href="/privacy.html">privacy</a>
           </p>
         </div>
         <div class="install-pane" id="pane-linux" role="tabpanel" aria-labelledby="tab-linux" hidden>
           <div class="curl-box">
-            <code id="curl-cmd">curl -fsSL https://pomnia.ai/install.sh | sh</code>
-            <button type="button" class="curl-copy" id="curl-copy">Copy</button>
+            <code>curl -fsSL https://pomnia.ai/install.sh | sh</code>
+            <button type="button" class="curl-copy">Copy</button>
           </div>
-          <p class="hero-honest" style="animation:none; opacity:1">
-            Headless <strong>AGPL brain-core</strong> on Linux x64 + systemd — self-hosted MCP memory, not the Desktop AppImage/deb, not Windows.
-            Needs <strong>Node 22 at <code>/usr/bin/node</code></strong> (current unit ExecStart). Details:
-            <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>.
+          <p class="install-meta">
+            Headless brain-core · AGPL · Linux&nbsp;x64 + systemd ·
+            <a href="/docs/linux-self-hosted.html">setup guide</a>
           </p>
         </div>
       </div>
+    </section>
 
+    <section class="under-hero">
       <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
-      <p class="hero-honest">
+
+      <div class="honest">
+        <p class="fineprint">
+          <b>Windows</b> — the installer is unsigned for now, so Windows shows
+          <em>“Windows protected your PC”</em>: choose <strong>More info → Run anyway</strong>.
+          Every release asset ships a matching <code>.sha256</code>; verify it before you run it.
+        </p>
+        <p class="fineprint">
+          <b>Linux server</b> — the headless brain-core needs <strong>Node 22</strong> at
+          <code>/usr/bin/node</code>. The Linux desktop GUI (<code>.AppImage</code> /
+          <code>.deb</code>) is on
+          <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
+          with setup steps in <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>.
+        </p>
+      </div>
+
+      <p class="fineprint">
         I'm Łukasz. I build Pomnia alone, after hours.
         Write to <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a> and you get me, not a ticket queue.
         Code and issues: <a href="https://github.com/lobrzut/pomnia" rel="noopener">github.com/lobrzut/pomnia</a>.
@@ -594,31 +669,36 @@
     <section class="closing" id="get">
       <h2 class="reveal">One memory. Every agent.<br>On <em>your</em> disk.</h2>
 
-      <div class="reveal d1 wl-wrap">
-        <div class="wl">
-          <a class="cta wl-btn" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
-          <a class="ghost wl-ghost" href="https://github.com/lobrzut/pomnia" rel="noopener">source on GitHub →</a>
+      <div class="reveal d1 get-wrap">
+        <div class="get-actions">
+          <a class="cta" href="/docs/">Start here — read the docs →</a>
+          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
         </div>
 
-        <p class="wl-note">
+        <p class="install-meta">
           Windows installer · ~136&nbsp;MB · free · no account ·
-          <a class="wl-privacy" href="/privacy.html">privacy</a>
-        </p>
-        <p class="wl-note">
-          Linux <strong>server</strong> (brain-core, systemd):
-          <code>curl -fsSL https://pomnia.ai/install.sh | sh</code>
-          — not AppImage. Linux Desktop GUI (<code>.AppImage</code> / <code>.deb</code>) is on
-          <a class="wl-privacy" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>.
+          <a href="/privacy.html">privacy</a>
         </p>
 
-        <p class="wl-note">
-          Not signed yet, so Windows will say <em>“Windows protected your PC”</em> —
-          choose <strong>More info → Run anyway</strong>. Prefer verifying the installer
-          hash from the GitHub release assets when published.
+        <div class="curl-wrap">
+          <p class="curl-label">Linux server · brain-core + systemd</p>
+          <div class="curl-box">
+            <code>curl -fsSL https://pomnia.ai/install.sh | sh</code>
+            <button type="button" class="curl-copy">Copy</button>
+          </div>
+        </div>
+
+        <p class="fineprint">
+          Unsigned for now, so Windows shows <em>“Windows protected your PC”</em> —
+          choose <strong>More info → Run anyway</strong>. Every release asset ships a
+          matching <code>.sha256</code>; verify it before you run it.
         </p>
 
-        <p class="wl-note wl-next">
-          macOS installer is next. Star the repo and GitHub will tell you.
+        <p class="fineprint">
+          The Linux desktop GUI (<code>.AppImage</code> / <code>.deb</code>) and every build
+          live on <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
+          source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
+          macOS is next — not built yet.
         </p>
       </div>
 
@@ -1015,18 +1095,25 @@
   }
   tabWin.addEventListener('click', () => showInstall('win'));
   tabLinux.addEventListener('click', () => showInstall('linux'));
-  const curlCopy = document.getElementById('curl-copy');
-  const curlCmd = document.getElementById('curl-cmd');
-  curlCopy.addEventListener('click', async () => {
-    const text = curlCmd.textContent.trim();
-    try {
-      await navigator.clipboard.writeText(text);
-      curlCopy.textContent = 'Copied';
-      setTimeout(() => { curlCopy.textContent = 'Copy'; }, 1600);
-    } catch (_) {
-      curlCopy.textContent = 'Failed';
-      setTimeout(() => { curlCopy.textContent = 'Copy'; }, 1600);
-    }
+  /* Copy buttons for every curl block (hero tab + closing section). */
+  document.querySelectorAll('.curl-copy').forEach(btn => {
+    const code = btn.closest('.curl-box').querySelector('code');
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(code.textContent.trim());
+        btn.textContent = 'Copied';
+      } catch (_) {
+        /* Clipboard blocked (insecure context, denied permission): select the
+           command so it is still one Ctrl+C away. */
+        const range = document.createRange();
+        range.selectNodeContents(code);
+        const sel = getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        btn.textContent = 'Press Ctrl+C';
+      }
+      setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+    });
   });
 })();
 </script>
