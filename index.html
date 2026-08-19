@@ -29,7 +29,7 @@
   "@type": "SoftwareApplication",
   "name": "Pomnia",
   "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Windows, Linux",
+  "operatingSystem": "Windows, macOS, Linux",
   "license": "https://www.gnu.org/licenses/agpl-3.0.html",
   "url": "https://pomnia.ai/",
   "downloadUrl": "https://github.com/lobrzut/pomnia/releases/latest",
@@ -533,6 +533,7 @@
       <div class="install-panel">
         <div class="install-tabs" role="tablist" aria-label="Install target">
           <button type="button" role="tab" id="tab-win" aria-controls="pane-win" aria-selected="true">Windows</button>
+          <button type="button" role="tab" id="tab-mac" aria-controls="pane-mac" aria-selected="false">macOS</button>
           <button type="button" role="tab" id="tab-linux" aria-controls="pane-linux" aria-selected="false">Linux server</button>
         </div>
         <div class="install-pane" id="pane-win" role="tabpanel" aria-labelledby="tab-win">
@@ -540,6 +541,13 @@
           <p class="install-meta">
             Desktop app · ~136&nbsp;MB · free · no account ·
             <a href="/privacy.html">privacy</a>
+          </p>
+        </div>
+        <div class="install-pane" id="pane-mac" role="tabpanel" aria-labelledby="tab-mac" hidden>
+          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for macOS</a>
+          <p class="install-meta">
+            Apple&nbsp;Silicon and Intel builds, each built natively ·
+            <code>uname -m</code> tells you which · unsigned, see below
           </p>
         </div>
         <div class="install-pane" id="pane-linux" role="tabpanel" aria-labelledby="tab-linux" hidden>
@@ -563,6 +571,13 @@
           <b>Windows</b> — the installer is unsigned for now, so Windows shows
           <em>“Windows protected your PC”</em>: choose <strong>More info → Run anyway</strong>.
           Every release asset ships a matching <code>.sha256</code>; verify it before you run it.
+        </p>
+        <p class="fineprint">
+          <b>macOS</b> — unsigned too, and macOS is stricter about it: on Sequoia the
+          old Control-click&nbsp;→&nbsp;Open bypass no longer works. Open it, let the block
+          appear, then <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>.
+          The Intel build has been run on a real Mac; the Apple&nbsp;Silicon one has its
+          architecture verified in CI but has not been launched by anyone yet.
         </p>
         <p class="fineprint">
           <b>Linux server</b> — the headless brain-core needs <strong>Node 22</strong> at
@@ -698,8 +713,9 @@
           The Linux desktop GUI (<code>.AppImage</code> / <code>.deb</code>) and every build
           live on <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
           source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
-          A macOS <code>.dmg</code> builds in CI and lands on the next release —
-          unsigned like the Windows installer, so Gatekeeper will warn on first open.
+          macOS ships two <code>.dmg</code> builds, Apple&nbsp;Silicon and Intel, each built
+          on its own runner — unsigned like the Windows installer, so Gatekeeper
+          will warn on first open.
         </p>
       </div>
 
@@ -715,7 +731,7 @@
         <span>early public · alpha</span>
         <span>AGPL-3.0</span>
         <span>local-first</span><span>AES-256-GCM vault</span><span>MCP-native</span>
-        <span>your GPU · your disk</span><span>Windows</span><span>Linux server</span>
+        <span>your GPU · your disk</span><span>Windows</span><span>macOS</span><span>Linux server</span>
       </div>
       <div class="foot-row">
         <p class="foot-etym">pomnia — from Old Polish <b>pomnieć</b>: to remember.</p>
@@ -1083,19 +1099,19 @@
   tio.observe(document.getElementById('recall'));
 
   /* ═══ Installer tabs (Windows Desktop vs Linux server curl) ═══ */
-  const tabWin = document.getElementById('tab-win');
-  const tabLinux = document.getElementById('tab-linux');
-  const paneWin = document.getElementById('pane-win');
-  const paneLinux = document.getElementById('pane-linux');
-  function showInstall(which) {
-    const linux = which === 'linux';
-    tabWin.setAttribute('aria-selected', String(!linux));
-    tabLinux.setAttribute('aria-selected', String(linux));
-    paneWin.hidden = linux;
-    paneLinux.hidden = !linux;
+  /* Two hardcoded tabs could not grow a third without rewriting the booleans,
+     which is how macOS sat behind a link for as long as it did. Driven off the
+     tablist now: add a button plus its pane and it works. */
+  const installTabs = Array.from(document.querySelectorAll('.install-tabs [role="tab"]'));
+  function showInstall(id) {
+    installTabs.forEach(tab => {
+      const on = tab.id === id;
+      tab.setAttribute('aria-selected', String(on));
+      const pane = document.getElementById(tab.getAttribute('aria-controls'));
+      if (pane) pane.hidden = !on;
+    });
   }
-  tabWin.addEventListener('click', () => showInstall('win'));
-  tabLinux.addEventListener('click', () => showInstall('linux'));
+  installTabs.forEach(tab => tab.addEventListener('click', () => showInstall(tab.id)));
   /* Copy buttons for every curl block (hero tab + closing section). */
   document.querySelectorAll('.curl-copy').forEach(btn => {
     const code = btn.closest('.curl-box').querySelector('code');
