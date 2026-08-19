@@ -129,6 +129,7 @@
   .wordmark { animation-delay: 0.30s; }
   .thesis   { animation-delay: 0.72s; }
   .cta-row  { animation-delay: 0.92s; }
+  .install-panel { animation-delay: 0.92s; }
   .hint     { animation-delay: 1.10s; }
 
   /* Hero etymology — keep source casing (Old Polish). Never lowercase. */
@@ -174,6 +175,42 @@
   .thesis strong { color: var(--ink); font-weight: 600; }
 
   .cta-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; }
+  .install-panel {
+    width: min(100%, 560px); margin-top: 4px;
+    display: flex; flex-direction: column; align-items: center;
+    animation-delay: 0.92s;
+  }
+  .install-tabs {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
+    padding: 3px; gap: 2px; background: rgba(17, 20, 31, 0.45);
+    margin: 0 auto 16px;
+  }
+  .install-tabs button {
+    font-family: var(--sans); font-size: 13px; font-weight: 600;
+    color: var(--ink-faint); background: transparent; border: 0;
+    border-radius: 999px; padding: 8px 16px; cursor: pointer;
+  }
+  .install-tabs button[aria-selected="true"] {
+    color: var(--ink); background: rgba(99, 102, 241, 0.22);
+  }
+  .install-pane[hidden] { display: none !important; }
+  .install-pane { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .curl-box {
+    display: flex; align-items: stretch; width: 100%;
+    border: 1px solid var(--line); border-radius: 12px;
+    background: rgba(10, 12, 22, 0.82); overflow: hidden; text-align: left;
+  }
+  .curl-box code {
+    flex: 1; font-family: var(--mono); font-size: 12.5px; color: var(--ink);
+    padding: 12px 14px; overflow-x: auto; white-space: nowrap;
+  }
+  .curl-copy {
+    flex: 0 0 auto; border: 0; border-left: 1px solid var(--line);
+    background: rgba(17, 20, 31, 0.6); color: var(--ink-dim);
+    font-family: var(--sans); font-size: 12px; font-weight: 600;
+    padding: 0 14px; cursor: pointer;
+  }
+  .curl-copy:hover { color: var(--ink); }
   .cta {
     display: inline-block; text-decoration: none;
     font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
@@ -432,16 +469,35 @@
         <strong>Pomnia is the memory your agents share</strong> — distilled on hardware you control, read back by any agent that speaks MCP.
       </p>
 
-      <div class="cta-row">
-        <a class="cta" href="/docs/">Start here — read the docs</a>
-        <a class="ghost" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows →</a>
+      <div class="install-panel">
+        <div class="install-tabs" role="tablist" aria-label="Install target">
+          <button type="button" role="tab" id="tab-win" aria-controls="pane-win" aria-selected="true">Windows</button>
+          <button type="button" role="tab" id="tab-linux" aria-controls="pane-linux" aria-selected="false">Linux server</button>
+        </div>
+        <div class="install-pane" id="pane-win" role="tabpanel" aria-labelledby="tab-win">
+          <div class="cta-row" style="margin:0">
+            <a class="cta" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
+            <a class="ghost" href="/docs/">Start here — read the docs →</a>
+          </div>
+          <p class="hero-honest" style="animation:none; opacity:1">
+            Desktop app (unsigned). Windows may say <em>“Windows protected your PC”</em> —
+            <strong>More info → Run anyway</strong>. Prefer verifying the installer hash on GitHub.
+          </p>
+        </div>
+        <div class="install-pane" id="pane-linux" role="tabpanel" aria-labelledby="tab-linux" hidden>
+          <div class="curl-box">
+            <code id="curl-cmd">curl -fsSL https://pomnia.ai/install.sh | sh</code>
+            <button type="button" class="curl-copy" id="curl-copy">Copy</button>
+          </div>
+          <p class="hero-honest" style="animation:none; opacity:1">
+            Headless <strong>AGPL brain-core</strong> on Linux x64 + systemd — self-hosted MCP memory, not the Desktop AppImage/deb, not Windows.
+            Needs <strong>Node 22 at <code>/usr/bin/node</code></strong> (current unit ExecStart). Details:
+            <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>.
+          </p>
+        </div>
       </div>
 
       <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
-      <p class="hero-honest">
-        Not code-signed yet — Windows may say <em>“Windows protected your PC”</em>.
-        Choose <strong>More info → Run anyway</strong>. Prefer verifying the installer hash from the GitHub release assets when published.
-      </p>
       <p class="hero-honest">
         I'm Łukasz. I build Pomnia alone, after hours.
         Write to <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a> and you get me, not a ticket queue.
@@ -549,8 +605,10 @@
           <a class="wl-privacy" href="/privacy.html">privacy</a>
         </p>
         <p class="wl-note">
-          Linux Desktop <code>.AppImage</code> / <code>.deb</code> are on the same
-          <a class="wl-privacy" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a> page (not the headless brain-core server tarball).
+          Linux <strong>server</strong> (brain-core, systemd):
+          <code>curl -fsSL https://pomnia.ai/install.sh | sh</code>
+          — not AppImage. Linux Desktop GUI (<code>.AppImage</code> / <code>.deb</code>) is on
+          <a class="wl-privacy" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>.
         </p>
 
         <p class="wl-note">
@@ -576,7 +634,7 @@
         <span>early public · alpha</span>
         <span>AGPL-3.0</span>
         <span>local-first</span><span>AES-256-GCM vault</span><span>MCP-native</span>
-        <span>your GPU · your disk</span><span>Windows</span>
+        <span>your GPU · your disk</span><span>Windows</span><span>Linux server</span>
       </div>
       <div class="foot-row">
         <p class="foot-etym">pomnia — from Old Polish <b>pomnieć</b>: to remember.</p>
@@ -942,6 +1000,34 @@
     for (const e of es) if (e.isIntersecting) { play(); tio.disconnect(); }
   }, { threshold: 0.35 });
   tio.observe(document.getElementById('recall'));
+
+  /* ═══ Installer tabs (Windows Desktop vs Linux server curl) ═══ */
+  const tabWin = document.getElementById('tab-win');
+  const tabLinux = document.getElementById('tab-linux');
+  const paneWin = document.getElementById('pane-win');
+  const paneLinux = document.getElementById('pane-linux');
+  function showInstall(which) {
+    const linux = which === 'linux';
+    tabWin.setAttribute('aria-selected', String(!linux));
+    tabLinux.setAttribute('aria-selected', String(linux));
+    paneWin.hidden = linux;
+    paneLinux.hidden = !linux;
+  }
+  tabWin.addEventListener('click', () => showInstall('win'));
+  tabLinux.addEventListener('click', () => showInstall('linux'));
+  const curlCopy = document.getElementById('curl-copy');
+  const curlCmd = document.getElementById('curl-cmd');
+  curlCopy.addEventListener('click', async () => {
+    const text = curlCmd.textContent.trim();
+    try {
+      await navigator.clipboard.writeText(text);
+      curlCopy.textContent = 'Copied';
+      setTimeout(() => { curlCopy.textContent = 'Copy'; }, 1600);
+    } catch (_) {
+      curlCopy.textContent = 'Failed';
+      setTimeout(() => { curlCopy.textContent = 'Copy'; }, 1600);
+    }
+  });
 })();
 </script>
 </body>
