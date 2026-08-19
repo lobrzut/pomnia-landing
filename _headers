@@ -1,4 +1,29 @@
+# Cloudflare Pages headers.
+#
+# Written LF-only on purpose: this file arrived with CRLF, and a stray CR in a
+# rule is the kind of thing that either silently drops the rule or does not,
+# depending on the parser that day. See .gitattributes.
+
+/*
+  # The page loads nothing from anywhere else — no CDN, no font host, no
+  # analytics — so the policy can say exactly that. If a future edit reaches for
+  # an external script, it breaks here, visibly, instead of quietly adding a
+  # third party to a page whose whole argument is that nothing leaves your
+  # machine. 'unsafe-inline' covers the one <script> and one <style> the page
+  # carries inline; there is no user input on this site for either to act on.
+  Content-Security-Policy: default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  # Two years, and only because this domain has never served plain HTTP.
+  Strict-Transport-Security: max-age=63072000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  # Belt to CSP's frame-ancestors, for anything that predates it.
+  X-Frame-Options: DENY
+  # Nothing here needs a camera, a microphone or a location.
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+
 /install.sh
+  # Served as text so it can be read before it is run, which is the only honest
+  # way to publish a curl|sh. nosniff stops a browser deciding otherwise.
   Content-Type: text/plain; charset=utf-8
   X-Content-Type-Options: nosniff
   Cache-Control: public, max-age=120
