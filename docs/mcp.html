@@ -217,15 +217,64 @@
     <li>Settings → MCP: serwer <code>pomnia</code> = Connected.</li>
   </ol>
 
-  <h2 data-lang="en">Remote (homelab Brain)</h2>
-  <h2 data-lang="pl">Remote (Brain w homelabie)</h2>
+  <h2 data-lang="en">Remote — brain-core (homelab / Linux server)</h2>
+  <h2 data-lang="pl">Remote — brain-core (homelab / serwer Linux)</h2>
   <p data-lang="en">
-    Always configure <strong>three</strong> client keys. A lone <code>pomnia</code> entry is incomplete
-    (legacy keys <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> still work in status checks).
+    Same engine as Desktop embed, headless via systemd/Docker. <strong>One</strong> MCP server key
+    <code>pomnia</code> → <code>http://YOUR-HOST:7865/mcp</code> (port is whatever you set;
+    <code>:7865</code> is common when <code>:7862</code> is busy). Bearer token required.
+    Admin/status: same host <code>/admin</code> and <code>/healthz</code> — not a separate <code>:7860</code> dashboard.
+    Details: <a class="inline" href="linux-self-hosted.html">Linux self-hosted</a>.
   </p>
   <p data-lang="pl">
-    Zawsze <strong>trzy</strong> klucze po stronie klienta. Sam <code>pomnia</code> = niepełna konfiguracja
-    (legacy <code>brain-rag</code> / <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
+    Ten sam silnik co embed w Desktop, headless przez systemd/Docker. <strong>Jeden</strong> klucz MCP
+    <code>pomnia</code> → <code>http://YOUR-HOST:7865/mcp</code> (port jak w unicie;
+    <code>:7865</code> typowe gdy <code>:7862</code> zajęte). Wymagany Bearer.
+    Admin/status: ten sam host <code>/admin</code> i <code>/healthz</code> — bez osobnego dashboardu <code>:7860</code>.
+    Szczegóły: <a class="inline" href="linux-self-hosted.html">Linux self-hosted</a>.
+  </p>
+  <pre>{
+  "mcpServers": {
+    "pomnia": {
+      "url": "http://YOUR-HOST:7865/mcp",
+      "headers": { "Authorization": "Bearer btk_…" }
+    }
+  }
+}</pre>
+  <p data-lang="en">
+    Token: printed once by <code>install.sh</code>, or issued under
+    <code>/var/lib/pomnia/mcp-tokens.json</code> / admin panel. Do not commit a real token.
+    On Linux/macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.
+  </p>
+  <p data-lang="pl">
+    Token: raz z <code>install.sh</code>, albo z
+    <code>/var/lib/pomnia/mcp-tokens.json</code> / panelu admin. Nie commituj prawdziwego tokena.
+    Linux/macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.
+  </p>
+  <div class="note" data-lang="en">
+    <strong>Connect tab caveat:</strong> Desktop → Connect → <em>Remote</em> still copies the
+    <strong>legacy three-key SSE</strong> shape (below). Against brain-core that shape 404s —
+    use this single <code>/mcp</code> template (or paste by hand) until Connect emits brain-core snippets.
+  </div>
+  <div class="note" data-lang="pl">
+    <strong>Uwaga Connect:</strong> Desktop → Connect → <em>Remote</em> nadal kopiuje
+    <strong>legacy trzy klucze SSE</strong> (niżej). Na brain-core to 404 —
+    użyj tego szablonu z jednym <code>/mcp</code> (albo wklej ręcznie), dopóki Connect nie emituje snipetów brain-core.
+  </div>
+
+  <h2 data-lang="en">Legacy remote — Python hub (3× SSE)</h2>
+  <h2 data-lang="pl">Legacy remote — hub Python (3× SSE)</h2>
+  <p data-lang="en">
+    Older Reliqua/Python Brain behind a supergateway. Still what Connect → Remote copies today.
+    Always <strong>three</strong> client keys (legacy names <code>brain-rag</code> /
+    <code>brain-vault</code> / <code>brain-library</code> still pass status checks).
+    Token from dashboard <code>:7860</code>; MCP proxy usually <code>:7862</code>.
+  </p>
+  <p data-lang="pl">
+    Stary hub Reliqua/Python za supergateway. Nadal to, co Connect → Remote kopiuje dziś.
+    Zawsze <strong>trzy</strong> klucze (legacy <code>brain-rag</code> /
+    <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
+    Token z dashboardu <code>:7860</code>; MCP zwykle <code>:7862</code>.
   </p>
   <table data-lang="en">
     <thead>
@@ -247,17 +296,6 @@
       <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
     </tbody>
   </table>
-  <p data-lang="en">
-    Token: Brain dashboard on <code>:7860</code> (same host as MCP, different port) → Settings / API tokens.
-    MCP itself is on <code>:7862</code>.
-  </p>
-  <p data-lang="pl">
-    Token: dashboard Brain na <code>:7860</code> (ten sam host, inny port) → Settings / API tokens.
-    Sam MCP: <code>:7862</code>.
-  </p>
-
-  <h2 data-lang="en">Template (replace host + token)</h2>
-  <h2 data-lang="pl">Szablon (podstaw host + token)</h2>
   <pre>{
   "mcpServers": {
     "pomnia": {
@@ -274,17 +312,15 @@
     }
   }
 }</pre>
-  <p data-lang="en">Do not commit a real token. On macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
-  <p data-lang="pl">Nie commituj prawdziwego tokena. Na macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.</p>
 
   <h2 data-lang="en">Verify</h2>
   <h2 data-lang="pl">Weryfikacja</h2>
   <ul data-lang="en">
-    <li>Cursor → Settings → MCP: three servers Connected (remote) or one (embedded).</li>
+    <li>Cursor → Settings → MCP: one server Connected (embedded or brain-core), or three (legacy Python hub).</li>
     <li>Ask the agent something only your vault knows — it should call <code>get_user_profile</code> / <code>search_library</code>.</li>
   </ul>
   <ul data-lang="pl">
-    <li>Cursor → Settings → MCP: trzy serwery Connected (remote) albo jeden (embedded).</li>
+    <li>Cursor → Settings → MCP: jeden serwer Connected (embedded / brain-core) albo trzy (legacy hub Python).</li>
     <li>Zapytaj agenta o coś tylko z Twojego vaultu — powinien wołać <code>get_user_profile</code> / <code>search_library</code>.</li>
   </ul>
 
