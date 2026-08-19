@@ -110,6 +110,8 @@
   html.lang-pl [data-lang="pl"] { display: revert; }
   html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
   html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
+  html.lang-pl table[data-lang="pl"] { display: table; }
+  html.lang-pl pre[data-lang="pl"] { display: block; }
 
   footer {
     margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
@@ -178,14 +180,22 @@
   </nav>
 
   <div class="note" data-lang="en">
-    <strong>Announceable?</strong> Docs and honest UX can ship now.
-    Public “Download for Linux” waits for a Release that actually lists AppImage/deb
-    <em>and</em> a smoke run on a real distro (vault → Ollama → MCP handshake).
+    <strong>Desktop vs server.</strong>
+    Linux Desktop <code>.AppImage</code> / <code>.deb</code> are already on
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
+    (today: v0.1.60). That is not the headless <code>brain-core</code> tarball.
+    A public “Download for Linux” hero and a <code>curl|sh</code> server one-liner still wait on
+    a smoke run (vault → Ollama → MCP) <em>and</em> a Latest release that actually attaches
+    <code>pomnia-brain-core-*-linux-x64.tar.gz</code>.
   </div>
   <div class="note" data-lang="pl">
-    <strong>Announceable?</strong> Docs i uczciwy UX mogą iść już.
-    Publiczne „Download for Linux” czeka na Release z AppImage/deb
-    <em>oraz</em> smoke na prawdziwej dystrybucji (vault → Ollama → handshake MCP).
+    <strong>Desktop vs serwer.</strong>
+    Linux Desktop <code>.AppImage</code> / <code>.deb</code> już są na
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
+    (dziś: v0.1.60). To nie jest tarball headless <code>brain-core</code>.
+    Publiczny hero „Download for Linux” i one-liner <code>curl|sh</code> serwera czekają na
+    smoke (vault → Ollama → MCP) <em>oraz</em> Latest z assetem
+    <code>pomnia-brain-core-*-linux-x64.tar.gz</code>.
   </div>
 
   <h2 data-lang="en">Install forms</h2>
