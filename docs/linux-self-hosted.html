@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Linux self-hosted — Pomnia Docs</title>
-<meta name="description" content="AppImage vs deb, vault ownership and takeover, ~/.config/Pomnia, updates without auto-install, Desktop vs brain-core server.">
+<meta name="description" content="Linux server: curl | sh brain-core. Linux Desktop GUI: AppImage or deb. Vault ownership, Desktop vs server.">
 <link rel="canonical" href="https://pomnia.ai/docs/linux-self-hosted.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
@@ -144,12 +144,12 @@
   <h1 data-lang="pl">Linux self-hosted</h1>
 
   <p class="lede" data-lang="en">
-    AGPL Desktop on Linux is <strong>AppImage or deb</strong> plus a folder you own.
-    Same product as Windows — not a cloud service. Unsigned builds: verify SHA-256.
+    Two Linux paths: the <strong>server one-liner</strong> (headless AGPL brain-core + systemd)
+    and <strong>Linux Desktop GUI</strong> (AppImage or deb). Same memory product — not a cloud service.
   </p>
   <p class="lede" data-lang="pl">
-    AGPL Desktop na Linuxie to <strong>AppImage albo deb</strong> oraz folder, który jest Twój.
-    Ten sam produkt co Windows — nie chmura. Buildy niepodpisane: weryfikuj SHA-256.
+    Dwie ścieżki Linux: <strong>one-liner serwera</strong> (headless AGPL brain-core + systemd)
+    oraz <strong>Linux Desktop GUI</strong> (AppImage albo deb). Ten sam produkt pamięci — nie chmura.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
@@ -180,26 +180,52 @@
   </nav>
 
   <div class="note" data-lang="en">
-    <strong>Desktop vs server.</strong>
-    Linux Desktop <code>.AppImage</code> / <code>.deb</code> are already on
-    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
-    (today: v0.1.60). That is not the headless <code>brain-core</code> tarball.
-    A public “Download for Linux” hero and a <code>curl|sh</code> server one-liner still wait on
-    a smoke run (vault → Ollama → MCP) <em>and</em> a Latest release that actually attaches
-    <code>pomnia-brain-core-*-linux-x64.tar.gz</code>.
+    <strong>Server path (this page’s one-liner).</strong>
+    Headless <code>brain-core</code> on Linux x64 + systemd — MCP memory you host.
+    Not the Desktop AppImage/deb, not Windows.
   </div>
   <div class="note" data-lang="pl">
-    <strong>Desktop vs serwer.</strong>
-    Linux Desktop <code>.AppImage</code> / <code>.deb</code> już są na
-    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
-    (dziś: v0.1.60). To nie jest tarball headless <code>brain-core</code>.
-    Publiczny hero „Download for Linux” i one-liner <code>curl|sh</code> serwera czekają na
-    smoke (vault → Ollama → MCP) <em>oraz</em> Latest z assetem
-    <code>pomnia-brain-core-*-linux-x64.tar.gz</code>.
+    <strong>Ścieżka serwera (one-liner na tej stronie).</strong>
+    Headless <code>brain-core</code> na Linux x64 + systemd — pamięć MCP, którą hostujesz.
+    To nie AppImage/deb Desktopu i nie Windows.
   </div>
 
-  <h2 data-lang="en">Install forms</h2>
-  <h2 data-lang="pl">Formy instalacji</h2>
+  <h2 data-lang="en">Linux server (brain-core)</h2>
+  <h2 data-lang="pl">Serwer Linux (brain-core)</h2>
+  <pre data-lang="en">curl -fsSL https://pomnia.ai/install.sh | sh</pre>
+  <pre data-lang="pl">curl -fsSL https://pomnia.ai/install.sh | sh</pre>
+  <p data-lang="en">
+    Needs Node <strong>22</strong> at <code>/usr/bin/node</code> (systemd
+    <code>ExecStart=/usr/bin/node</code> in the current tarball — nvm-only PATH is not enough),
+    systemd, and x86_64. Script fetches <code>pomnia-brain-core-*-linux-x64.tar.gz</code> from
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
+    and runs the packaged installer. Optional: <code>| sh -s -- --with-ollama</code>.
+  </p>
+  <p data-lang="pl">
+    Wymaga Node <strong>22</strong> pod <code>/usr/bin/node</code> (jednostka systemd w tarballu:
+    <code>ExecStart=/usr/bin/node</code> — samo nvm nie wystarczy), systemd i x86_64.
+    Skrypt pobiera <code>pomnia-brain-core-*-linux-x64.tar.gz</code> z
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
+    i odpala instalator z pakietu. Opcjonalnie: <code>| sh -s -- --with-ollama</code>.
+  </p>
+
+  <h2 data-lang="en">Linux Desktop GUI</h2>
+  <h2 data-lang="pl">Linux Desktop GUI</h2>
+  <p data-lang="en">
+    AppImage or deb on
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
+    — the Electron desktop, same as Windows. Unsigned: verify SHA-256. This is <strong>not</strong>
+    the curl server installer.
+  </p>
+  <p data-lang="pl">
+    AppImage albo deb na
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Latest</a>
+    — Electron Desktop, jak Windows. Niepodpisane: weryfikuj SHA-256. To <strong>nie</strong>
+    jest instalator serwera z curl.
+  </p>
+
+  <h2 data-lang="en">Install forms (Desktop GUI)</h2>
+  <h2 data-lang="pl">Formy instalacji (Desktop GUI)</h2>
   <table data-lang="en">
     <thead><tr><th>Form</th><th>Binary</th><th>App data</th><th>Vault</th></tr></thead>
     <tbody>

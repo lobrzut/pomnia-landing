@@ -9,7 +9,7 @@ Pomnia gives your agents a shared past: encrypted vault archive for chat/doc blo
 - Trust: local-first; no telemetry by default; no cloud required
 - Encryption honesty: AES-256-GCM protects vault blobs (passphrase-derived key). Distilled notes and library.db (search index under AppData) are plaintext by design — see Privacy
 - Installer: Windows setup is unsigned for now (SmartScreen expected). Prefer verifying the published SHA-256 on GitHub Releases
-- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; Linux .AppImage / .deb on current Latest). Headless brain-core tarball is a separate GitHub asset — not the Desktop AppImage. macOS not shipping yet
+- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; Linux Desktop GUI .AppImage / .deb). Linux server: https://pomnia.ai/install.sh — curl|sh installs AGPL brain-core (systemd), not AppImage. macOS not shipping yet
 
 ## Canonical pages
 - https://pomnia.ai/
@@ -23,13 +23,15 @@ Pomnia gives your agents a shared past: encrypted vault archive for chat/doc blo
 - https://pomnia.ai/docs/mcp.html
 - https://pomnia.ai/docs/updates-install.html
 - https://pomnia.ai/docs/linux-self-hosted.html
+- https://pomnia.ai/install.sh
 - https://pomnia.ai/docs/troubleshooting.html
 
 ## Agent entry points
 - Start here: https://pomnia.ai/docs/
 - Vault vs AppData: https://pomnia.ai/docs/where-is-my-data.html + https://pomnia.ai/docs/architecture.html
 - Connect MCP: https://pomnia.ai/docs/mcp.html
-- Linux Desktop vs brain-core: https://pomnia.ai/docs/linux-self-hosted.html
+- Linux Desktop GUI vs brain-core server: https://pomnia.ai/docs/linux-self-hosted.html
+- Linux server bootstrap: https://pomnia.ai/install.sh
 - What it can / cannot do: https://pomnia.ai/docs/capabilities.html
 - Source + releases: https://github.com/lobrzut/pomnia
 
