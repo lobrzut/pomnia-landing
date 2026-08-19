@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Updates &amp; install — Pomnia Docs</title>
-<meta name="description" content="Windows install: unsigned SmartScreen path, hash check, notify-only updates — no silent auto-install.">
+<meta name="description" content="Install on Windows, macOS or Linux: the unsigned SmartScreen and Gatekeeper paths, hash check, notify-only updates — no silent auto-install.">
 <link rel="canonical" href="https://pomnia.ai/docs/updates-install.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
@@ -188,12 +188,18 @@
   <h2 data-lang="pl">Pobieranie</h2>
   <ol data-lang="en">
     <li>Open <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>.</li>
-    <li>Grab <code>Pomnia-x.y.z-setup.exe</code> (NSIS installer).</li>
+    <li>Take the one for your machine: <code>Pomnia-x.y.z-setup.exe</code> (Windows, NSIS),
+      <code>Pomnia-x.y.z-arm64.dmg</code> (Apple Silicon) or <code>-x64.dmg</code> (Intel Mac),
+      <code>Pomnia-x.y.z.AppImage</code> / <code>.deb</code> (Linux desktop).
+      <code>uname -m</code> names your Mac.</li>
     <li>Run it. Vault path and passphrase stay yours — the installer does not invent a cloud account.</li>
   </ol>
   <ol data-lang="pl">
     <li>Otwórz <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>.</li>
-    <li>Pobierz <code>Pomnia-x.y.z-setup.exe</code> (instalator NSIS).</li>
+    <li>Weź plik dla swojej maszyny: <code>Pomnia-x.y.z-setup.exe</code> (Windows, NSIS),
+      <code>Pomnia-x.y.z-arm64.dmg</code> (Apple Silicon) albo <code>-x64.dmg</code> (Mac Intel),
+      <code>Pomnia-x.y.z.AppImage</code> / <code>.deb</code> (Linux desktop).
+      <code>uname -m</code> mówi, który Mac.</li>
     <li>Uruchom. Ścieżka vaultu i hasło zostają u Ciebie — instalator nie zakłada konta w chmurze.</li>
   </ol>
 
@@ -215,26 +221,45 @@
     <li>Folder exclusions only if AV keeps quarantining the install directory or vault — workaround, not the product goal.</li>
     <li>Long-term fix: code signing (tracked in the product repo).</li>
   </ul>
+  <p data-lang="en">
+    <strong>macOS is unsigned too</strong>, and stricter about it. Sequoia removed the
+    old Control-click → Open bypass for unsigned apps, so there is no macOS
+    equivalent of “Run anyway”: open Pomnia, let the block appear, then
+    <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>. If you would
+    rather clear the quarantine flag yourself, do it only after checking the SHA-256:
+  </p>
+  <pre data-lang="en">xattr -dr com.apple.quarantine /Applications/Pomnia.app</pre>
   <ul data-lang="pl">
     <li><strong>SmartScreen:</strong> Więcej informacji → <strong>Uruchom mimo to</strong>.</li>
     <li><strong>Nie wyłączaj antywirusa</strong>, żeby „instalacja przeszła”. Ufaj plikowi raz, jeśli celowo instalujesz z naszego release.</li>
     <li>Wykluczenia folderu tylko gdy AV wciąż kwarantannuje katalog instalacji albo vault — obejście, nie cel produktu.</li>
     <li>Docelowo: podpis kodu (tracked w repo produktu).</li>
   </ul>
+  <p data-lang="pl">
+    <strong>macOS też jest bez podpisu</strong> i traktuje to ostrzej. Sequoia usunęła
+    dawne obejście Control-click → Otwórz dla aplikacji bez podpisu, więc
+    odpowiednika „Uruchom mimo to” nie ma: otwórz Pomnię, pozwól blokadzie się
+    pokazać, potem <strong>Ustawienia systemowe → Prywatność i ochrona → Otwórz mimo
+    to</strong>. Jeśli wolisz sam zdjąć flagę kwarantanny, zrób to dopiero po
+    sprawdzeniu SHA-256:
+  </p>
+  <pre data-lang="pl">xattr -dr com.apple.quarantine /Applications/Pomnia.app</pre>
 
-  <h2 data-lang="en">Verify the installer (when a hash is published)</h2>
-  <h2 data-lang="pl">Weryfikacja instalatora (gdy jest hash)</h2>
+  <h2 data-lang="en">Verify the installer</h2>
+  <h2 data-lang="pl">Weryfikacja instalatora</h2>
   <p data-lang="en">
-    Prefer checking a SHA-256 published next to the release asset (or in release notes).
-    If no hash file is attached yet, rely on downloading only from
+    Every asset in a release ships a matching <code>.sha256</code> beside it, and the
+    release notes repeat the digests. Download only from
     <code>github.com/lobrzut/pomnia/releases</code> — do not trust mirrored copies.
   </p>
   <p data-lang="pl">
-    Najlepiej sprawdź SHA-256 opublikowany przy assetcie (albo w notatkach release).
-    Jeśli hasha jeszcze nie ma — pobieraj wyłącznie z
+    Każdy plik w wydaniu ma obok siebie <code>.sha256</code>, a notatki wydania powtarzają
+    sumy. Pobieraj wyłącznie z
     <code>github.com/lobrzut/pomnia/releases</code>; nie ufaj lustrzanym kopiom.
   </p>
-  <pre>Get-FileHash .\Pomnia-x.y.z-setup.exe -Algorithm SHA256</pre>
+  <pre>Get-FileHash .\Pomnia-x.y.z-setup.exe -Algorithm SHA256    # Windows
+shasum -a 256 Pomnia-x.y.z-arm64.dmg                       # macOS
+sha256sum Pomnia-x.y.z.AppImage                            # Linux</pre>
   <p data-lang="en">Compare the digest to the published value character-for-character.</p>
   <p data-lang="pl">Porównaj digest ze opublikowaną wartością znak po znaku.</p>
 
