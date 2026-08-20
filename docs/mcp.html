@@ -252,26 +252,28 @@
     Linux/macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.
   </p>
   <div class="note" data-lang="en">
-    <strong>Connect tab caveat:</strong> Desktop → Connect → <em>Remote</em> still copies the
-    <strong>legacy three-key SSE</strong> shape (below). Against brain-core that shape 404s —
-    use this single <code>/mcp</code> template (or paste by hand) until Connect emits brain-core snippets.
+    <strong>Connect emits this shape by default.</strong> Desktop → Connect → <em>Remote</em>
+    generates the single <code>/mcp</code> server below; the legacy three-key SSE form is
+    opt-in and only for a Python hub that is still running. Pasting by hand works too — the
+    template is here so you can check what Connect produced rather than trust it.
   </div>
   <div class="note" data-lang="pl">
-    <strong>Uwaga Connect:</strong> Desktop → Connect → <em>Remote</em> nadal kopiuje
-    <strong>legacy trzy klucze SSE</strong> (niżej). Na brain-core to 404 —
-    użyj tego szablonu z jednym <code>/mcp</code> (albo wklej ręcznie), dopóki Connect nie emituje snipetów brain-core.
+    <strong>Connect domyślnie generuje właśnie ten kształt.</strong> Desktop → Connect → <em>Remote</em>
+    daje pojedynczy serwer <code>/mcp</code> poniżej; legacy trzy klucze SSE to opcja na żądanie,
+    wyłącznie dla hubów Pythona, które jeszcze działają. Wklejenie ręczne też zadziała — szablon
+    jest tu po to, żebyś mógł sprawdzić, co Connect wygenerował, a nie wierzyć mu na słowo.
   </div>
 
   <h2 data-lang="en">Legacy remote — Python hub (3× SSE)</h2>
   <h2 data-lang="pl">Legacy remote — hub Python (3× SSE)</h2>
   <p data-lang="en">
-    Older Reliqua/Python Brain behind a supergateway. Still what Connect → Remote copies today.
+    Older Reliqua/Python Brain behind a supergateway. Kept for hubs still running it; Connect → Remote defaults to brain-core.
     Always <strong>three</strong> client keys (legacy names <code>brain-rag</code> /
     <code>brain-vault</code> / <code>brain-library</code> still pass status checks).
     Token from dashboard <code>:7860</code>; MCP proxy usually <code>:7862</code>.
   </p>
   <p data-lang="pl">
-    Stary hub Reliqua/Python za supergateway. Nadal to, co Connect → Remote kopiuje dziś.
+    Stary hub Reliqua/Python za supergateway. Zostaje dla hubów, które go jeszcze mają; Connect → Remote domyślnie daje brain-core.
     Zawsze <strong>trzy</strong> klucze (legacy <code>brain-rag</code> /
     <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
     Token z dashboardu <code>:7860</code>; MCP zwykle <code>:7862</code>.

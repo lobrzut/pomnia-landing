@@ -232,13 +232,13 @@
       <tr>
         <td>AppImage</td>
         <td>Wherever you put <code>Pomnia-*.AppImage</code> (<code>chmod +x</code>)</td>
-        <td><code>~/.config/Pomnia</code></td>
+        <td><code>~/.config/pomnia</code></td>
         <td>You pick (e.g. <code>~/Vault</code>)</td>
       </tr>
       <tr>
         <td>deb</td>
         <td>Under <code>/usr</code> / <code>/opt</code> (packager)</td>
-        <td><code>~/.config/Pomnia</code></td>
+        <td><code>~/.config/pomnia</code></td>
         <td>You pick — never inside the package</td>
       </tr>
     </tbody>
@@ -249,13 +249,13 @@
       <tr>
         <td>AppImage</td>
         <td>Gdzie położysz <code>Pomnia-*.AppImage</code> (<code>chmod +x</code>)</td>
-        <td><code>~/.config/Pomnia</code></td>
+        <td><code>~/.config/pomnia</code></td>
         <td>Ty wybierasz (np. <code>~/Vault</code>)</td>
       </tr>
       <tr>
         <td>deb</td>
         <td>Pod <code>/usr</code> / <code>/opt</code></td>
-        <td><code>~/.config/Pomnia</code></td>
+        <td><code>~/.config/pomnia</code></td>
         <td>Ty wybierasz — nigdy w pakiecie</td>
       </tr>
     </tbody>
@@ -289,13 +289,13 @@ sha256sum -c Pomnia-x.y.z.AppImage.sha256
   <h2 data-lang="en">App data vs vault (plaintext honesty)</h2>
   <h2 data-lang="pl">Dane aplikacji vs vault (uczciwość plaintext)</h2>
   <ul data-lang="en">
-    <li><code>~/.config/Pomnia</code> — settings, logs, <code>brain-core-data/…/library.db</code> (search index: <strong>plaintext</strong>, rebuildable).</li>
+    <li><code>~/.config/pomnia</code> — settings, logs, <code>brain-core-data/…/library.db</code> (search index: <strong>plaintext</strong>, rebuildable).</li>
     <li>Vault folder — encrypted blobs + plaintext knowledge sidecars (<code>USER.md</code>, <code>distilled/</code>, …).</li>
     <li>Lock does <strong>not</strong> wipe the index. Uninstall does <strong>not</strong> delete vault or XDG data.</li>
   </ul>
   <ul data-lang="pl">
-    <li><code>~/.config/Pomnia</code> — ustawienia, logi, <code>library.db</code> (indeks: <strong>plaintext</strong>, odbudowywalny).</li>
-    <li>Folder vaultu — zaszyfrowane bloby + plaintext sidecary wiedzy.</li>
+    <li><code>~/.config/pomnia</code> — ustawienia, logi, <code>brain-core-data/…/library.db</code> (indeks wyszukiwania: <strong>plaintext</strong>, odbudowywalny).</li>
+    <li>Folder vaultu — zaszyfrowane bloby + plaintext sidecary wiedzy (<code>USER.md</code>, <code>distilled/</code>, …).</li>
     <li>Lock <strong>nie</strong> kasuje indeksu. Odinstalowanie <strong>nie</strong> kasuje vaultu ani danych XDG.</li>
   </ul>
   <p data-lang="en">
@@ -351,12 +351,12 @@ sha256sum -c Pomnia-x.y.z.AppImage.sha256
   <h2 data-lang="pl">Odinstalowanie / wipe</h2>
   <ul data-lang="en">
     <li>Delete AppImage or <code>apt remove</code> / <code>dpkg -r</code> — app gone; <strong>data stays</strong>.</li>
-    <li>Wipe machine data: <code>rm -rf ~/.config/Pomnia</code></li>
+    <li>Wipe machine data: <code>rm -rf ~/.config/pomnia</code></li>
     <li>Wipe memory: delete/move the vault folder (and optionally the index).</li>
   </ul>
   <ul data-lang="pl">
-    <li>Usuń AppImage lub <code>apt remove</code> — aplikacja znika; <strong>dane zostają</strong>.</li>
-    <li>Wipe danych maszyny: <code>rm -rf ~/.config/Pomnia</code></li>
+    <li>Usuń AppImage lub <code>apt remove</code> / <code>dpkg -r</code> — aplikacja znika; <strong>dane zostają</strong>.</li>
+    <li>Wipe danych maszyny: <code>rm -rf ~/.config/pomnia</code></li>
     <li>Wipe pamięci: usuń/przenieś folder vaultu (i opcjonalnie indeks).</li>
   </ul>
 

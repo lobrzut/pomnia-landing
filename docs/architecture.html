@@ -206,7 +206,7 @@
       </tr>
       <tr>
         <td><strong>Search index</strong></td>
-        <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
+        <td><code>%AppData%/pomnia/brain-core-data/</code></td>
         <td>No</td>
         <td>Rebuildable catalog (<code>library.db</code>): chunk text + embeddings</td>
       </tr>
@@ -225,7 +225,7 @@
       </tr>
       <tr>
         <td><strong>Indeks wyszukiwania</strong></td>
-        <td><code>%AppData%/Pomnia/brain-core-data/</code></td>
+        <td><code>%AppData%/pomnia/brain-core-data/</code></td>
         <td>Nie</td>
         <td>Odtwarzalny katalog (<code>library.db</code>): tekst chunków + embeddingi</td>
       </tr>
@@ -262,13 +262,13 @@
   <ul data-lang="en">
     <li><strong>Embedded</strong> — Brain inside Pomnia on <code>127.0.0.1:7862</code>; one MCP server <code>pomnia</code>; local Ollama for embed/search (and distill).</li>
     <li><strong>Remote brain-core</strong> — headless Linux; one key <code>pomnia</code> → <code>/mcp</code> + Bearer (often <code>:7865</code>). Local Ollama optional (distill only).</li>
-    <li><strong>Legacy remote</strong> — Python hub + three SSE keys (<code>pomnia</code> / <code>pomnia-vault</code> / <code>pomnia-library</code>). Still what Connect → Remote copies.</li>
+    <li><strong>Legacy remote</strong> — Python hub + three SSE keys (<code>pomnia</code> / <code>pomnia-vault</code> / <code>pomnia-library</code>). Connect → Remote no longer emits this; it is opt-in.</li>
     <li>Step-by-step wiring: <a class="inline" href="mcp.html">Connect MCP</a>.</li>
   </ul>
   <ul data-lang="pl">
     <li><strong>Embedded</strong> — Brain w Pomni na <code>127.0.0.1:7862</code>; jeden serwer MCP <code>pomnia</code>; lokalna Ollama do embed/search (i distill).</li>
     <li><strong>Remote brain-core</strong> — headless Linux; jeden klucz <code>pomnia</code> → <code>/mcp</code> + Bearer (często <code>:7865</code>). Lokalna Ollama opcjonalna (tylko distill).</li>
-    <li><strong>Legacy remote</strong> — hub Python + trzy klucze SSE. Nadal to, co Connect → Remote kopiuje.</li>
+    <li><strong>Legacy remote</strong> — hub Python + trzy klucze SSE (<code>pomnia</code> / <code>pomnia-vault</code> / <code>pomnia-library</code>). Connect → Remote już tego nie generuje — to opcja na żądanie.</li>
     <li>Krok po kroku: <a class="inline" href="mcp.html">Podłącz MCP</a>.</li>
   </ul>
 
