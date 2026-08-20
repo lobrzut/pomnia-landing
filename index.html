@@ -568,23 +568,18 @@
 
       <div class="honest">
         <p class="fineprint">
-          <b>Windows</b> — the installer is unsigned for now, so Windows shows
-          <em>“Windows protected your PC”</em>: choose <strong>More info → Run anyway</strong>.
-          Every release asset ships a matching <code>.sha256</code>; verify it before you run it.
+          <b>Windows</b> — the installer is unsigned, so you get
+          <em>&ldquo;Windows protected your PC&rdquo;</em>: choose <strong>More info &rarr; Run anyway</strong>.
         </p>
         <p class="fineprint">
-          <b>macOS</b> — unsigned too, and macOS is stricter about it: on Sequoia the
-          old Control-click&nbsp;→&nbsp;Open bypass no longer works. Open it, let the block
-          appear, then <strong>System Settings → Privacy &amp; Security → Open Anyway</strong>.
-          The Intel build has been run on a real Mac; the Apple&nbsp;Silicon one has its
-          architecture verified in CI but has not been launched by anyone yet.
+          <b>macOS</b> — unsigned too, and there is no &ldquo;Run anyway&rdquo; here: let the block
+          appear, then <strong>System Settings &rarr; Privacy &amp; Security &rarr; Open Anyway</strong>.
+          The Intel build has been run on a real Mac; the Apple&nbsp;Silicon one is verified
+          in CI but nobody has launched it yet.
         </p>
         <p class="fineprint">
-          <b>Linux server</b> — the headless brain-core needs <strong>Node 22</strong> at
-          <code>/usr/bin/node</code>. The Linux desktop GUI (<code>.AppImage</code> /
-          <code>.deb</code>) is on
-          <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
-          with setup steps in <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>.
+          Every asset ships a matching <code>.sha256</code>. Prerequisites, the Linux server
+          path and the full install notes: <a href="/docs/updates-install.html">Updates &amp; install</a>.
         </p>
       </div>
 
@@ -704,18 +699,10 @@
         </div>
 
         <p class="fineprint">
-          Unsigned for now, so Windows shows <em>“Windows protected your PC”</em> —
-          choose <strong>More info → Run anyway</strong>. Every release asset ships a
-          matching <code>.sha256</code>; verify it before you run it.
-        </p>
-
-        <p class="fineprint">
-          The Linux desktop GUI (<code>.AppImage</code> / <code>.deb</code>) and every build
-          live on <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
+          Windows, macOS (Apple&nbsp;Silicon and Intel) and Linux all live on
+          <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
           source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
-          macOS ships two <code>.dmg</code> builds, Apple&nbsp;Silicon and Intel, each built
-          on its own runner — unsigned like the Windows installer, so Gatekeeper
-          will warn on first open.
+          Unsigned — see the notes near the top of this page.
         </p>
       </div>
 
