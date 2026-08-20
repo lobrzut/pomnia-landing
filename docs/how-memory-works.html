@@ -345,13 +345,13 @@
   </p>
 
   <ul data-lang="en">
-    <li><strong>Where:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (or equivalent under <code>~/.pomnia</code> on other OS) — <strong>plaintext</strong> chunk text + vectors. The vault password does not seal this file. See <a class="inline" href="where-is-my-data.html">Where is my data?</a>.</li>
+    <li><strong>Where:</strong> <code>%AppData%/pomnia/brain-core-data/vectordb/library.db</code> on Windows, <code>~/.config/pomnia/…</code> on Linux, <code>~/Library/Application Support/pomnia/…</code> on macOS. The headless server keeps its own under <code>~/.pomnia/brain</code> — <strong>plaintext</strong> chunk text + vectors. The vault password does not seal this file. See <a class="inline" href="where-is-my-data.html">Where is my data?</a>.</li>
     <li><strong>What gets walked on a full refresh:</strong> under the vault root, mainly <code>distilled/</code>, <code>sessions/</code>, <code>library/</code> text — never <code>skills/</code>, <code>_review/</code>, <code>blobs/</code>, <code>snapshots/</code>.</li>
     <li><strong>Incremental:</strong> unchanged files are skipped via mtime+size, then content SHA-256 fingerprints in an <code>indexed_files</code> table. “Refresh index” should usually be fast after the first pass.</li>
     <li><strong>Documents:</strong> encrypted source stays in vault blobs; search uses a <em>logical</em> path like <code>…/library/&lt;docId&gt;</code> as the key in <code>library.db</code>.</li>
   </ul>
   <ul data-lang="pl">
-    <li><strong>Gdzie:</strong> <code>%AppData%/Pomnia/brain-core-data/library.db</code> (albo <code>~/.pomnia</code>) — <strong>plaintext</strong> chunków + wektory. Hasło vaultu tego pliku nie zamyka. Zob. <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>.</li>
+    <li><strong>Gdzie:</strong> <code>%AppData%/pomnia/brain-core-data/vectordb/library.db</code> na Windows, <code>~/.config/pomnia/…</code> na Linuksie, <code>~/Library/Application Support/pomnia/…</code> na macOS. Serwer bezgłowy trzyma swój osobno, w <code>~/.pomnia/brain</code> — <strong>plaintext</strong> chunków + wektory. Hasło vaultu tego pliku nie zamyka. Zob. <a class="inline" href="where-is-my-data.html">Gdzie są dane?</a>.</li>
     <li><strong>Co wchodzi przy pełnym odświeżeniu:</strong> pod rootem vaultu głównie <code>distilled/</code>, <code>sessions/</code>, tekst z <code>library/</code> — nigdy <code>skills/</code>, <code>_review/</code>, <code>blobs/</code>, <code>snapshots/</code>.</li>
     <li><strong>Przyrostowo:</strong> niezmienione pliki są pomijane (mtime+size, potem SHA-256 w tabeli <code>indexed_files</code>). „Odśwież indeks” zwykle jest szybkie po pierwszym przebiegu.</li>
     <li><strong>Dokumenty:</strong> zaszyfrowane źródło zostaje w blobach; wyszukiwanie używa <em>logicznej</em> ścieżki <code>…/library/&lt;docId&gt;</code> jako klucza w <code>library.db</code>.</li>
