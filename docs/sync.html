@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Upgrading — Pomnia</title>
-<meta name="description" content="What an upgrade touches, when it rebuilds your index, and what to check afterwards.">
+<title>Sync — Pomnia</title>
+<meta name="description" content="Getting the same notes onto a second machine you own: what travels, what happens on a conflict, and what never syncs.">
 <link rel="canonical" href="https://pomnia.ai/docs/where-is-my-data.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
@@ -160,161 +160,171 @@
 <div class="wrap">
   <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · where is my data</p>
   <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · gdzie są moje dane</p>
-  <h1 data-lang="en">Upgrading</h1>
-  <h1 data-lang="pl">Aktualizacja</h1>
+
+  <h1 data-lang="en">Sync</h1>
+  <h1 data-lang="pl">Synchronizacja</h1>
 
   <p class="lead" data-lang="en">
-    What an upgrade touches, when it rebuilds your index, and what to check afterwards. The vault
-    itself is never rewritten by an upgrade &mdash; only the derived cache is.
+    Getting the same notes onto a second machine you own. Between your machines and nowhere else
+    &mdash; there is no hosted backend, no git remote, no S3.
   </p>
   <p class="lead" data-lang="pl">
-    Czego dotyka aktualizacja, kiedy przebudowuje indeks i co sprawdzić po niej. Sam sejf nigdy nie
-    jest przepisywany przez aktualizację &mdash; zmienia się tylko pamięć podręczna z niego
-    wyliczona.
+    Jak mieć te same notatki na drugiej swojej maszynie. Między Twoimi maszynami i nigdzie indziej
+    &mdash; nie ma usługi w chmurze, nie ma zdalnego gita, nie ma S3.
   </p>
 
-  <h2 data-lang="en">Two things, and only one of them is precious</h2>
-  <h2 data-lang="pl">Dwie rzeczy, a cenna jest tylko jedna</h2>
-
-  <p data-lang="en">
-    Your <strong>vault</strong> is the notes, the skills, the profile and the encrypted snapshots.
-    Nothing in an upgrade rewrites it.
-  </p>
-  <p data-lang="pl">
-    Twój <strong>sejf</strong> to notatki, skille, profil i zaszyfrowane migawki. Nic w aktualizacji
-    ich nie przepisuje.
-  </p>
+  <h2 data-lang="en">Who pushes</h2>
+  <h2 data-lang="pl">Kto wypycha</h2>
 
   <p data-lang="en">
-    Your <strong>index</strong> (<code>library.db</code>) is derived from the vault and can always be
-    rebuilt from it. When an upgrade changes how text is cut into chunks, or which embedding model
-    turns those chunks into vectors, the old index no longer describes the same thing and has to be
-    rebuilt. Losing it costs time, not data.
+    The desktop app pushes; the server receives. A server never reaches out on its own &mdash; it
+    waits. That is one fewer credential stored on a machine that sits exposed, and it matches the
+    shape people actually have: distillation happens on the workstation with the GPU, and the
+    results go to the box that stays on.
   </p>
   <p data-lang="pl">
-    Twój <strong>indeks</strong> (<code>library.db</code>) jest wyliczony z sejfu i zawsze da się go
-    z niego odbudować. Gdy aktualizacja zmienia sposób cięcia tekstu na kawałki albo model, który
-    zamienia te kawałki na wektory, stary indeks przestaje opisywać to samo i musi zostać
-    przebudowany. Jego utrata kosztuje czas, nie dane.
+    Aplikacja desktopowa wypycha, serwer przyjmuje. Serwer nigdy nie sięga sam &mdash; czeka. To
+    o jedno poświadczenie mniej na maszynie, która stoi wystawiona, i odpowiada układowi, jaki
+    ludzie realnie mają: destylacja dzieje się na stacji z GPU, a wyniki jadą na pudełko, które
+    stoi włączone.
   </p>
 
-  <h2 data-lang="en">When an upgrade rebuilds the index</h2>
-  <h2 data-lang="pl">Kiedy aktualizacja przebudowuje indeks</h2>
+  <h2 data-lang="en">What travels</h2>
+  <h2 data-lang="pl">Co jedzie</h2>
 
   <p data-lang="en">
-    Every index records what built it: the embedding model, its dimension, both nomic prefixes and a
-    chunker version. On start-up that stamp is compared with the running configuration, and any
-    difference is refused rather than worked around.
+    Two separate things, with separate settings, because they behave nothing alike.
   </p>
   <p data-lang="pl">
-    Każdy indeks zapisuje, co go zbudowało: model embeddingu, jego wymiar, oba prefiksy nomica
-    i wersję chunkera. Przy starcie ten stempel jest porównywany z bieżącą konfiguracją, a każda
-    różnica jest odrzucana, nie obchodzona.
+    Dwie osobne rzeczy, z osobnymi ustawieniami, bo zachowują się zupełnie inaczej.
   </p>
-
-  <p data-lang="en">
-    <strong>The reason it refuses instead of continuing:</strong> an incremental reindex cannot
-    repair this. The indexer skips files whose bytes have not changed, so a re-run over a corpus
-    embedded under different settings walks every file, changes nothing, and finishes with a success
-    line over a broken index. A refusal is the only way that failure becomes visible.
-  </p>
-  <p data-lang="pl">
-    <strong>Dlaczego odmawia zamiast iść dalej:</strong> przyrostowy reindeks tego nie naprawi.
-    Indekser pomija pliki, których bajty się nie zmieniły, więc ponowny przebieg nad korpusem
-    zbudowanym przy innych ustawieniach obejdzie wszystkie pliki, nie zmieni nic i zakończy się
-    komunikatem o sukcesie nad zepsutym indeksem. Odmowa to jedyny sposób, żeby ta awaria była
-    widoczna.
-  </p>
-
-  <p data-lang="en">
-    When the chunker version changes, the rebuild is automatic: the old rows are dropped and the
-    whole vault is re-embedded. You will see a line naming the change and the number of chunks
-    discarded. On a vault of 2545 notes and 3241 chunks that took <strong>230 seconds</strong> with a
-    warm GPU behind Ollama; without one, expect minutes rather than seconds per hundred notes.
-  </p>
-  <p data-lang="pl">
-    Gdy zmienia się wersja chunkera, przebudowa jest automatyczna: stare wiersze są kasowane, a cały
-    sejf embedowany od nowa. Zobaczysz linię z nazwą zmiany i liczbą odrzuconych kawałków. Na sejfie
-    z 2545 notatkami i 3241 kawałkami zajęło to <strong>230 sekund</strong> przy rozgrzanym GPU pod
-    Ollamą; bez niego licz raczej w minutach na setkę notatek.
-  </p>
-
-  <h2 data-lang="en">Before you upgrade a server</h2>
-  <h2 data-lang="pl">Zanim zaktualizujesz serwer</h2>
 
   <ul data-lang="en">
-    <li>Copy <code>library.db</code> aside. It is the only thing an upgrade can invalidate, and
-      putting it back is the whole rollback.</li>
-    <li>Expect search to be unavailable while a forced rebuild runs. The server still starts, still
-      serves skills, profile and note reads, and <code>/healthz</code> reports the state honestly
-      rather than claiming to be ready.</li>
-    <li>Make sure the embedder is reachable first. A rebuild that cannot embed will not silently
-      produce a smaller index; it will say so.</li>
+    <li><strong>The knowledge surface</strong> &mdash; notes, skills, profile. Small, text, changes
+      often. This is what agents read.</li>
+    <li><strong>The blob archive</strong> &mdash; encrypted snapshots. Large, binary, changes rarely.
+      Replicated by content hash, so a repeat run transfers nothing and an interrupted one resumes
+      instead of starting over.</li>
   </ul>
   <ul data-lang="pl">
-    <li>Odłóż kopię <code>library.db</code>. To jedyna rzecz, którą aktualizacja może unieważnić,
-      a jej przywrócenie jest całym wycofaniem zmian.</li>
-    <li>Licz się z brakiem wyszukiwania w czasie wymuszonej przebudowy. Serwer nadal startuje, nadal
-      podaje skille, profil i odczyty notatek, a <code>/healthz</code> raportuje stan uczciwie
-      zamiast twierdzić, że jest gotowy.</li>
-    <li>Najpierw upewnij się, że embedder jest osiągalny. Przebudowa, która nie może embedować, nie
-      wyprodukuje po cichu mniejszego indeksu &mdash; powie o tym.</li>
+    <li><strong>Powierzchnia wiedzy</strong> &mdash; notatki, skille, profil. Małe, tekstowe, zmienia
+      się często. To czytają agenci.</li>
+    <li><strong>Archiwum blobów</strong> &mdash; zaszyfrowane migawki. Duże, binarne, zmienia się
+      rzadko. Replikowane po skrócie treści, więc powtórzony przebieg nie przesyła nic, a przerwany
+      wznawia zamiast zaczynać od nowa.</li>
   </ul>
 
-  <h2 data-lang="en">After the upgrade, check the counter</h2>
-  <h2 data-lang="pl">Po aktualizacji sprawdź licznik</h2>
-
   <p data-lang="en">
-    Do not take the success line for an answer. Ask <code>/healthz</code> for the index counts and
-    confirm they are non-zero and roughly what you expect for the size of your vault. An empty index
-    over a vault that holds notes reports <code>down</code> and answers 503 &mdash; that is the
-    correct behaviour, and it is what a rebuild interrupted halfway looks like.
+    Two things deliberately never travel: <code>library.db</code>, because it is a machine-local
+    cache each side rebuilds for itself, and the vault ownership marker, because copying it would
+    hand two machines the same claim.
   </p>
   <p data-lang="pl">
-    Nie bierz komunikatu o sukcesie za odpowiedź. Zapytaj <code>/healthz</code> o liczniki indeksu
-    i potwierdź, że nie są zerowe i mniej więcej odpowiadają wielkości Twojego sejfu. Pusty indeks
-    nad sejfem, który ma notatki, raportuje <code>down</code> i odpowiada 503 &mdash; to zachowanie
-    poprawne i tak właśnie wygląda przebudowa przerwana w połowie.
+    Dwie rzeczy celowo nie jadą nigdy: <code>library.db</code>, bo to lokalna pamięć podręczna, którą
+    każda strona odbudowuje sobie sama, oraz znacznik własności sejfu, bo skopiowanie go dałoby
+    dwóm maszynom to samo prawo zapisu.
+  </p>
+
+  <h2 data-lang="en">When both sides changed the same file</h2>
+  <h2 data-lang="pl">Gdy obie strony zmieniły ten sam plik</h2>
+
+  <p data-lang="en">
+    Nothing is overwritten. The local copy stays exactly as it is, the incoming one is written
+    alongside it under a numeric suffix &mdash; <code>note.md</code> and <code>note-2.md</code>
+    &mdash; and the conflict is counted, logged as a warning, and listed in the admin panel.
+  </p>
+  <p data-lang="pl">
+    Nic nie jest nadpisywane. Lokalna kopia zostaje dokładnie taka, jaka była, przychodząca jest
+    zapisywana obok pod numerycznym sufiksem &mdash; <code>note.md</code> i <code>note-2.md</code>
+    &mdash; a konflikt jest liczony, zapisywany do logu jako ostrzeżenie i wypisany w panelu admina.
   </p>
 
   <p data-lang="en">
-    An empty index over an <em>empty</em> vault is a different state: <code>degraded</code> and 200.
-    A fresh install has not failed, it has nothing yet.
+    <strong>Why it is reported and not just resolved:</strong> keeping both copies and telling
+    nobody is the same as a silent overwrite with better forensics. If you never learn a file
+    diverged, you carry on editing one half of it.
   </p>
   <p data-lang="pl">
-    Pusty indeks nad <em>pustym</em> sejfem to inny stan: <code>degraded</code> i 200. Świeża
-    instalacja nie zawiodła, ona po prostu nie ma jeszcze nic.
+    <strong>Dlaczego jest zgłaszany, a nie tylko rozwiązywany:</strong> zachowanie obu kopii i
+    niepowiedzenie o tym nikomu jest tym samym co ciche nadpisanie, tylko z lepszą kryminalistyką.
+    Jeśli nigdy się nie dowiesz, że plik się rozjechał, dalej edytujesz jego połowę.
   </p>
-
-  <h2 data-lang="en">Versions that do not line up</h2>
-  <h2 data-lang="pl">Wersje, które się nie zgadzają</h2>
 
   <p data-lang="en">
-    The desktop app and the server report the same version number, and a release keeps them in step.
-    A server reporting a number that matches no release means it is running a build from a branch
-    rather than a tag. That is fine while you are testing something, and confusing six weeks later
-    when you are comparing it against &ldquo;latest&rdquo; and it looks newer than it is.
+    The distillation ledger is the exception, and it merges as a union of ids rather than
+    conflicting. An entry that exists only on one side survives the sync, so neither machine
+    re-distils a conversation the other already processed.
   </p>
   <p data-lang="pl">
-    Aplikacja desktopowa i serwer podają ten sam numer wersji, a wydanie utrzymuje je w zgodzie.
-    Serwer podający numer, który nie odpowiada żadnemu wydaniu, chodzi na buildzie z gałęzi, nie
-    z tagu. To w porządku, gdy coś testujesz, i mylące sześć tygodni później, gdy porównujesz go
-    z &bdquo;najnowszym&rdquo; i wygląda nowszy, niż jest.
+    Wyjątkiem jest rejestr destylacji, który scala się jako suma identyfikatorów, zamiast wchodzić
+    w konflikt. Wpis obecny tylko po jednej stronie przeżywa synchronizację, więc żadna z maszyn nie
+    destyluje ponownie rozmowy, którą druga już przerobiła.
   </p>
 
-  <h2 data-lang="en">Rolling back</h2>
-  <h2 data-lang="pl">Wycofanie</h2>
+  <h2 data-lang="en">Asking a server what it has received</h2>
+  <h2 data-lang="pl">Jak zapytać serwer, co dostał</h2>
 
   <p data-lang="en">
-    Install the older release and put back the <code>library.db</code> you copied aside. If you did
-    not copy it, rebuild from the vault instead &mdash; the notes were never touched. There is no
-    state an upgrade leaves behind that the vault cannot reproduce.
+    A headless server has no window to look at, so <code>/healthz</code> answers it: when the last
+    transfer arrived, from which peer, how many files it carried, and how many conflicts have been
+    reported since start-up.
   </p>
   <p data-lang="pl">
-    Zainstaluj starsze wydanie i przywróć odłożoną kopię <code>library.db</code>. Jeśli jej nie
-    zrobiłeś, po prostu przebuduj indeks z sejfu &mdash; notatki nie były ruszane. Nie ma stanu,
-    który aktualizacja zostawia, a którego sejf nie potrafi odtworzyć.
+    Serwer bez okna nie ma gdzie tego pokazać, więc odpowiada <code>/healthz</code>: kiedy przyszedł
+    ostatni transfer, od jakiego nadawcy, ile plików niósł i ile konfliktów zgłoszono od startu.
   </p>
+
+  <p data-lang="en">
+    <code>lastReceivedAt: null</code> means nothing has ever arrived. That reads as an empty field
+    but it is an answer, and it used to be indistinguishable from &ldquo;something arrived and it was
+    empty&rdquo;. The file count belongs to the last transfer that actually delivered something, so a
+    client merely polling cannot erase the record of the one before it. No token ever appears here.
+  </p>
+  <p data-lang="pl">
+    <code>lastReceivedAt: null</code> znaczy, że nigdy nic nie przyszło. Wygląda jak puste pole, ale
+    jest odpowiedzią &mdash; kiedyś nie dało się tego odróżnić od &bdquo;coś przyszło i było
+    puste&rdquo;. Licznik plików należy do ostatniego transferu, który faktycznie coś dostarczył,
+    więc klient tylko odpytujący nie skasuje śladu po poprzednim. Żaden token się tu nie pojawia.
+  </p>
+
+  <h2 data-lang="en">After a sync, rebuild the index</h2>
+  <h2 data-lang="pl">Po synchronizacji przebuduj indeks</h2>
+
+  <p data-lang="en">
+    Files a replica received but never indexed are files no agent can find. The search would report
+    success over an unchanged index while the notes sat on disk unreachable, so a receiving server
+    exposes a reindex trigger and the transfer is not finished until it has run.
+  </p>
+  <p data-lang="pl">
+    Pliki, które replika dostała, ale nigdy nie zaindeksowała, to pliki, których żaden agent nie
+    znajdzie. Wyszukiwanie meldowałoby sukces nad niezmienionym indeksem, podczas gdy notatki leżą
+    na dysku nieosiągalne &mdash; dlatego serwer przyjmujący wystawia wyzwalacz reindeksu, a transfer
+    nie jest skończony, dopóki ten nie przebiegnie.
+  </p>
+
+  <h2 data-lang="en">What this is not</h2>
+  <h2 data-lang="pl">Czym to nie jest</h2>
+
+  <ul data-lang="en">
+    <li><strong>Not a backup.</strong> A conflict keeps both sides, but a deletion you push is still
+      a deletion. Keep snapshots.</li>
+    <li><strong>Not multi-user.</strong> One vault has one writer. A second instance over the same
+      corpus serves read-only and names who holds the claim.</li>
+    <li><strong>Not continuous.</strong> It runs when something asks it to, not on a timer watching
+      the filesystem.</li>
+    <li><strong>Not a cloud service.</strong> There is no hosted endpoint to sync through, by
+      choice.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>To nie kopia zapasowa.</strong> Konflikt zachowuje obie strony, ale skasowanie, które
+      wypchniesz, dalej jest skasowaniem. Rób migawki.</li>
+    <li><strong>To nie tryb wieloosobowy.</strong> Jeden sejf ma jednego piszącego. Druga instancja
+      nad tym samym korpusem serwuje tylko do odczytu i podaje, kto trzyma prawo zapisu.</li>
+    <li><strong>To nie działa ciągle.</strong> Uruchamia się, gdy coś o to poprosi, nie na zegarze
+      pilnującym systemu plików.</li>
+    <li><strong>To nie usługa w chmurze.</strong> Nie ma pośredniczącego punktu, przez który to
+      idzie &mdash; z wyboru.</li>
+  </ul>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
     <a href="./">Start here</a>
@@ -348,6 +358,7 @@
     <a href="troubleshooting.html">Rozwiązywanie problemów</a>
     <a href="../privacy.html">Privacy</a>
   </nav>
+
   <footer>
     <a href="../">pomnia.ai</a>
     <span>·</span>
