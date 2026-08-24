@@ -45,8 +45,12 @@ function facts(html) {
     if (!m[1].startsWith('#') && !m[1].startsWith('mailto:')) out.links.push(m[1])
   }
   // Versions, ports and quantities. Bare years and list ordinals are noise.
-  for (const m of decode(stripTags(html)).matchAll(/\b\d[\d._:-]{1,}\b/g)) {
-    const v = m[0]
+  // The comma belongs in the class because Polish writes decimals with one.
+  // Without it `0,25` split into a discarded `0` and a bare `25`, and the pair
+  // reported drift against an English `0.25` saying the same thing. Normalising
+  // the separator compares the number rather than its typography.
+  for (const m of decode(stripTags(html)).matchAll(/\b\d[\d.,_:-]{1,}\b/g)) {
+    const v = m[0].replace(/,/g, '.')
     if (/^20\d\d$/.test(v)) continue
     out.nums.push(v)
   }

@@ -359,6 +359,95 @@
   <p class="cite">packages/brain-core/src/rag/embed.ts · indexer.ts</p>
 
   <!-- ═══════════════ SEARCH ═══════════════ -->
+  <h2 data-lang="en">5. What search says about its own confidence</h2>
+  <h2 data-lang="pl">5. Co wyszukiwanie mówi o własnej pewności</h2>
+
+  <p data-lang="en">
+    <code>search_library</code> always returns its top K. With nothing relevant indexed it returns the
+    K <em>least</em> irrelevant chunks, and for a long time those arrived in exactly the same shape as a
+    real answer. An agent handed five loosely related fragments will write a plausible answer out of
+    them. That is the one kind of hallucination a memory layer is in a position to prevent, so every
+    response now carries a verdict in words.
+  </p>
+  <p data-lang="pl">
+    <code>search_library</code> zawsze zwraca swoje top K. Gdy w indeksie nie ma nic na temat, zwraca K
+    <em>najmniej</em> nietrafionych kawałków — i przez długi czas przyjeżdżały one w dokładnie takim
+    samym kształcie co prawdziwa odpowiedź. Agent, który dostanie pięć luźno powiązanych fragmentów,
+    napisze z nich odpowiedź prawdopodobną. To jedyny rodzaj halucynacji, któremu warstwa pamięci może
+    realnie zapobiec, więc każda odpowiedź niesie teraz werdykt słowami.
+  </p>
+
+  <ul data-lang="en">
+    <li><code>grounding: "strong"</code> — the notes are about what you asked for.</li>
+    <li><code>grounding: "lexical"</code> — matched on words, not on meaning. Often right (an exact
+      filename, a command, an error string) and sometimes a trap: “coral reef bleaching” matches a note
+      titled “Google Coral Edge TPU”. Leads to verify, not an answer.</li>
+    <li><code>grounding: "none"</code> — nothing in the vault covers this. Do not build an answer out
+      of the rows below.</li>
+    <li><code>matched</code> — per hit: whether that row earned its place by meaning, by words, or by
+      neither.</li>
+    <li><code>dated</code> — the note's own date, from its filename.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><code>grounding: "strong"</code> — notatki są o tym, o co pytasz.</li>
+    <li><code>grounding: "lexical"</code> — trafienie po słowach, nie po sensie. Często słuszne (dokładna
+      nazwa pliku, komenda, treść błędu), czasem pułapka: „coral reef bleaching” trafia w notatkę
+      „Google Coral Edge TPU”. To tropy do sprawdzenia, nie odpowiedź.</li>
+    <li><code>grounding: "none"</code> — w sejfie nie ma nic na ten temat. Nie buduj odpowiedzi z tego,
+      co jest niżej.</li>
+    <li><code>matched</code> — per trafienie: czy dany wiersz zasłużył sensem, słowami, czy niczym.</li>
+    <li><code>dated</code> — data notatki, z jej nazwy pliku.</li>
+  </ul>
+
+  <p data-lang="en">
+    <strong>Why not just threshold <code>score</code>.</strong> Because it is a ranking device, not a
+    confidence measure. Measured against a live vault of 2545 files and 3934 chunks, using 18 queries
+    whose answers are in there against 12 that cannot be: <code>recencyBoost</code> sat at roughly 0.25
+    on nearly every row, noise included, lifting everything by a quarter without separating anything.
+    The worst false positive reached a combined 0.5200 on a semantic score of 0.0821. Semantic score
+    alone separates: hits 0.0731–0.2780 against noise 0.0145–0.0821, overlapping in a single pair.
+    Keyword hits separate too — every true hit had at least one, and eight of twelve noise queries had
+    none. So the verdict reads those two signals and never the blend.
+  </p>
+  <p data-lang="pl">
+    <strong>Dlaczego nie próg na <code>score</code>.</strong> Bo to narzędzie do rankingu, nie miara
+    pewności. Zmierzone na żywym sejfie: 2545 plików i 3934 chunków, 18 zapytań, na które odpowiedź tam
+    jest, przeciw 12, których być nie może. <code>recencyBoost</code> wynosił około 0,25 przy prawie
+    każdym wierszu, łącznie z szumem — podnosi wszystko o ćwiartkę i nie rozdziela niczego. Najgorsza
+    fałszywka osiągnęła łącznie 0,5200 przy score semantycznym 0,0821. Sama semantyka rozdziela:
+    trafienia 0,0731–0,2780 przeciw szumowi 0,0145–0,0821, nachodzą się w jednej parze. Trafienia
+    słownikowe też — każde prawdziwe miało co najmniej jedno, a osiem z dwunastu szumowych nie miało
+    żadnego. Werdykt czyta więc te dwa sygnały, nigdy mieszankę.
+  </p>
+
+  <p data-lang="en">
+    <strong>It never hides a result.</strong> A weak row is labelled, not suppressed — two true answers
+    in that measurement were carried entirely by the words, with semantic scores below the floor.
+    Dropping them would have lost real answers to protect against a smaller risk.
+  </p>
+  <p data-lang="pl">
+    <strong>Nic nie jest ukrywane.</strong> Słaby wiersz zostaje oznaczony, nie usunięty — dwie prawdziwe
+    odpowiedzi w tym pomiarze niosły się wyłącznie na słowach, ze score semantycznym poniżej progu.
+    Odcięcie ich straciłoby realne odpowiedzi w zamian za mniejsze ryzyko.
+  </p>
+
+  <p data-lang="en">
+    <strong>Known gap.</strong> Notes are written in sections — Decisions, Facts, Open questions, Root
+    causes — but chunking flattens them, so a chunk from “Open questions” arrives indistinguishable from
+    one from “Decisions”. An open question read as a settled fact is a real failure mode. Recovering the
+    section at read time reaches only about 65% of chunks, and silently labelling the rest as unknown
+    would repeat the problem this section exists to fix, so it belongs in the chunker and needs a full
+    reindex.
+  </p>
+  <p data-lang="pl">
+    <strong>Znana luka.</strong> Notatki mają sekcje — Decisions, Facts, Open questions, Root causes —
+    ale cięcie na chunki je spłaszcza, więc kawałek z „Open questions” przyjeżdża nieodróżnialny od tego
+    z „Decisions”. Otwarte pytanie odczytane jako ustalony fakt to realny tryb awarii. Odzyskanie sekcji
+    przy odczycie sięga tylko około 65% chunków, a ciche oznaczenie reszty jako nieznanej powtórzyłoby
+    dokładnie ten błąd, dla którego ta sekcja powstała — więc to robota dla chunkera i wymaga pełnego
+    reindeksu.
+  </p>
+
   <h2 data-lang="en">4. Search / retrieval</h2>
   <h2 data-lang="pl">4. Wyszukiwanie</h2>
 
