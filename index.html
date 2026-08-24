@@ -582,8 +582,9 @@
           </div>
           <p class="pane-what"><b>Serves; never collects.</b> Memory your agents query over MCP,
             running 24/7 on a box you own. It does not read your assistants — the desktop app does that
-            and pushes here. Two modes: <b>full</b> also distils on the server's GPU, <b>appliance</b>
-            searches only and needs no Ollama at all.</p>
+            and pushes here. The command above installs the <b>appliance</b>: search only, embedding
+            in-process, no Ollama anywhere. Add <code>-s -- --with-ollama</code> for the <b>full</b>
+            server, which also distils on its own GPU.</p>
           <p class="install-meta">
             Headless server · AGPL · Linux&nbsp;x64 + systemd ·
             <a href="/docs/linux-self-hosted.html">setup guide</a>
@@ -646,8 +647,9 @@
         </div>
         <p class="fineprint">
           Start with the desktop app: it is the only one that collects anything. Add a server when
-          you want the memory reachable while your PC is off. Both server modes are the same
-          download and the same code — you pick the mode at install time.
+          you want the memory reachable while your PC is off. Both server modes are the same download
+          and the same code; the installer defaults to the appliance, and
+          <code>--with-ollama</code> gives you the full one.
         </p>
         <p class="fineprint">
           Not a difference: <b>Polish</b>. Both server modes embed with the same model
