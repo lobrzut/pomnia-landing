@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Where is my data? — Pomnia Docs</title>
-<meta name="description" content="Three boxes: Vault folder, search index on this machine, Pomnia app. The premiere mental model — honest about plaintext.">
+<title>Sizing — Pomnia</title>
+<meta name="description" content="What Pomnia costs in disk, memory and time, measured on a vault in daily use rather than estimated.">
 <link rel="canonical" href="https://pomnia.ai/docs/where-is-my-data.html">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
@@ -161,18 +161,156 @@
   <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · where is my data</p>
   <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · gdzie są moje dane</p>
 
-  <h1 data-lang="en">Where is my data?</h1>
-  <h1 data-lang="pl">Gdzie są moje dane?</h1>
+  <h1 data-lang="en">Sizing</h1>
+  <h1 data-lang="pl">Dobór maszyny</h1>
 
-  <p class="lede" data-lang="en">
-    Hold this in twenty seconds: <strong>a folder you pick</strong>,
-    <strong>a search card on this PC</strong>, and <strong>the app that opens the door</strong>.
-    Under the hood there are more moving parts — for premiere, these three are enough.
+  <p class="lead" data-lang="en">
+    What this actually costs in disk, memory and time, measured on a real vault rather than
+    estimated. Enough to tell whether the box you had in mind will do.
   </p>
-  <p class="lede" data-lang="pl">
-    Zapamiętaj w dwadzieścia sekund: <strong>folder, który wybierasz</strong>,
-    <strong>karta katalogowa na tym PC</strong> i <strong>aplikacja, która otwiera drzwi</strong>.
-    Pod spodem jest więcej kółek — na premierę wystarczą te trzy.
+  <p class="lead" data-lang="pl">
+    Ile to realnie kosztuje dysku, pamięci i czasu &mdash; zmierzone na prawdziwym sejfie, nie
+    oszacowane. Tyle, żeby ocenić, czy maszyna, o której myślisz, wystarczy.
+  </p>
+
+  <h2 data-lang="en">A real vault, for scale</h2>
+  <h2 data-lang="pl">Prawdziwy sejf, dla skali</h2>
+
+  <p data-lang="en">
+    Numbers from a vault in daily use for six months, so the ratios are worth more than the
+    absolutes:
+  </p>
+  <p data-lang="pl">
+    Liczby z sejfu używanego codziennie od pół roku, więc proporcje są tu warte więcej niż wartości
+    bezwzględne:
+  </p>
+
+  <ul data-lang="en">
+    <li><strong>1811 distilled notes</strong> &mdash; 9.6 MB. Text is small.</li>
+    <li><strong>157 saved sessions</strong> &mdash; 2.9 MB.</li>
+    <li><strong>12 565 encrypted blobs</strong> &mdash; 2.5 GB. This is essentially the whole vault.</li>
+    <li><strong>The search index</strong> &mdash; 19 MB for 3241 chunks.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>1811 notatek destylowanych</strong> &mdash; 9,6 MB. Tekst jest mały.</li>
+    <li><strong>157 zapisanych sesji</strong> &mdash; 2,9 MB.</li>
+    <li><strong>12 565 zaszyfrowanych blobów</strong> &mdash; 2,5 GB. To praktycznie cały sejf.</li>
+    <li><strong>Indeks wyszukiwania</strong> &mdash; 19 MB na 3241 kawałków.</li>
+  </ul>
+
+  <p data-lang="en">
+    The shape to take away: <strong>the knowledge your agents read is tiny; the archive is what
+    fills a disk.</strong> Roughly 12 MB of text against 2.5 GB of snapshots, and an index that is
+    about 0.6% of the whole. If a server only needs to answer questions, it does not need room for
+    the archive at all.
+  </p>
+  <p data-lang="pl">
+    Wniosek do zapamiętania: <strong>wiedza, którą czytają agenci, jest maleńka; dysk zapełnia
+    archiwum.</strong> Około 12 MB tekstu wobec 2,5 GB migawek, a indeks to jakieś 0,6% całości.
+    Jeśli serwer ma tylko odpowiadać na pytania, miejsce na archiwum nie jest mu w ogóle potrzebne.
+  </p>
+
+  <h2 data-lang="en">Memory</h2>
+  <h2 data-lang="pl">Pamięć</h2>
+
+  <p data-lang="en">
+    Serving costs roughly <strong>200 MB</strong>. Indexing peaks higher, and the appliance's
+    in-process ONNX embedder adds around half a gigabyte once it loads. The shipped systemd unit
+    caps the service at <strong>3 GB</strong>, which is headroom rather than a target.
+  </p>
+  <p data-lang="pl">
+    Samo serwowanie kosztuje około <strong>200 MB</strong>. Indeksowanie wyskakuje wyżej, a embedder
+    ONNX w appliance dokłada mniej więcej pół gigabajta, gdy się załaduje. Dostarczana jednostka
+    systemd ogranicza usługę do <strong>3 GB</strong> &mdash; to zapas, nie cel.
+  </p>
+
+  <p data-lang="en">
+    A 2 GB VM will serve and search. Give it 4 GB if it will also build the index, and more if it
+    will also distil &mdash; that stage is a chat model and its appetite is the model's, not ours.
+  </p>
+  <p data-lang="pl">
+    Maszyna wirtualna z 2 GB będzie serwować i wyszukiwać. Daj jej 4 GB, jeśli ma też budować
+    indeks, i więcej, jeśli ma destylować &mdash; ten etap to model czatowy i jego apetyt jest
+    apetytem modelu, nie naszym.
+  </p>
+
+  <h2 data-lang="en">Time</h2>
+  <h2 data-lang="pl">Czas</h2>
+
+  <p data-lang="en">
+    A full rebuild of that vault &mdash; 2545 files into 3241 chunks &mdash; took
+    <strong>230 seconds</strong> with a warm GPU behind Ollama. On CPU expect minutes per hundred
+    notes rather than seconds, which matters mostly the first time and after an upgrade that forces
+    a rebuild.
+  </p>
+  <p data-lang="pl">
+    Pełna przebudowa tego sejfu &mdash; 2545 plików w 3241 kawałków &mdash; zajęła
+    <strong>230 sekund</strong> przy rozgrzanym GPU pod Ollamą. Na procesorze licz raczej minuty na
+    setkę notatek niż sekundy; ma to znaczenie głównie za pierwszym razem i po aktualizacji, która
+    wymusza przebudowę.
+  </p>
+
+  <p data-lang="en">
+    Everyday indexing is incremental and skips files whose bytes have not changed, so it costs
+    nothing on a vault that is not growing.
+  </p>
+  <p data-lang="pl">
+    Codzienne indeksowanie jest przyrostowe i pomija pliki, których bajty się nie zmieniły, więc na
+    sejfie, który nie rośnie, nie kosztuje nic.
+  </p>
+
+  <h2 data-lang="en">Download and install footprint</h2>
+  <h2 data-lang="pl">Rozmiar pobrania i instalacji</h2>
+
+  <p data-lang="en">
+    The desktop installer is around <strong>159 MB</strong>. The Linux server tarball is larger,
+    near <strong>250 MB</strong>, because the appliance carries its own embedding runtime instead of
+    requiring Ollama &mdash; that is what buys the &ldquo;no Ollama anywhere&rdquo; property. The
+    embedding model itself is fetched on first use, not shipped.
+  </p>
+  <p data-lang="pl">
+    Instalator desktopowy waży około <strong>159 MB</strong>. Tarball serwera linuksowego jest
+    większy, blisko <strong>250 MB</strong>, bo appliance wozi własny runtime embeddingu zamiast
+    wymagać Ollamy &mdash; to właśnie kupuje własność &bdquo;bez Ollamy w ogóle&rdquo;. Sam model
+    embeddingu jest pobierany przy pierwszym użyciu, nie dostarczany w paczce.
+  </p>
+
+  <h2 data-lang="en">Which box for which job</h2>
+  <h2 data-lang="pl">Jaka maszyna do czego</h2>
+
+  <ul data-lang="en">
+    <li><strong>A NAS or a small always-on VM</strong> &mdash; the appliance. Search and serve, no
+      Ollama, no GPU. 2 GB of memory is enough and the disk goes on whatever you choose to keep
+      there.</li>
+    <li><strong>A machine with a GPU</strong> &mdash; the full server. It also distils, which is the
+      only stage that genuinely wants the hardware.</li>
+    <li><strong>Your own workstation</strong> &mdash; the desktop app. It is the only half that
+      collects anything, and it is where distillation lives by default.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li><strong>NAS albo mała maszyna stojąca włączona</strong> &mdash; appliance. Wyszukuje
+      i serwuje, bez Ollamy, bez GPU. 2 GB pamięci wystarczy, a dysk zależy od tego, co zdecydujesz
+      tam trzymać.</li>
+    <li><strong>Maszyna z GPU</strong> &mdash; pełny serwer. Dodatkowo destyluje, a to jedyny etap,
+      który naprawdę chce sprzętu.</li>
+    <li><strong>Twoja stacja robocza</strong> &mdash; aplikacja desktopowa. To jedyna połowa, która
+      cokolwiek zbiera, i tam domyślnie mieszka destylacja.</li>
+  </ul>
+
+  <h2 data-lang="en">What grows and what does not</h2>
+  <h2 data-lang="pl">Co rośnie, a co nie</h2>
+
+  <p data-lang="en">
+    The archive grows with every snapshot and is the only part that will fill a disk over years.
+    Notes grow slowly &mdash; six months of daily use produced under 10 MB of them. The index tracks
+    the notes, not the archive, so it stays small: budget roughly 6 MB per thousand chunks and
+    remember it can always be thrown away and rebuilt.
+  </p>
+  <p data-lang="pl">
+    Archiwum rośnie z każdą migawką i to jedyna część, która przez lata zapełni dysk. Notatki rosną
+    wolno &mdash; pół roku codziennego używania dało ich mniej niż 10 MB. Indeks śledzi notatki,
+    nie archiwum, więc zostaje mały: licz około 6 MB na tysiąc kawałków i pamiętaj, że zawsze można
+    go wyrzucić i odbudować.
   </p>
 
   <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
@@ -209,95 +347,6 @@
     <a href="troubleshooting.html">Rozwiązywanie problemów</a>
     <a href="../privacy.html">Privacy</a>
   </nav>
-
-  <!-- EN diagram -->
-  <div class="diagram" data-lang="en" role="img" aria-label="Vault folder, search index, Pomnia app">
-    <div class="box">
-      <span class="tag">1 · Vault</span>
-      <h2>Your folder</h2>
-      <p>The briefcase on disk: sealed chat/doc archives plus plain notes you (and agents) edit — skills, profile, sessions.</p>
-      <p class="where">Path you choose<br>e.g. <code>C:\Vault</code> or <code>~/Vault</code></p>
-    </div>
-    <span class="arrow" aria-hidden="true">→</span>
-    <span class="arrow-mobile" aria-hidden="true">↓</span>
-    <div class="box">
-      <span class="tag">2 · Index</span>
-      <h2>Search card</h2>
-      <p>A rebuildable catalog so recall is fast. Plaintext chunk text + embeddings — not sealed by the vault password.</p>
-      <p class="where">This machine only<br><code>%AppData%/pomnia</code> · <code>~/.config/pomnia</code></p>
-    </div>
-    <span class="arrow" aria-hidden="true">→</span>
-    <span class="arrow-mobile" aria-hidden="true">↓</span>
-    <div class="box">
-      <span class="tag">3 · App</span>
-      <h2>Door + MCP</h2>
-      <p>Pomnia unlocks the folder, builds the catalog, and lets Cursor (or any MCP client) ask questions.</p>
-      <p class="where">Desktop app<br>local search on <code>:7862</code></p>
-    </div>
-  </div>
-
-  <!-- PL diagram -->
-  <div class="diagram" data-lang="pl" role="img" aria-label="Sejf, indeks, aplikacja Pomnia">
-    <div class="box">
-      <span class="tag">1 · Sejf</span>
-      <h2>Twój folder</h2>
-      <p>Teczka na dysku: zamknięte archiwum czatów/docs oraz zwykłe notatki, które edytujesz Ty (i agenci) — skills, profil, sesje.</p>
-      <p class="where">Ścieżka, którą wybierasz<br>np. <code>C:\Vault</code> lub <code>~/Vault</code></p>
-    </div>
-    <span class="arrow" aria-hidden="true">→</span>
-    <span class="arrow-mobile" aria-hidden="true">↓</span>
-    <div class="box">
-      <span class="tag">2 · Indeks</span>
-      <h2>Karta katalogowa</h2>
-      <p>Odtwarzalny katalog do szybkiego szukania. Plaintext chunków + embeddingi — hasło vaultu go nie zamyka.</p>
-      <p class="where">Tylko ta maszyna<br><code>%AppData%/pomnia</code> · <code>~/.config/pomnia</code></p>
-    </div>
-    <span class="arrow" aria-hidden="true">→</span>
-    <span class="arrow-mobile" aria-hidden="true">↓</span>
-    <div class="box">
-      <span class="tag">3 · Aplikacja</span>
-      <h2>Drzwi + MCP</h2>
-      <p>Pomnia otwiera folder, buduje katalog i pozwala Cursorowi (lub innemu klientowi MCP) zadawać pytania.</p>
-      <p class="where">Aplikacja desktop<br>wyszukiwanie lokalne na <code>:7862</code></p>
-    </div>
-  </div>
-
-  <div class="note" data-lang="en">
-    <strong>Honest, short.</strong> The vault password seals <em>archive blobs</em> only.
-    Notes in the vault folder and the search index are readable if someone can read your disk.
-    Lock clears the key from RAM — it does <em>not</em> wipe the index.
-    Details: <a class="inline" href="../privacy.html">Privacy</a>.
-  </div>
-  <div class="note" data-lang="pl">
-    <strong>Uczciwie, krótko.</strong> Hasło vaultu zamyka tylko <em>bloby archiwum</em>.
-    Notatki w folderze vaultu i indeks wyszukiwania da się przeczytać przy dostępie do dysku.
-    Lock czyści klucz z RAM — <em>nie</em> kasuje indeksu.
-    Szczegóły: <a class="inline" href="../privacy.html">Privacy</a>.
-  </div>
-
-  <h3 data-lang="en">What you can ignore for now</h3>
-  <h3 data-lang="pl">Co na razie możesz olać</h3>
-  <ul data-lang="en">
-    <li>Internal folder names under AppData, remote search servers, three MCP keys for homelab — power-user layer.</li>
-    <li>Distill vs direct document index — both feed the same search card; start with Backup → Distill. Deep dive: <a class="inline" href="how-memory-works.html">How memory works</a>.</li>
-    <li>Full unlock/lock mechanics: <a class="inline" href="architecture.html">Architecture</a>.</li>
-  </ul>
-  <ul data-lang="pl">
-    <li>Wewnętrzne nazwy pod AppData, zdalne serwery wyszukiwania, trzy klucze MCP do homelabu — warstwa power-user.</li>
-    <li>Distill vs indeks dokumentów — oba karmią tę samą kartę katalogową; zacznij od Backup → Distill. Deep dive: <a class="inline" href="how-memory-works.html">Jak działa pamięć</a>.</li>
-    <li>Pełna mechanika unlock/lock: <a class="inline" href="architecture.html">Architektura</a>.</li>
-  </ul>
-
-  <h3 data-lang="en">One path for first week</h3>
-  <h3 data-lang="pl">Jedna ścieżka na pierwszy tydzień</h3>
-  <p data-lang="en">
-    Create/open the vault folder → Backup chats → Distill → Connect MCP in the app → ask Cursor about an older session.
-    Step list: <a class="inline" href="./">Start here</a>.
-  </p>
-  <p data-lang="pl">
-    Utwórz/otwórz folder vaultu → Backup czatów → Distill → Connect MCP w aplikacji → zapytaj Cursora o starą sesję.
-    Lista kroków: <a class="inline" href="./">Zacznij tutaj</a>.
-  </p>
 
   <footer>
     <a href="../">pomnia.ai</a>
