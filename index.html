@@ -242,6 +242,27 @@
     transition: color .18s ease, border-color .18s ease;
   }
   .install-meta a:hover { color: var(--cyan); border-color: var(--cyan); }
+
+  /* ═══ Editions table — what each build can and cannot do ═══ */
+  .editions { margin: 42px auto 0; max-width: 760px; text-align: left; }
+  .editions-h { font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--ink-dim); margin: 0 0 8px; font-weight: 600; }
+  .editions-lead { color: var(--ink-dim); font-size: 14px; line-height: 1.6; margin: 0 0 18px; }
+  /* Four columns cannot shrink past legibility; let the table scroll, never the page. */
+  .editions-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .editions-table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+  .editions-table th, .editions-table td {
+    padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .editions-table thead th {
+    color: var(--ink); font-weight: 600; text-align: left; white-space: nowrap;
+    border-bottom-color: var(--iris); }
+  .editions-table thead th small { color: var(--ink-faint); font-weight: 400; font-size: 12px; }
+  .editions-table tbody th { color: var(--ink-dim); font-weight: 400; text-align: left; }
+  .editions-table td { color: var(--ink-dim); }
+  .editions-table td.y { color: var(--mint); }
+  .editions-table td.n { color: var(--ink-faint); }
+  .editions-table tbody tr:last-child th, .editions-table tbody tr:last-child td { border-bottom: 0; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .cta {
     display: inline-block; text-decoration: none;
     font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
@@ -538,6 +559,8 @@
         </div>
         <div class="install-pane" id="pane-win" role="tabpanel" aria-labelledby="tab-win">
           <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
+          <p class="pane-what"><b>The whole thing.</b> Reads the assistants already on your machine,
+            distils each conversation on your GPU, and holds the vault. Start here if you only run one.</p>
           <p class="install-meta">
             Desktop app · ~136&nbsp;MB · free · no account ·
             <a href="/privacy.html">privacy</a>
@@ -545,6 +568,8 @@
         </div>
         <div class="install-pane" id="pane-mac" role="tabpanel" aria-labelledby="tab-mac" hidden>
           <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for macOS</a>
+          <p class="pane-what"><b>The same app as Windows.</b> Collects, distils and holds the vault —
+            no feature differences, only the signing caveat below.</p>
           <p class="install-meta">
             Apple&nbsp;Silicon and Intel builds, each built natively ·
             <code>uname -m</code> tells you which · unsigned, see below
@@ -555,8 +580,12 @@
             <code>curl -fsSL https://pomnia.ai/install.sh | sh</code>
             <button type="button" class="curl-copy">Copy</button>
           </div>
+          <p class="pane-what"><b>Serves; never collects.</b> Memory your agents query over MCP,
+            running 24/7 on a box you own. It does not read your assistants — the desktop app does that
+            and pushes here. Two modes: <b>full</b> also distils on the server's GPU, <b>appliance</b>
+            searches only and needs no Ollama at all.</p>
           <p class="install-meta">
-            Headless brain-core · AGPL · Linux&nbsp;x64 + systemd ·
+            Headless server · AGPL · Linux&nbsp;x64 + systemd ·
             <a href="/docs/linux-self-hosted.html">setup guide</a>
           </p>
         </div>
@@ -580,6 +609,50 @@
         <p class="fineprint">
           Every asset ships a matching <code>.sha256</code>. Prerequisites, the Linux server
           path and the full install notes: <a href="/docs/updates-install.html">Updates &amp; install</a>.
+        </p>
+      </div>
+
+      <div class="editions">
+        <h3 class="editions-h">Which one do I need?</h3>
+        <p class="editions-lead">One app and one server. The server runs in two modes — the
+          difference is whether it also distils, and whether it needs Ollama.</p>
+        <div class="editions-scroll">
+          <table class="editions-table">
+            <thead>
+              <tr>
+                <th scope="col"><span class="sr-only">Capability</span></th>
+                <th scope="col">Desktop<br><small>Windows &amp; macOS</small></th>
+                <th scope="col">Linux server<br><small>full</small></th>
+                <th scope="col">Linux server<br><small>appliance</small></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Reads the assistants on your machine</th>
+                  <td class="y">yes</td><td class="n">no</td><td class="n">no</td></tr>
+              <tr><th scope="row">Distils conversations into notes</th>
+                  <td class="y">your GPU</td><td class="y">its own GPU</td><td class="n">no</td></tr>
+              <tr><th scope="row">Answers agents over MCP</th>
+                  <td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr>
+              <tr><th scope="row">Hybrid search over the vault</th>
+                  <td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr>
+              <tr><th scope="row">Needs Ollama</th>
+                  <td>only to distil</td><td>yes</td><td class="y">no, embeds in-process</td></tr>
+              <tr><th scope="row">Meant to stay on</th>
+                  <td class="n">no</td><td class="y">24/7</td><td class="y">24/7</td></tr>
+              <tr><th scope="row">Typical machine</th>
+                  <td>your PC</td><td>a box with a GPU</td><td>a small VM or NAS</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="fineprint">
+          Start with the desktop app: it is the only one that collects anything. Add a server when
+          you want the memory reachable while your PC is off. Both server modes are the same
+          download and the same code — you pick the mode at install time.
+        </p>
+        <p class="fineprint">
+          Not a difference: <b>Polish</b>. Both server modes embed with the same model
+          (<code>nomic-embed-text</code>), which is English-centric either way; literal keyword
+          matching is what carries Polish queries, and that is identical everywhere.
         </p>
       </div>
 
