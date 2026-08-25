@@ -140,6 +140,36 @@
   }
   footer a { color: var(--ink-dim); }
   footer a:hover { color: var(--cyan); }
+  /* ═══ Editions table — what each build can and cannot do ═══ */
+  .editions { margin: 26px 0 0; text-align: left; }
+  .editions-h { font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--ink-dim); margin: 0 0 8px; font-weight: 600; }
+  /* .fineprint is the page's narrow centred prose column: max-width 418px with
+     auto margins. Dropped inside this left-aligned 760px block it rendered as an
+     indented 418px stub starting where the first data column begins. */
+  .editions-note {
+    font-size: 13px; line-height: 1.65; color: var(--ink-faint);
+    margin: 16px 0 0; text-wrap: pretty;
+  }
+  .editions-note b { color: var(--ink-dim); }
+  .editions-note code { font-size: 12px; }
+
+  .editions-lead { color: var(--ink-dim); font-size: 14px; line-height: 1.6; margin: 0 0 18px; }
+  /* Four columns cannot shrink past legibility; let the table scroll, never the page. */
+  .editions-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .editions-table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+  .editions-table th, .editions-table td {
+    padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .editions-table thead th {
+    color: var(--ink); font-weight: 600; text-align: left; white-space: nowrap;
+    border-bottom-color: var(--iris); }
+  .editions-table thead th small { color: var(--ink-faint); font-weight: 400; font-size: 12px; }
+  .editions-table tbody th { color: var(--ink-dim); font-weight: 400; text-align: left; }
+  .editions-table td { color: var(--ink-dim); }
+  .editions-table td.y { color: var(--mint); }
+  .editions-table td.n { color: var(--ink-faint); }
+  .editions-table tbody tr:last-child th, .editions-table tbody tr:last-child td { border-bottom: 0; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 </style>
 </head>
 <body>
@@ -277,6 +307,90 @@
 
   <h2 data-lang="en">Which box for which job</h2>
   <h2 data-lang="pl">Jaka maszyna do czego</h2>
+
+  <div class="editions" data-lang="en">
+    <div class="editions-scroll">
+      <table class="editions-table">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Capability</span></th>
+            <th scope="col">Desktop<br><small>Windows &amp; macOS</small></th>
+            <th scope="col">Linux server<br><small>full</small></th>
+            <th scope="col">Linux server<br><small>appliance</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Reads the assistants on your machine</th>
+              <td class="y">yes</td><td class="n">no</td><td class="n">no</td></tr>
+          <tr><th scope="row">Distils conversations into notes</th>
+              <td class="y">your GPU</td><td class="y">its own GPU</td><td class="n">no</td></tr>
+          <tr><th scope="row">Answers agents over MCP</th>
+              <td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr>
+          <tr><th scope="row">Hybrid search over the vault</th>
+              <td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr>
+          <tr><th scope="row">Needs Ollama</th>
+              <td>only to distil</td><td>yes</td><td class="y">no, embeds in-process</td></tr>
+          <tr><th scope="row">Meant to stay on</th>
+              <td class="n">no</td><td class="y">24/7</td><td class="y">24/7</td></tr>
+          <tr><th scope="row">Typical machine</th>
+              <td>your PC</td><td>a box with a GPU</td><td>a small VM or NAS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="editions" data-lang="pl">
+    <div class="editions-scroll">
+      <table class="editions-table">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only">Możliwość</span></th>
+            <th scope="col">Desktop<br><small>Windows i macOS</small></th>
+            <th scope="col">Serwer Linux<br><small>pełny</small></th>
+            <th scope="col">Serwer Linux<br><small>appliance</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Czyta asystentów z Twojej maszyny</th>
+              <td class="y">tak</td><td class="n">nie</td><td class="n">nie</td></tr>
+          <tr><th scope="row">Destyluje rozmowy do notatek</th>
+              <td class="y">Twoje GPU</td><td class="y">własne GPU</td><td class="n">nie</td></tr>
+          <tr><th scope="row">Odpowiada agentom przez MCP</th>
+              <td class="y">tak</td><td class="y">tak</td><td class="y">tak</td></tr>
+          <tr><th scope="row">Wyszukiwanie hybrydowe w sejfie</th>
+              <td class="y">tak</td><td class="y">tak</td><td class="y">tak</td></tr>
+          <tr><th scope="row">Potrzebuje Ollamy</th>
+              <td>tylko do destylacji</td><td>tak</td><td class="y">nie, embeduje w procesie</td></tr>
+          <tr><th scope="row">Ma stać włączone</th>
+              <td class="n">nie</td><td class="y">24/7</td><td class="y">24/7</td></tr>
+          <tr><th scope="row">Typowa maszyna</th>
+              <td>Twój PC</td><td>maszyna z GPU</td><td>mała VM albo NAS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p data-lang="en">
+    Start with the desktop app: it is the only one that collects anything. Add a server when you want
+    the memory reachable while your PC is off. Both server modes are the same download and the same
+    code; the installer defaults to the appliance, and <code>--with-ollama</code> gives you the full
+    one.
+  </p>
+  <p data-lang="pl">
+    Zacznij od aplikacji desktopowej: to jedyna, która cokolwiek zbiera. Serwer dołóż wtedy, gdy
+    chcesz mieć pamięć osiągalną przy wyłączonym PC. Oba tryby serwera to ten sam plik i ten sam kod;
+    instalator domyślnie stawia appliance, a <code>--with-ollama</code> daje pełny.
+  </p>
+
+  <p data-lang="en">
+    Not a difference: <b>language</b>. All three run the same embedding model
+    (<code>nomic-embed-text</code>), so whatever it does with your language, it does identically
+    everywhere. Picking one edition over another changes nothing about recall.
+  </p>
+  <p data-lang="pl">
+    To nie jest różnica: <b>język</b>. Wszystkie trzy używają tego samego modelu embeddingu
+    (<code>nomic-embed-text</code>), więc cokolwiek robi z Twoim językiem, robi to wszędzie tak samo.
+    Wybór wersji nie zmienia niczego w skuteczności wyszukiwania.
+  </p>
 
   <ul data-lang="en">
     <li><strong>A NAS or a small always-on VM</strong> &mdash; the appliance. Search and serve, no

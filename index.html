@@ -251,36 +251,6 @@
   }
   .install-meta a:hover { color: var(--cyan); border-color: var(--cyan); }
 
-  /* ═══ Editions table — what each build can and cannot do ═══ */
-  .editions { margin: 42px auto 0; max-width: 760px; text-align: left; }
-  .editions-h { font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
-    color: var(--ink-dim); margin: 0 0 8px; font-weight: 600; }
-  /* .fineprint is the page's narrow centred prose column: max-width 418px with
-     auto margins. Dropped inside this left-aligned 760px block it rendered as an
-     indented 418px stub starting where the first data column begins. */
-  .editions-note {
-    font-size: 13px; line-height: 1.65; color: var(--ink-faint);
-    margin: 16px 0 0; text-wrap: pretty;
-  }
-  .editions-note b { color: var(--ink-dim); }
-  .editions-note code { font-size: 12px; }
-
-  .editions-lead { color: var(--ink-dim); font-size: 14px; line-height: 1.6; margin: 0 0 18px; }
-  /* Four columns cannot shrink past legibility; let the table scroll, never the page. */
-  .editions-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-  .editions-table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
-  .editions-table th, .editions-table td {
-    padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .editions-table thead th {
-    color: var(--ink); font-weight: 600; text-align: left; white-space: nowrap;
-    border-bottom-color: var(--iris); }
-  .editions-table thead th small { color: var(--ink-faint); font-weight: 400; font-size: 12px; }
-  .editions-table tbody th { color: var(--ink-dim); font-weight: 400; text-align: left; }
-  .editions-table td { color: var(--ink-dim); }
-  .editions-table td.y { color: var(--mint); }
-  .editions-table td.n { color: var(--ink-faint); }
-  .editions-table tbody tr:last-child th, .editions-table tbody tr:last-child td { border-bottom: 0; }
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .cta {
     display: inline-block; text-decoration: none;
     font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
@@ -339,14 +309,17 @@
     max-width: 940px; padding: 0 24px;
     display: flex; flex-direction: column; align-items: center; gap: 34px;
   }
+  /* Two columns held the Windows and macOS warnings side by side. They are one
+     paragraph now, and a single child of a 1fr 1fr grid sits in the left half
+     and leaves the right empty -- a 310px stub adrift in an 892px container. */
   .honest {
-    width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 60px;
-    padding-top: 32px; border-top: 1px solid var(--line);
+    width: 100%; display: flex; flex-direction: column; align-items: center;
+    gap: 22px; padding-top: 32px; border-top: 1px solid var(--line);
   }
-  .honest .fineprint { max-width: 46ch; margin: 0; text-align: left; text-wrap: pretty; }
+  .honest .fineprint { max-width: 62ch; margin: 0; text-align: left; text-wrap: pretty; }
   .honest b { color: var(--ink-dim); font-weight: 600; }
   @media (max-width: 860px) {
-    .honest { grid-template-columns: 1fr; gap: 20px; }
+    .honest { gap: 20px; }
   }
 
   /* ── Scroll reveals ──────────────────────────────────────────────────── */
@@ -614,66 +587,19 @@
 
       <div class="honest">
         <p class="fineprint">
-          <b>Windows</b> — the installer is unsigned, so you get
-          <em>&ldquo;Windows protected your PC&rdquo;</em>: choose <strong>More info &rarr; Run anyway</strong>.
-        </p>
-        <p class="fineprint">
-          <b>macOS</b> — unsigned too, and there is no &ldquo;Run anyway&rdquo; here: let the block
-          appear, then <strong>System Settings &rarr; Privacy &amp; Security &rarr; Open Anyway</strong>.
-          The Intel build has been run on a real Mac; the Apple&nbsp;Silicon one is verified
-          in CI but nobody has launched it yet.
-        </p>
-        <p class="fineprint">
-          Every asset ships a matching <code>.sha256</code>. Prerequisites, the Linux server
-          path and the full install notes: <a href="/docs/updates-install.html">Updates &amp; install</a>.
+          <b>Nothing is code-signed yet</b>, so the first launch is blocked. On Windows choose
+          <strong>More info &rarr; Run anyway</strong>; on macOS let the block appear, then
+          <strong>System Settings &rarr; Privacy &amp; Security &rarr; Open Anyway</strong>.
+          Every asset ships a matching <code>.sha256</code>.
+          <a href="/docs/updates-install.html">Prerequisites and full install notes &rarr;</a>
         </p>
       </div>
 
-      <div class="editions">
-        <h3 class="editions-h">Which one do I need?</h3>
-        <p class="editions-lead">One app and one server. The server runs in two modes — the
-          difference is whether it also distils, and whether it needs Ollama.</p>
-        <div class="editions-scroll">
-          <table class="editions-table">
-            <thead>
-              <tr>
-                <th scope="col"><span class="sr-only">Capability</span></th>
-                <th scope="col">Desktop<br><small>Windows &amp; macOS</small></th>
-                <th scope="col">Linux server<br><small>full</small></th>
-                <th scope="col">Linux server<br><small>appliance</small></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><th scope="row">Reads the assistants on your machine</th>
-                  <td class="y">yes</td><td class="n">no</td><td class="n">no</td></tr>
-              <tr><th scope="row">Distils conversations into notes</th>
-                  <td class="y">your GPU</td><td class="y">its own GPU</td><td class="n">no</td></tr>
-              <tr><th scope="row">Answers agents over MCP</th>
-                  <td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr>
-              <tr><th scope="row">Hybrid search over the vault</th>
-                  <td class="y">yes</td><td class="y">yes</td><td class="y">yes</td></tr>
-              <tr><th scope="row">Needs Ollama</th>
-                  <td>only to distil</td><td>yes</td><td class="y">no, embeds in-process</td></tr>
-              <tr><th scope="row">Meant to stay on</th>
-                  <td class="n">no</td><td class="y">24/7</td><td class="y">24/7</td></tr>
-              <tr><th scope="row">Typical machine</th>
-                  <td>your PC</td><td>a box with a GPU</td><td>a small VM or NAS</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="editions-note">
-          Start with the desktop app: it is the only one that collects anything. Add a server when
-          you want the memory reachable while your PC is off. Both server modes are the same download
-          and the same code; the installer defaults to the appliance, and
-          <code>--with-ollama</code> gives you the full one.
-        </p>
-        <p class="editions-note">
-          Not a difference: <b>language</b>. All three run the same embedding model
-          (<code>nomic-embed-text</code>), so whatever it does with your language, it does
-          identically everywhere. Picking one edition over another changes nothing about recall
-          in Polish, English or anything else.
-        </p>
-      </div>
+      <p class="fineprint">
+        <b>One download, two server modes.</b> The full server also distils on its own GPU; the
+        appliance searches only and needs no Ollama at all, which is what lets it live on a NAS.
+        <a href="/docs/sizing.html">What each one can do &rarr;</a>
+      </p>
 
       <p class="fineprint">
         I'm Łukasz. I build Pomnia alone, after hours.
