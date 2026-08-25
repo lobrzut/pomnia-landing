@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 420" width="880" height="420" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="880" height="420" fill="#06070d"/>
+
+  <text x="40" y="46" fill="#9aa3bd" font-size="12" letter-spacing="1.6">WHAT SEARCH SAYS ABOUT ITS OWN CONFIDENCE</text>
+
+  <!-- before -->
+  <text x="40" y="86" fill="#5b6178" font-size="11.5" letter-spacing="1">BEFORE — the same shape either way</text>
+  <rect x="40" y="98" width="360" height="112" rx="10" fill="#0a0c16" stroke="rgba(148,163,216,0.18)"/>
+  <text x="62" y="126" fill="#9aa3bd" font-size="12" font-family="ui-monospace, Consolas, monospace">"what did we decide about X"</text>
+  <text x="62" y="152" fill="#e9ecf5" font-size="12">5 chunks, each with a score</text>
+  <text x="62" y="176" fill="#9aa3bd" font-size="12" font-family="ui-monospace, Consolas, monospace">"lunar regolith sintering"</text>
+  <text x="62" y="196" fill="#e9ecf5" font-size="12">5 chunks, each with a score</text>
+
+  <text x="420" y="158" fill="#5b6178" font-size="11.5">indistinguishable →</text>
+  <text x="420" y="180" fill="#5b6178" font-size="11.5">so the agent writes</text>
+  <text x="420" y="198" fill="#5b6178" font-size="11.5">something plausible</text>
+
+  <!-- after -->
+  <text x="40" y="256" fill="#5b6178" font-size="11.5" letter-spacing="1">NOW — a verdict in prose, because a float carries no calibration</text>
+
+  <rect x="40" y="270" width="256" height="86" rx="10" fill="#0a0c16" stroke="#34d399" stroke-width="1.3"/>
+  <text x="60" y="298" fill="#34d399" font-size="13" font-weight="600" font-family="ui-monospace, Consolas, monospace">strong</text>
+  <text x="60" y="322" fill="#9aa3bd" font-size="11.5">These notes are about</text>
+  <text x="60" y="340" fill="#9aa3bd" font-size="11.5">the thing you asked for.</text>
+
+  <rect x="312" y="270" width="256" height="86" rx="10" fill="#0a0c16" stroke="#6366f1" stroke-width="1.3"/>
+  <text x="332" y="298" fill="#6366f1" font-size="13" font-weight="600" font-family="ui-monospace, Consolas, monospace">lexical</text>
+  <text x="332" y="322" fill="#9aa3bd" font-size="11.5">Matched on words, not on</text>
+  <text x="332" y="340" fill="#9aa3bd" font-size="11.5">meaning. Leads to verify.</text>
+
+  <rect x="584" y="270" width="256" height="86" rx="10" fill="#0a0c16" stroke="#5b6178" stroke-width="1.3" stroke-dasharray="5 4"/>
+  <text x="604" y="298" fill="#9aa3bd" font-size="13" font-weight="600" font-family="ui-monospace, Consolas, monospace">none</text>
+  <text x="604" y="322" fill="#9aa3bd" font-size="11.5">Nothing covers this. Do not</text>
+  <text x="604" y="340" fill="#9aa3bd" font-size="11.5">build an answer from these.</text>
+
+  <text x="40" y="392" fill="#5b6178" font-size="11.5">Measured on a real vault: questions with an answer score 0.21, questions without score 0.06. Nothing is hidden — weak rows are labelled.</text>
+</svg>

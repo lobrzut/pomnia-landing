@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 400" width="880" height="400" font-family="ui-sans-serif, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="880" height="400" fill="#06070d"/>
+
+  <text x="40" y="46" fill="#9aa3bd" font-size="12" letter-spacing="1.6">WHERE THE BOUNDARY ACTUALLY RUNS</text>
+
+  <!-- sealed side -->
+  <rect x="40" y="74" width="380" height="228" rx="12" fill="#0a0c16" stroke="#22d3ee" stroke-width="1.4"/>
+  <text x="64" y="108" fill="#22d3ee" font-size="14" font-weight="600">Sealed by your passphrase</text>
+  <text x="64" y="132" fill="#5b6178" font-size="11">AES-256-GCM · random IV per blob · integrity tag</text>
+  <text x="64" y="150" fill="#5b6178" font-size="11">key from scrypt at N=2¹⁷ · never stored</text>
+  <line x1="64" y1="166" x2="396" y2="166" stroke="rgba(148,163,216,0.18)"/>
+  <text x="64" y="194" fill="#e9ecf5" font-size="13">snapshot blobs</text>
+  <text x="64" y="216" fill="#9aa3bd" font-size="11.5">12 565 files · 2.5 GB</text>
+  <text x="64" y="252" fill="#5b6178" font-size="11.5">Copy this to a NAS, a backup drive, a cloud</text>
+  <text x="64" y="270" fill="#5b6178" font-size="11.5">folder — unreadable without the passphrase.</text>
+
+  <!-- plaintext side -->
+  <rect x="460" y="74" width="380" height="228" rx="12" fill="#0a0c16" stroke="#5b6178" stroke-width="1.4" stroke-dasharray="6 4"/>
+  <text x="484" y="108" fill="#e9ecf5" font-size="14" font-weight="600">Local plaintext, on purpose</text>
+  <text x="484" y="132" fill="#5b6178" font-size="11">what your agents actually read</text>
+  <text x="484" y="150" fill="#5b6178" font-size="11">so you can grep it, open it, put it in git</text>
+  <line x1="484" y1="166" x2="816" y2="166" stroke="rgba(148,163,216,0.18)"/>
+  <text x="484" y="194" fill="#e9ecf5" font-size="13">notes · skills · profile</text>
+  <text x="484" y="216" fill="#9aa3bd" font-size="11.5">1967 files · 12 MB</text>
+  <text x="484" y="240" fill="#e9ecf5" font-size="13">search index</text>
+  <text x="484" y="262" fill="#9aa3bd" font-size="11.5">3263 chunks · full text, not just vectors</text>
+
+  <!-- the honest sentence -->
+  <text x="40" y="342" fill="#9aa3bd" font-size="12.5">Locking the vault seals the key. It does not wipe the index.</text>
+  <text x="40" y="366" fill="#5b6178" font-size="12">Full-disk encryption is doing real work here, and this is said out loud rather than found with <tspan font-family="ui-monospace, Consolas, monospace" fill="#9aa3bd">strings</tspan>.</text>
+</svg>
