@@ -255,6 +255,16 @@
   .editions { margin: 42px auto 0; max-width: 760px; text-align: left; }
   .editions-h { font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
     color: var(--ink-dim); margin: 0 0 8px; font-weight: 600; }
+  /* .fineprint is the page's narrow centred prose column: max-width 418px with
+     auto margins. Dropped inside this left-aligned 760px block it rendered as an
+     indented 418px stub starting where the first data column begins. */
+  .editions-note {
+    font-size: 13px; line-height: 1.65; color: var(--ink-faint);
+    margin: 16px 0 0; text-wrap: pretty;
+  }
+  .editions-note b { color: var(--ink-dim); }
+  .editions-note code { font-size: 12px; }
+
   .editions-lead { color: var(--ink-dim); font-size: 14px; line-height: 1.6; margin: 0 0 18px; }
   /* Four columns cannot shrink past legibility; let the table scroll, never the page. */
   .editions-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -651,13 +661,13 @@
             </tbody>
           </table>
         </div>
-        <p class="fineprint">
+        <p class="editions-note">
           Start with the desktop app: it is the only one that collects anything. Add a server when
           you want the memory reachable while your PC is off. Both server modes are the same download
           and the same code; the installer defaults to the appliance, and
           <code>--with-ollama</code> gives you the full one.
         </p>
-        <p class="fineprint">
+        <p class="editions-note">
           Not a difference: <b>language</b>. All three run the same embedding model
           (<code>nomic-embed-text</code>), so whatever it does with your language, it does
           identically everywhere. Picking one edition over another changes nothing about recall
