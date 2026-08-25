@@ -141,7 +141,10 @@
   footer a { color: var(--ink-dim); }
   footer a:hover { color: var(--cyan); }
   /* ═══ Editions table — what each build can and cannot do ═══ */
-  .editions { margin: 26px 0 0; text-align: left; }
+  /* A bottom margin, because without one the paragraph after the table butted
+     straight against its last row -- zero gap where every other pair of blocks
+     on this page has 54px. */
+  .editions { margin: 26px 0 30px; text-align: left; }
   .editions-h { font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
     color: var(--ink-dim); margin: 0 0 8px; font-weight: 600; }
   /* .fineprint is the page's narrow centred prose column: max-width 418px with

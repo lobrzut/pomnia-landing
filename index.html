@@ -282,6 +282,10 @@
   .ghost { font-size: 14px; color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid transparent; transition: color .18s ease, border-color .18s ease; }
   .ghost:hover { color: var(--ink-dim); border-color: var(--ink-faint); }
 
+  /* Lives in the hero, not at the top of the next section. The hero is
+     min-height:100svh with its content vertically centred, so trailing space
+     grows with the window -- the strip drifted further from the download block
+     the taller the screen, and read as orphaned. */
   .hint { font-family: var(--mono); font-size: 12px; line-height: 1.9; color: var(--ink-faint); letter-spacing: 0.06em; }
   .hint .ok { color: var(--mint); }
   .alpha-pill {
@@ -580,11 +584,11 @@
           </p>
         </div>
       </div>
+
+      <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
     </section>
 
     <section class="under-hero">
-      <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
-
       <div class="honest">
         <p class="fineprint">
           <b>Nothing is code-signed yet</b>, so the first launch is blocked. On Windows choose
