@@ -237,23 +237,29 @@
     color: var(--ink-dim); text-wrap: pretty;
   }
   .pane-what b { color: var(--ink-dim); font-weight: 600; }
-  /* One quiet line under the OS pane. Not a second download button: Desktop
-     keeps the only .cta-secondary in this cluster. Not a Latest link — the
-     zip is not on Latest. */
-  .mini-line {
-    width: min(100%, 52ch);
-    margin: 10px 0 0;
-    font-size: 12.5px; line-height: 1.5;
+  /* Outlined Mini control under the OS-specific primary. Smaller than
+     .cta-secondary so it stays a second action, not a second hero. The hero
+     is only as tall as this cluster. */
+  .mini-dl {
+    display: inline-block; margin-top: 10px; text-decoration: none;
+    font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em;
+    color: var(--ink); padding: 8px 18px; border-radius: 999px;
+    border: 1px solid rgba(148, 163, 216, 0.5);
+    background: rgba(17, 20, 31, 0.35);
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .mini-dl:hover {
+    border-color: rgba(99, 102, 241, 0.7);
+    background: rgba(24, 28, 46, 0.8);
+  }
+  .mini-note {
+    width: min(100%, 48ch);
+    margin: 6px 0 0;
+    font-size: 12px; line-height: 1.45;
     color: var(--ink-faint); text-wrap: pretty;
   }
-  .mini-line a {
-    color: var(--ink-dim); text-decoration: none;
-    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
-    transition: color .18s ease, border-color .18s ease;
-  }
-  .mini-line a:hover { color: var(--cyan); border-color: var(--cyan); }
-  .mini-line code, .install-meta code {
-    font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+  .mini-note code, .install-meta code {
+    font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim);
   }
 
   .install-meta {
@@ -594,12 +600,8 @@
             <a href="/docs/linux-self-hosted.html">setup guide</a>
           </p>
         </div>
-        <p class="mini-line">
-          Mini — thin client to a remote brain-core, for a PC that should not hold the vault.
-          Not on Latest.
-          <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener">When a release has it</a>:
-          <code>PomniaMini-x.y.z.zip</code>, not the Desktop installer.
-        </p>
+        <a class="mini-dl" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip" rel="noopener">Download Pomnia Mini</a>
+        <p class="mini-note">Thin client to a remote brain-core. Unpack <code>PomniaMini-0.1.91.zip</code> once, run <code>PomniaMini.exe</code>.</p>
       </div>
 
       <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
@@ -731,10 +733,10 @@
         <p class="fineprint">
           Windows, macOS, and Linux Desktop are on
           <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a>.
+          Mini is
+          <a href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip" rel="noopener"><code>PomniaMini-0.1.91.zip</code></a>
+          on that same release.
           Source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
-          Mini is not on Latest. When a release has it:
-          <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener"><code>PomniaMini-x.y.z.zip</code></a>
-          — not the Desktop installer.
         </p>
       </div>
 
