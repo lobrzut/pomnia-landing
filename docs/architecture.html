@@ -270,15 +270,15 @@
   <ul data-lang="en">
     <li><strong>Embedded</strong> — Brain inside Pomnia on <code>127.0.0.1:7862</code>; one MCP server <code>pomnia</code>; local Ollama for embed/search (and distill).</li>
     <li><strong>Remote brain-core</strong> — headless Linux; one key <code>pomnia</code> → <code>/mcp</code> + Bearer (often <code>:7865</code>). Local Ollama optional (distill only).</li>
-    <li><strong>Legacy remote</strong> — Python hub + three SSE keys (<code>pomnia</code> / <code>pomnia-vault</code> / <code>pomnia-library</code>). Connect → Remote no longer emits this; it is opt-in.</li>
     <li>Step-by-step wiring: <a class="inline" href="mcp.html">Connect MCP</a>.</li>
   </ul>
   <ul data-lang="pl">
     <li><strong>Embedded</strong> — Brain w Pomni na <code>127.0.0.1:7862</code>; jeden serwer MCP <code>pomnia</code>; lokalna Ollama do embed/search (i distill).</li>
     <li><strong>Remote brain-core</strong> — headless Linux; jeden klucz <code>pomnia</code> → <code>/mcp</code> + Bearer (często <code>:7865</code>). Lokalna Ollama opcjonalna (tylko distill).</li>
-    <li><strong>Legacy remote</strong> — hub Python + trzy klucze SSE (<code>pomnia</code> / <code>pomnia-vault</code> / <code>pomnia-library</code>). Connect → Remote już tego nie generuje — to opcja na żądanie.</li>
     <li>Krok po kroku: <a class="inline" href="mcp.html">Podłącz MCP</a>.</li>
   </ul>
+  <p data-lang="en">Footnote: a config that lists three SSE servers (<code>pomnia</code> + <code>pomnia-vault</code> + <code>pomnia-library</code>) is the retired Python hub. It is not a setup path. Connect → Remote does not emit it. There is one server, <code>pomnia</code>.</p>
+  <p data-lang="pl">Przypis: konfiguracja z trzema serwerami SSE (<code>pomnia</code> + <code>pomnia-vault</code> + <code>pomnia-library</code>) to wycofany hub Python. To nie jest ścieżka setupu. Connect → Remote tego nie generuje. Jest jeden serwer, <code>pomnia</code>.</p>
 
   <h2 data-lang="en">Two content pipelines</h2>
   <h2 data-lang="pl">Dwa pipeline’y treści</h2>
@@ -290,7 +290,7 @@
       <tr>
         <td>Chats (live backup, ZIP import)</td>
         <td>Vault → <strong>Distill</strong> → index</td>
-        <td>Yes (e.g. <code>qwen2.5:14b</code> via Ollama)</td>
+        <td>Yes (default <code>llama3.1:8b</code> via Ollama)</td>
       </tr>
       <tr>
         <td>Documents (PDF, DOCX, EPUB)</td>
@@ -307,7 +307,7 @@
       <tr>
         <td>Czaty (live backup, import ZIP)</td>
         <td>Vault → <strong>Distill</strong> → indeks</td>
-        <td>Tak (np. <code>qwen2.5:14b</code> przez Ollamę)</td>
+        <td>Tak (domyślnie <code>llama3.1:8b</code> przez Ollamę)</td>
       </tr>
       <tr>
         <td>Dokumenty (PDF, DOCX, EPUB)</td>

@@ -260,77 +260,40 @@
     Linux/macOS: <code>chmod 600 ~/.cursor/mcp.json</code>.
   </p>
   <div class="note" data-lang="en">
-    <strong>Connect emits this shape by default.</strong> Desktop → Connect → <em>Remote</em>
-    generates the single <code>/mcp</code> server below; the legacy three-key SSE form is
-    opt-in and only for a Python hub that is still running. Pasting by hand works too — the
-    template is here so you can check what Connect produced rather than trust it.
+    <strong>Connect emits this shape.</strong> Desktop → Connect → <em>Remote</em>
+    generates the single <code>/mcp</code> server above. Pasting by hand works too — the
+    template is here so you can check what Connect produced.
   </div>
   <div class="note" data-lang="pl">
-    <strong>Connect domyślnie generuje właśnie ten kształt.</strong> Desktop → Connect → <em>Remote</em>
-    daje pojedynczy serwer <code>/mcp</code> poniżej; legacy trzy klucze SSE to opcja na żądanie,
-    wyłącznie dla hubów Pythona, które jeszcze działają. Wklejenie ręczne też zadziała — szablon
-    jest tu po to, żebyś mógł sprawdzić, co Connect wygenerował, a nie wierzyć mu na słowo.
+    <strong>Connect generuje właśnie ten kształt.</strong> Desktop → Connect → <em>Remote</em>
+    daje pojedynczy serwer <code>/mcp</code> powyżej. Wklejenie ręczne też zadziała — szablon
+    jest tu po to, żebyś mógł sprawdzić, co Connect wygenerował.
   </div>
-
-  <h2 data-lang="en">Legacy remote — Python hub (3× SSE)</h2>
-  <h2 data-lang="pl">Legacy remote — hub Python (3× SSE)</h2>
   <p data-lang="en">
-    Older Reliqua/Python Brain behind a supergateway. Kept for hubs still running it; Connect → Remote defaults to brain-core.
-    Always <strong>three</strong> client keys (legacy names <code>brain-rag</code> /
-    <code>brain-vault</code> / <code>brain-library</code> still pass status checks).
-    Token from dashboard <code>:7860</code>; MCP proxy usually <code>:7862</code>.
+    <strong>Footnote.</strong> Older copies of this page showed three SSE servers
+    (<code>pomnia</code>, <code>pomnia-vault</code>, <code>pomnia-library</code> on <code>/sse</code>).
+    That was the retired Python hub. It is not a setup path, and Connect does not emit it.
+    Those paths no longer answer. A config that still lists the extra keys fails at the next
+    client restart with an error that names none of this — delete them and keep the single
+    <code>pomnia</code> server above.
   </p>
   <p data-lang="pl">
-    Stary hub Reliqua/Python za supergateway. Zostaje dla hubów, które go jeszcze mają; Connect → Remote domyślnie daje brain-core.
-    Zawsze <strong>trzy</strong> klucze (legacy <code>brain-rag</code> /
-    <code>brain-vault</code> / <code>brain-library</code> status jeszcze akceptuje).
-    Token z dashboardu <code>:7860</code>; MCP zwykle <code>:7862</code>.
+    <strong>Przypis.</strong> Starsze kopie tej strony pokazywały trzy serwery SSE
+    (<code>pomnia</code>, <code>pomnia-vault</code>, <code>pomnia-library</code> na <code>/sse</code>).
+    To był wycofany hub Python. To nie jest ścieżka setupu i Connect tego nie generuje.
+    Te ścieżki już nie odpowiadają. Konfiguracja, która nadal ma dodatkowe klucze, pada przy
+    następnym restarcie klienta błędem, który o tym nie mówi — usuń je i zostaw jeden serwer
+    <code>pomnia</code> powyżej.
   </p>
-  <table data-lang="en">
-    <thead>
-      <tr><th>MCP key</th><th>Path on Brain proxy</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
-      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
-      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
-    </tbody>
-  </table>
-  <table data-lang="pl">
-    <thead>
-      <tr><th>Klucz MCP</th><th>Ścieżka na proxy Brain</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><code>pomnia</code></td><td><code>/sse</code></td></tr>
-      <tr><td><code>pomnia-vault</code></td><td><code>/servers/brain-vault/sse</code></td></tr>
-      <tr><td><code>pomnia-library</code></td><td><code>/servers/brain-library/sse</code></td></tr>
-    </tbody>
-  </table>
-  <pre>{
-  "mcpServers": {
-    "pomnia": {
-      "url": "http://YOUR-HOST:7862/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    },
-    "pomnia-vault": {
-      "url": "http://YOUR-HOST:7862/servers/brain-vault/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    },
-    "pomnia-library": {
-      "url": "http://YOUR-HOST:7862/servers/brain-library/sse",
-      "headers": { "Authorization": "Bearer btk_…" }
-    }
-  }
-}</pre>
 
   <h2 data-lang="en">Verify</h2>
   <h2 data-lang="pl">Weryfikacja</h2>
   <ul data-lang="en">
-    <li>Cursor → Settings → MCP: one server Connected (embedded or brain-core), or three (legacy Python hub).</li>
+    <li>Cursor → Settings → MCP: one server <code>pomnia</code> Connected (embedded or brain-core).</li>
     <li>Ask the agent something only your vault knows — it should call <code>get_user_profile</code> / <code>search_library</code>.</li>
   </ul>
   <ul data-lang="pl">
-    <li>Cursor → Settings → MCP: jeden serwer Connected (embedded / brain-core) albo trzy (legacy hub Python).</li>
+    <li>Cursor → Settings → MCP: jeden serwer <code>pomnia</code> Connected (embedded / brain-core).</li>
     <li>Zapytaj agenta o coś tylko z Twojego vaultu — powinien wołać <code>get_user_profile</code> / <code>search_library</code>.</li>
   </ul>
 
