@@ -35,13 +35,14 @@ Hero + nav + closing CTA point at:
 
 That always resolves to whatever GitHub marks as Latest.
 
-Desktop, macOS, Linux GUI, and **Pomnia Mini** are on that same Latest release.
-Mini ships as `PomniaMini-<version>.zip`. The filename on Latest must match the
-package version (`PomniaMini-0.1.91.zip` on `v0.1.91`). Desktop buttons use the
-`/releases/latest` redirect and do not embed a version, so Mini does the same:
-link the Latest release page and name `PomniaMini-x.y.z.zip` in the copy.
-Do not hardcode `/releases/latest/download/PomniaMini-0.1.91.zip` — that URL
-goes stale on the next tag while `/releases/latest` does not.
+Desktop, macOS, and Linux GUI buttons use that page. They do not embed a version.
+
+**Pomnia Mini** is on the same Latest release, as `PomniaMini-<version>.zip`.
+The outlined hero button must download that zip, not the Desktop installer page:
+
+`https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip`
+
+GitHub only resolves `/releases/latest/download/<file>` when `<file>` is the asset name on the current Latest tag. When the package version moves, replace `0.1.91` in that href and in the filename tip. Do not point the Mini button at `/releases/latest`.
 
 The ship name (lobrzut/pomnia#4, `release:mini`) is `PomniaMini-<version>.zip`.
 Unpack once and run `PomniaMini.exe`. Not the portable exe, and not
