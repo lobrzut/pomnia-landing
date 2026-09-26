@@ -33,7 +33,11 @@ Hero + nav + closing CTA point at:
 
 `https://github.com/lobrzut/pomnia/releases/latest`
 
-That always resolves to whatever GitHub marks as Latest (currently `v0.1.58`).
+That always resolves to whatever GitHub marks as Latest.
+
+Desktop, macOS, and Linux GUI stay on Latest. **Pomnia Mini does not**, until `PomniaMini-<version>.zip` is actually attached there.
+
+The ship name (lobrzut/pomnia#4, `release:mini`) is `PomniaMini-<version>.zip` — not `PomniaMini-<version>-portable.zip`. v0.1.91 has no Mini asset. v0.1.89 has only the older portable zip and exe. Homepage, Start here, and Updates & install say “not on Latest” and link the releases **list** (`/releases`), not `/releases/latest`. Do not point Mini at Latest, or at `…/releases/latest/download/<file>`, until that exact zip is on Latest.
 
 ## Ground rules for this page
 

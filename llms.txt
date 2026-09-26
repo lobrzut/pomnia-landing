@@ -9,7 +9,8 @@ Pomnia gives your agents a shared past: encrypted vault archive for chat/doc blo
 - Trust: local-first; no telemetry by default; no cloud required
 - Encryption honesty: AES-256-GCM protects vault blobs (passphrase-derived key). Distilled notes and library.db (search index under AppData) are plaintext by design — see Privacy
 - Installer: Windows setup is unsigned for now (SmartScreen expected). Prefer verifying the published SHA-256 on GitHub Releases
-- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; Linux Desktop GUI .AppImage / .deb). Linux server: https://pomnia.ai/install.sh — curl|sh installs AGPL brain-core (systemd), not AppImage. macOS not shipping yet
+- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; macOS .dmg; Linux Desktop GUI .AppImage / .deb). Linux server: https://pomnia.ai/install.sh — curl|sh installs AGPL brain-core (systemd), not AppImage
+- Pomnia Mini: thin Windows client to a remote brain-core you already run. No local vault, no local distill. Not on releases/latest — v0.1.91 has no Mini zip. When a release has it, the file is PomniaMini-<version>.zip (not PomniaMini-<version>-portable.zip, not the Desktop Pomnia-<version>-setup.exe). v0.1.89 has only the older portable zip and exe. Releases list, not Latest: https://github.com/lobrzut/pomnia/releases
 
 ## Canonical pages
 - https://pomnia.ai/

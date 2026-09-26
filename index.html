@@ -117,18 +117,16 @@
   .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 0 22px -8px rgba(99,102,241,0.7); }
 
   /* ── Hero — orchestrated entrance ────────────────────────────────────── */
-  /* The first screen carries only four tiers: wordmark, proposition, actions,
-     installer. Padding clears the top bar; the gap breathes with the viewport
-     height so a 768px laptop is not squeezed and a tall monitor is not sparse. */
+  /* Wordmark, proposition, docs, then the install cluster. Height follows the
+     content: a 100svh centered hero padded empty space above and below the
+     download block once Mini sat under it. */
   .hero {
-    min-height: 100svh; max-width: none;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: auto; max-width: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
     text-align: center;
-    /* Pulled under the top bar so hero + bar together are one screen; the top
-       padding then keeps the content itself clear of the bar. */
-    margin-top: -64px;
-    padding: 86px 24px 52px;
-    gap: clamp(20px, 3.2vh, 40px);
+    margin-top: 0;
+    padding: 8px 24px 28px;
+    gap: 14px;
   }
   .hero > * { opacity: 0; animation: rise 1s var(--ease) forwards; }
   @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
@@ -193,7 +191,7 @@
   .install-tabs {
     display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
     padding: 3px; gap: 2px; background: rgba(17, 20, 31, 0.45);
-    margin: 0 auto 16px;
+    margin: 0 auto 8px;
   }
   .install-tabs button {
     font-family: var(--sans); font-size: 13px; font-weight: 600;
@@ -206,7 +204,7 @@
   .install-pane[hidden] { display: none !important; }
   /* width:100% stops the pane shrink-wrapping to the nowrap command, which
      otherwise pushes the curl box past a narrow viewport. */
-  .install-pane { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .install-pane { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .curl-wrap { width: min(100%, 560px); margin: 0 auto; }
   .curl-label {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
@@ -239,6 +237,24 @@
     color: var(--ink-dim); text-wrap: pretty;
   }
   .pane-what b { color: var(--ink-dim); font-weight: 600; }
+  /* One quiet line under the OS pane. Not a second download button: Desktop
+     keeps the only .cta-secondary in this cluster. Not a Latest link — the
+     zip is not on Latest. */
+  .mini-line {
+    width: min(100%, 52ch);
+    margin: 10px 0 0;
+    font-size: 12.5px; line-height: 1.5;
+    color: var(--ink-faint); text-wrap: pretty;
+  }
+  .mini-line a {
+    color: var(--ink-dim); text-decoration: none;
+    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .mini-line a:hover { color: var(--cyan); border-color: var(--cyan); }
+  .mini-line code, .install-meta code {
+    font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+  }
 
   .install-meta {
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
@@ -282,10 +298,9 @@
   .ghost { font-size: 14px; color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid transparent; transition: color .18s ease, border-color .18s ease; }
   .ghost:hover { color: var(--ink-dim); border-color: var(--ink-faint); }
 
-  /* Lives in the hero, not at the top of the next section. The hero is
-     min-height:100svh with its content vertically centred, so trailing space
-     grows with the window -- the strip drifted further from the download block
-     the taller the screen, and read as orphaned. */
+  /* Sits with the install cluster. The hero is only as tall as its content,
+     so this line stays next to the download instead of floating in leftover
+     viewport. */
   .hint { font-family: var(--mono); font-size: 12px; line-height: 1.9; color: var(--ink-faint); letter-spacing: 0.06em; }
   .hint .ok { color: var(--mint); }
   .alpha-pill {
@@ -579,6 +594,12 @@
             <a href="/docs/linux-self-hosted.html">setup guide</a>
           </p>
         </div>
+        <p class="mini-line">
+          Mini — thin client to a remote brain-core, for a PC that should not hold the vault.
+          Not on Latest.
+          <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener">When a release has it</a>:
+          <code>PomniaMini-x.y.z.zip</code>, not the Desktop installer.
+        </p>
       </div>
 
       <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
@@ -691,11 +712,11 @@
       <div class="reveal d1 get-wrap">
         <div class="get-actions">
           <a class="cta" href="/docs/">Start here — read the docs →</a>
-          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Windows</a>
+          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
         </div>
 
         <p class="install-meta">
-          Windows installer · free · no account ·
+          Windows, macOS, Linux Desktop · on Latest · free · no account ·
           <a href="/privacy.html">privacy</a>
         </p>
 
@@ -708,9 +729,12 @@
         </div>
 
         <p class="fineprint">
-          Every platform on
-          <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
-          source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
+          Windows, macOS, and Linux Desktop are on
+          <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a>.
+          Source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
+          Mini is not on Latest. When a release has it:
+          <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener"><code>PomniaMini-x.y.z.zip</code></a>
+          — not the Desktop installer.
         </p>
       </div>
 
