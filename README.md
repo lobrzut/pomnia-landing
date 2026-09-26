@@ -35,9 +35,18 @@ Hero + nav + closing CTA point at:
 
 That always resolves to whatever GitHub marks as Latest.
 
-Desktop, macOS, and Linux GUI stay on Latest. **Pomnia Mini does not**, until `PomniaMini-<version>.zip` is actually attached there.
+Desktop, macOS, Linux GUI, and **Pomnia Mini** are on that same Latest release.
+Mini ships as `PomniaMini-<version>.zip`. The filename on Latest must match the
+package version (`PomniaMini-0.1.91.zip` on `v0.1.91`). Desktop buttons use the
+`/releases/latest` redirect and do not embed a version, so Mini does the same:
+link the Latest release page and name `PomniaMini-x.y.z.zip` in the copy.
+Do not hardcode `/releases/latest/download/PomniaMini-0.1.91.zip` — that URL
+goes stale on the next tag while `/releases/latest` does not.
 
-The ship name (lobrzut/pomnia#4, `release:mini`) is `PomniaMini-<version>.zip` — not `PomniaMini-<version>-portable.zip`. v0.1.91 has no Mini asset. v0.1.89 has only the older portable zip and exe. Homepage, Start here, and Updates & install say “not on Latest” and link the releases **list** (`/releases`), not `/releases/latest`. Do not point Mini at Latest, or at `…/releases/latest/download/<file>`, until that exact zip is on Latest.
+The ship name (lobrzut/pomnia#4, `release:mini`) is `PomniaMini-<version>.zip`.
+Unpack once and run `PomniaMini.exe`. Not the portable exe, and not
+`PomniaMini-<version>-portable.zip` (that older zip unpacks into `%TEMP%` on
+every launch). No embedded Brain: Mini connects to a remote brain-core.
 
 ## Ground rules for this page
 
