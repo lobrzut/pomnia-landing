@@ -35,7 +35,9 @@ Hero + nav + closing CTA point at:
 
 That always resolves to whatever GitHub marks as Latest.
 
-**Pomnia Mini** (homepage install cluster, Start here, Updates & install) uses the same Latest page. The zip is not a stable filename across versions. Packaging in [lobrzut/pomnia](https://github.com/lobrzut/pomnia) `electron-builder.mini.yml` names it `PomniaMini-${version}-portable.zip` (`productName: PomniaMini`, `artifactName: ${productName}-${version}-portable.${ext}`, Windows zip target). The pages name that asset and link to Latest. Do not pin `/releases/download/v…/`, and do not point a button at `…/releases/latest/download/<file>` until that exact file is on Latest — a missing asset 404s. As of v0.1.91 the zip was not attached yet.
+Desktop, macOS, and Linux GUI stay on Latest. **Pomnia Mini does not**, until `PomniaMini-<version>.zip` is actually attached there.
+
+The ship name (lobrzut/pomnia#4, `release:mini`) is `PomniaMini-<version>.zip` — not `PomniaMini-<version>-portable.zip`. v0.1.91 has no Mini asset. v0.1.89 has only the older portable zip and exe. Homepage, Start here, and Updates & install say “not on Latest” and link the releases **list** (`/releases`), not `/releases/latest`. Do not point Mini at Latest, or at `…/releases/latest/download/<file>`, until that exact zip is on Latest.
 
 ## Ground rules for this page
 
