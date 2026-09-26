@@ -239,6 +239,17 @@
     color: var(--ink-dim); text-wrap: pretty;
   }
   .pane-what b { color: var(--ink-dim); font-weight: 600; }
+  /* Mini sits under the OS panes, always visible, so it is not a fourth tab
+     and not the Desktop installer the selected pane is offering. */
+  .mini-offer {
+    width: 100%;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 12px; margin-top: 6px; padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .install-meta code {
+    font-family: var(--mono); font-size: 12px; color: var(--ink-dim);
+  }
 
   .install-meta {
     font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
@@ -579,6 +590,13 @@
             <a href="/docs/linux-self-hosted.html">setup guide</a>
           </p>
         </div>
+        <div class="mini-offer">
+          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download Mini zip</a>
+          <p class="pane-what"><b>Thin client.</b> Talks to a remote brain-core. For a PC that should not hold the vault.</p>
+          <p class="install-meta">
+            Windows · <code>PomniaMini-x.y.z-portable.zip</code> · not the Desktop installer
+          </p>
+        </div>
       </div>
 
       <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
@@ -711,6 +729,7 @@
           Every platform on
           <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Releases</a>,
           source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
+          Mini is the zip <code>PomniaMini-x.y.z-portable.zip</code> — not the Desktop installer.
         </p>
       </div>
 
