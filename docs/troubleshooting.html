@@ -197,7 +197,7 @@
     Napraw czerwone od góry — zanim szukasz egzotyki.
   </p>
   <pre>ollama pull nomic-embed-text    # search / embed
-ollama pull qwen2.5:14b         # distill (or your chosen chat model)</pre>
+ollama pull llama3.1:8b         # distill (default chat model)</pre>
 
   <h2 data-lang="en">Symptom → fix</h2>
   <h2 data-lang="pl">Symptom → naprawa</h2>
@@ -208,7 +208,7 @@ ollama pull qwen2.5:14b         # distill (or your chosen chat model)</pre>
     <tbody>
       <tr>
         <td>Distill won’t start / stays idle</td>
-        <td>Ollama offline or distill model missing — Brain → Pull model; confirm Ollama is running on this PC (embedded).</td>
+        <td>Ollama offline, or the distill model missing (<code>llama3.1:8b</code> by default) — Brain → Pull model; confirm Ollama is running on this PC (embedded).</td>
       </tr>
       <tr>
         <td>Search returns nothing / empty Brain</td>
@@ -216,7 +216,7 @@ ollama pull qwen2.5:14b         # distill (or your chosen chat model)</pre>
       </tr>
       <tr>
         <td>Cursor MCP “Not connected” / Partial</td>
-        <td>Copy snippet from Connect; merge into <code>~/.cursor/mcp.json</code>; Reload Window. Embedded = one <code>/mcp</code>. brain-core remote = one <code>:7865/mcp</code> + Bearer (manual if Connect still emits legacy 3×SSE). Legacy Python hub = three SSE keys + Bearer.</td>
+        <td>Copy snippet from Connect; merge into <code>~/.cursor/mcp.json</code>; Reload Window. Embedded = one <code>/mcp</code>. Remote brain-core = one <code>:7865/mcp</code> + Bearer. Footnote: a leftover three-SSE config is the retired Python hub — delete the extra keys; Connect does not emit them.</td>
       </tr>
       <tr>
         <td>Agent never calls Pomnia tools</td>
@@ -251,7 +251,7 @@ ollama pull qwen2.5:14b         # distill (or your chosen chat model)</pre>
     <tbody>
       <tr>
         <td>Distill nie startuje / stoi</td>
-        <td>Ollama offline albo brak modelu distill — Brain → Pull model; Ollama musi działać na tym PC (embedded).</td>
+        <td>Ollama offline albo brak modelu distill (<code>llama3.1:8b</code> domyślnie) — Brain → Pull model; Ollama musi działać na tym PC (embedded).</td>
       </tr>
       <tr>
         <td>Search puste / Brain nic nie zwraca</td>
@@ -259,7 +259,7 @@ ollama pull qwen2.5:14b         # distill (or your chosen chat model)</pre>
       </tr>
       <tr>
         <td>Cursor MCP „Not connected” / Partial</td>
-        <td>Snippet z Connect → <code>~/.cursor/mcp.json</code> → Reload Window. Embedded = jeden <code>/mcp</code>. Remote brain-core = jeden <code>:7865/mcp</code> + Bearer (ręcznie, jeśli Connect nadal daje legacy 3×SSE). Legacy hub Python = trzy klucze SSE + Bearer.</td>
+        <td>Snippet z Connect → <code>~/.cursor/mcp.json</code> → Reload Window. Embedded = jeden <code>/mcp</code>. Remote brain-core = jeden <code>:7865/mcp</code> + Bearer. Przypis: zostawiona konfiguracja 3×SSE to wycofany hub Python — usuń dodatkowe klucze; Connect ich nie generuje.</td>
       </tr>
       <tr>
         <td>Agent nie woła narzędzi Pomni</td>
