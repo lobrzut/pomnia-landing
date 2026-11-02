@@ -35,6 +35,12 @@ npx --yes serve -l 5173
 # then open http://localhost:5173/ and http://localhost:5173/docs/
 ```
 
+`node scripts/check-docs.mjs --strict` checks PL/EN facts, the sitemap, and that
+header, main, and footer are in order with a single docs grid.
+`node scripts/check-layout.mjs` renders every page in EN and PL, at 1280px and
+390px, dark and light. It fails if the content column collapses or the footer
+sits above the title. It needs Chrome and `puppeteer-core` on `NODE_PATH`.
+
 ## Download URL
 
 Desktop buttons (Windows, macOS, Linux GUI) and the Windows Mini button point at:
@@ -45,12 +51,27 @@ That always resolves to whatever GitHub marks as Latest. Do not embed a package
 version in a `/releases/latest/download/<file>` URL when the filename contains
 the version — the next tag 404s it.
 
-**Pomnia Mini, Windows.** On that Latest page the file is `PomniaMini-<version>.zip`.
-Unpack once and run `PomniaMini.exe`. Not the portable exe, and not
-`PomniaMini-<version>-portable.zip`. A stable name `PomniaMini-win-x64.zip` is
-planned in lobrzut/pomnia and is not on the current release, so this site does
-not link it. No embedded Brain: Mini connects to a remote brain-core. Its
-settings directory is `pomnia-mini`, separate from Desktop `pomnia`.
+**Pomnia Mini, Windows.** The button points at Latest. The file there today is
+`PomniaMini-<version>.zip`. Unpack once and run `PomniaMini.exe`. Not the
+portable exe, and not `PomniaMini-<version>-portable.zip`. From the next
+release the stable name is `PomniaMini-win-x64.zip`
+(`releases/latest/download/PomniaMini-win-x64.zip`). v0.1.91 does not contain
+it, so that URL 404s until then. No embedded Brain: Mini connects to a remote
+brain-core. Its settings directory is `pomnia-mini`, separate from Desktop
+`pomnia`.
+
+**Admin token.** From the next release, `deploy/install.sh` (inside the
+tarball) and the container image install `/usr/local/bin/brain-core`, so the
+documented command is `brain-core --add-token <name> --role admin`. Installs
+from the current release have no wrapper; the fallback is
+`sudo -u pomnia node /opt/pomnia-brain-core/dist/daemon.js --data-dir /var/lib/pomnia --add-token <name> --role admin`.
+
+**bootstrap.sh vs this `install.sh`.** lobrzut/pomnia PR #11 does not change
+`packages/brain-core/deploy/bootstrap.sh` (byte-identical to `1cfae03`). The
+`brain-core` wrapper is added by the packaged `deploy/install.sh`, which the
+bootstrap downloads inside the release tarball. This published file does not
+need a new body sync for #11. Re-copy bootstrap.sh only if that file itself
+changes after #11 merges.
 
 **Pomnia Mini, Linux.** From the next release the stable asset is
 `PomniaMini-linux-x64.AppImage`:

@@ -197,14 +197,22 @@ try {
     <code>/var/lib/pomnia/admin-initial-password</code> (mode 600).
     The printed token is named <code>first</code> and has role <code>agent</code> (no role field means agent).
     Put that agent token in the MCP snippet. Skills, prompts, and a sync push into a vault this host owns
-    need a separate admin token — <code>write_needs_admin</code>. There is no <code>brain-core</code> command on <code>PATH</code>:
+    need a separate admin token — <code>write_needs_admin</code>. From the next release, run <code>brain-core</code> (<code>/usr/local/bin/brain-core</code>):
   </p>
   <p data-lang="pl">
     Pierwsza instalacja: login panelu to <code>admin</code>, hasło w
     <code>/var/lib/pomnia/admin-initial-password</code> (tryb 600).
     Wypisany token nazywa się <code>first</code> i ma rolę <code>agent</code> (brak pola roli oznacza agenta).
     Ten token agenta wstaw do snippetu MCP. Skills, prompty i push sync do vaultu, którego właścicielem jest ten host,
-    wymagają osobnego tokenu admin — <code>write_needs_admin</code>. Na <code>PATH</code> nie ma komendy <code>brain-core</code>:
+    wymagają osobnego tokenu admin — <code>write_needs_admin</code>. Od następnego wydania uruchom <code>brain-core</code> (<code>/usr/local/bin/brain-core</code>):
+  </p>
+  <pre data-lang="en">brain-core --add-token desktop --role admin</pre>
+  <pre data-lang="pl">brain-core --add-token desktop --role admin</pre>
+  <p data-lang="en">
+    The current release (v0.1.91) has no <code>brain-core</code> command. On an older install:
+  </p>
+  <p data-lang="pl">
+    Bieżące wydanie (v0.1.91) nie ma komendy <code>brain-core</code>. Na starszej instalacji:
   </p>
   <pre data-lang="en">sudo -u pomnia node /opt/pomnia-brain-core/dist/daemon.js \
   --data-dir /var/lib/pomnia \
@@ -213,14 +221,10 @@ try {
   --data-dir /var/lib/pomnia \
   --add-token desktop --role admin</pre>
   <p data-lang="en">
-    The server’s own error string says <code>brain-core --add-token &lt;name&gt; --role admin</code>.
-    Use the <code>node …/dist/daemon.js</code> line instead. Full notes:
-    <a class="inline" href="linux-self-hosted.html">Linux self-hosted</a>.
+    Full notes: <a class="inline" href="linux-self-hosted.html">Linux self-hosted</a>.
   </p>
   <p data-lang="pl">
-    Własny tekst błędu serwera mówi <code>brain-core --add-token &lt;name&gt; --role admin</code>.
-    Użyj linii <code>node …/dist/daemon.js</code>. Pełne notatki:
-    <a class="inline" href="linux-self-hosted.html">Linux self-hosted</a>.
+    Pełne notatki: <a class="inline" href="linux-self-hosted.html">Linux self-hosted</a>.
   </p>
   <div class="note" data-lang="en">
     <strong>Connect emits this shape.</strong> Desktop → Connect → <em>Remote</em>

@@ -202,6 +202,26 @@ for (const rel of htmlFiles) {
   if (rel !== 'docs/where-is-my-data.html' && /aria-current="page">(?:where is my data|gdzie są moje dane)</.test(html)) {
     note(`${rel} still has the copied "where is my data" breadcrumb`)
   }
+  if (!noindex && html.includes('class="site-header"')) {
+    const headerAt = html.indexOf('<header')
+    const mainAt = html.indexOf('<main')
+    const mainEnd = html.indexOf('</main>')
+    const footerAt = html.indexOf('<footer')
+    if (!(headerAt >= 0 && mainAt > headerAt && mainEnd > mainAt && footerAt > mainEnd)) {
+      note(`${rel} header, main, and footer are out of order`)
+    }
+    if (mainAt >= 0 && mainEnd > mainAt && html.slice(mainAt, mainEnd).includes('<footer')) {
+      note(`${rel} footer is inside main`)
+    }
+    const shells = html.match(/<div class="docs-shell">/g)?.length ?? 0
+    if (shells > 1) note(`${rel} has ${shells} docs-shell wrappers`)
+    if (shells === 1 && footerAt > html.indexOf('<div class="docs-shell">')) {
+      const slice = html.slice(html.indexOf('<div class="docs-shell">'), footerAt)
+      const opens = slice.match(/<div\b/g)?.length ?? 0
+      const closes = slice.match(/<\/div>/g)?.length ?? 0
+      if (opens !== closes) note(`${rel} footer sits inside an unclosed wrapper (${opens} divs open, ${closes} closed)`)
+    }
+  }
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1])
   for (const href of hrefs) {
     if (/^(https?:|mailto:|#)/.test(href)) continue

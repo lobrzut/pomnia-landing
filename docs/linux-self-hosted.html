@@ -192,14 +192,24 @@ try {
     A token with no role is an <code>agent</code>. It can call MCP, including
     <code>search_library</code> and <code>save_conversation</code>.
     It cannot edit skills or prompts, and it cannot push sync or archive writes into a vault this host owns
-    (<code>write_needs_admin</code>). Mint an admin token — there is no <code>brain-core</code> binary on <code>PATH</code>:
+    (<code>write_needs_admin</code>). From the next release, the packaged installer and the container image put <code>brain-core</code> on <code>PATH</code> at <code>/usr/local/bin/brain-core</code>. Use that:
   </p>
   <p data-lang="pl">
     Pierwszy token bearer nazywa się <code>first</code>, jest wypisany raz i zapisany bez roli.
     Token bez roli to <code>agent</code>. Może wołać MCP, w tym
     <code>search_library</code> i <code>save_conversation</code>.
     Nie może edytować skills ani promptów i nie może pchać zapisu sync ani archiwum do vaultu, którego właścicielem jest ten host
-    (<code>write_needs_admin</code>). Wystaw token admin — na <code>PATH</code> nie ma binarki <code>brain-core</code>:
+    (<code>write_needs_admin</code>). Od następnego wydania instalator w tarballu i obraz kontenera kładą <code>brain-core</code> na <code>PATH</code> pod <code>/usr/local/bin/brain-core</code>. Użyj tego:
+  </p>
+  <pre data-lang="en">brain-core --add-token desktop --role admin</pre>
+  <pre data-lang="pl">brain-core --add-token desktop --role admin</pre>
+  <p data-lang="en">
+    The wrapper runs <code>dist/daemon.js</code> as user <code>pomnia</code> with <code>--data-dir /var/lib/pomnia</code>, and calls <code>sudo</code> if you are not that user.
+    The current release (v0.1.91) has no <code>brain-core</code> command. On an install from before that change, use the long form:
+  </p>
+  <p data-lang="pl">
+    Wrapper uruchamia <code>dist/daemon.js</code> jako użytkownik <code>pomnia</code> z <code>--data-dir /var/lib/pomnia</code> i woła <code>sudo</code>, jeśli nie jesteś tym użytkownikiem.
+    Bieżące wydanie (v0.1.91) nie ma komendy <code>brain-core</code>. Na instalacji sprzed tej zmiany użyj długiej formy:
   </p>
   <pre data-lang="en">sudo -u pomnia node /opt/pomnia-brain-core/dist/daemon.js \
   --data-dir /var/lib/pomnia \
@@ -208,13 +218,9 @@ try {
   --data-dir /var/lib/pomnia \
   --add-token desktop --role admin</pre>
   <p data-lang="en">
-    The panel’s error text still says <code>brain-core --add-token &lt;name&gt; --role admin</code>.
-    That command is not installed. The line above is the one that works.
     Re-running the installer does not rotate the token or the password.
   </p>
   <p data-lang="pl">
-    Tekst błędu w panelu wciąż mówi <code>brain-core --add-token &lt;name&gt; --role admin</code>.
-    Tej komendy nie ma w instalacji. Działa linia powyżej.
     Ponowne uruchomienie instalatora nie rotuje tokenu ani hasła.
   </p>
 
@@ -239,8 +245,10 @@ try {
     The current Latest tag (v0.1.91) does not contain it, so that URL returns HTTP 404 until then.
     Its settings directory is <code>~/.config/pomnia-mini</code>, not <code>~/.config/pomnia</code>.
     Windows Mini today is <code>PomniaMini-&lt;version&gt;.zip</code> on
-    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a>.
-    <code>PomniaMini-win-x64.zip</code> is planned and not linked until a release contains it.
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a> — that page is the link that works now.
+    From the next release the stable name is
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-win-x64.zip" rel="noopener"><code>PomniaMini-win-x64.zip</code></a>.
+    v0.1.91 does not contain it, so that URL returns HTTP 404 until then.
   </p>
   <p data-lang="pl">
     <strong>Mini to trzecia rzecz.</strong> Nie ten AppImage Desktopu i nie serwer.
@@ -249,8 +257,10 @@ try {
     Bieżący tag Latest (v0.1.91) go nie zawiera, więc ten URL zwraca HTTP 404 do tego czasu.
     Katalog ustawień to <code>~/.config/pomnia-mini</code>, nie <code>~/.config/pomnia</code>.
     Windows Mini dziś to <code>PomniaMini-&lt;version&gt;.zip</code> na
-    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a>.
-    <code>PomniaMini-win-x64.zip</code> jest planowane i nie linkujemy go, dopóki wydanie go nie zawiera.
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a> — ta strona działa już teraz.
+    Od następnego wydania stabilna nazwa to
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-win-x64.zip" rel="noopener"><code>PomniaMini-win-x64.zip</code></a>.
+    v0.1.91 go nie zawiera, więc ten URL zwraca HTTP 404 do tego czasu.
   </p>
 
   <h2 data-lang="en">Install forms (Desktop GUI)</h2>
