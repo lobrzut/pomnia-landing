@@ -9,130 +9,92 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<style>
-  :root {
-    --void: #06070d; --abyss: #0a0c16; --ink: #e9ecf5; --ink-dim: #9aa3bd;
-    --ink-faint: #747b98; --line: rgba(148, 163, 216, 0.14);
-    --iris: #6366f1; --cyan: #22d3ee; --mint: #34d399;
-    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--void); }
-  body {
-    font-family: var(--sans); color: var(--ink); line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
-    background-repeat: no-repeat;
-  }
-  a { color: inherit; text-decoration: none; }
-  :focus-visible { outline: 2px solid rgba(99,102,241,0.75); outline-offset: 3px; border-radius: 4px; }
-
-  .top {
-    display: flex; align-items: center; justify-content: space-between;
-    max-width: 760px; margin: 0 auto; padding: 26px 24px 0; gap: 16px; flex-wrap: wrap;
-  }
-  .mark { font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
-  .mark .nd { color: var(--mint); }
-  .top nav { display: flex; align-items: center; gap: 22px; font-size: 14px; flex-wrap: wrap; }
-  .top nav a { color: var(--ink-dim); }
-  .top nav a:hover { color: var(--ink); }
-  .top nav a.here { color: var(--ink); }
-  .top nav a.cta-mini {
-    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
-    padding: 7px 16px; background: rgba(17, 20, 31, 0.5);
-  }
-  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); }
-  .lang {
-    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
-  }
-  .lang button {
-    border: 0; background: transparent; color: var(--ink-faint); padding: 6px 10px; cursor: pointer;
-    font: inherit;
-  }
-  .lang button.active { color: var(--ink); background: rgba(99,102,241,0.18); }
-
-  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 24px 96px; }
-  .kicker a.crumb { color: var(--cyan); }
-  .kicker a.crumb:hover { color: var(--ink); }
-  .kicker {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px;
-  }
-  h1 { font-size: clamp(30px, 5vw, 42px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
-  .lede { color: var(--ink-dim); font-size: 17px; max-width: 38em; margin-bottom: 36px; text-wrap: balance; }
-  .lede strong { color: var(--ink); font-weight: 600; }
-
-  .docs-nav {
-    display: flex; flex-wrap: wrap; gap: 8px 16px; margin-bottom: 28px;
-    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.04em;
-    padding-bottom: 18px; border-bottom: 1px solid var(--line);
-  }
-  .docs-nav a { color: var(--ink-dim); }
-  .docs-nav a:hover { color: var(--cyan); }
-  .docs-nav a.on { color: var(--ink); }
-
-  .note {
-    border: 1px solid var(--line); border-radius: 14px; background: var(--abyss);
-    padding: 18px 20px; margin-bottom: 36px; color: var(--ink-dim); font-size: 14.5px;
-  }
-  .note strong { color: var(--ink); }
-
-  h2 { font-size: 18px; font-weight: 600; margin: 42px 0 12px; letter-spacing: -0.01em; }
-  p { color: var(--ink-dim); margin-bottom: 14px; }
-  ol, ul { margin: 0 0 16px 1.25em; color: var(--ink-dim); }
-  li { margin-bottom: 8px; }
-  strong { color: var(--ink); font-weight: 600; }
-  code {
-    font-family: var(--mono); font-size: 0.9em;
-    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
-  }
-  pre {
-    font-family: var(--mono); font-size: 12.5px; line-height: 1.55;
-    background: var(--abyss); border: 1px solid var(--line); border-radius: 12px;
-    padding: 16px 18px; overflow-x: auto; margin: 0 0 18px; color: var(--ink-dim);
-  }
-  table { width: 100%; border-collapse: collapse; margin: 0 0 18px; font-size: 14.5px; }
-  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--ink-faint); font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: 0.04em; }
-  td { color: var(--ink-dim); }
-  a.inline { color: var(--cyan); border-bottom: 1px solid transparent; }
-  a.inline:hover { border-color: var(--cyan); }
-
-  [data-lang="pl"] { display: none; }
-  html.lang-pl [data-lang="en"] { display: none; }
-  html.lang-pl [data-lang="pl"] { display: revert; }
-  html.lang-pl .note[data-lang="pl"], html.lang-pl .docs-nav[data-lang="pl"] { display: revert; }
-  html.lang-pl .docs-nav[data-lang="pl"] { display: flex; }
-  html.lang-pl table[data-lang="pl"] { display: table; }
-
-  footer {
-    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
-    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
-  }
-  footer a { color: var(--ink-dim); }
-  footer a:hover { color: var(--cyan); }
-</style>
+<script>
+try {
+  var t = localStorage.getItem('pomnia-theme');
+  if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+} catch (e) {
+  document.documentElement.dataset.theme = 'dark';
+}
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 <body>
 
-<header class="top">
-  <a class="mark" href="../" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
-  <nav>
-    <a href="./">Docs</a>
+<a class="skip" href="#content"><span data-lang="en">Skip to content</span><span data-lang="pl">Przejdź do treści</span></a>
+<header class="site-header">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="i">i</span>a</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Site">
+    <a href="/docs/" aria-current="page">Docs</a>
+    <a href="/download.html">Download</a>
     <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
-    <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
     <div class="lang" role="group" aria-label="Language">
       <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
       <button type="button" id="btn-pl" aria-pressed="false">PL</button>
     </div>
+    <button type="button" class="theme-btn" id="theme-btn">Light</button>
   </nav>
 </header>
 
-<div class="wrap">
-  <p class="kicker" data-lang="en"><a class="crumb" href="./">← Docs</a> · updates &amp; install</p>
-  <p class="kicker" data-lang="pl"><a class="crumb" href="./">← Docs</a> · aktualizacje i instalacja</p>
+
+<div class="docs-shell">
+<aside class="docs-side">
+  <p class="side-kicker"><span data-lang="en">Documentation</span><span data-lang="pl">Dokumentacja</span></p>
+    <nav data-lang="en" aria-label="Docs">
+      <a href="/docs/">Start here</a>
+      <a href="/docs/capabilities.html">Capabilities</a>
+      <a href="/docs/where-is-my-data.html">Where is my data?</a>
+      <a href="/docs/how-memory-works.html">How memory works</a>
+      <a href="/docs/automation.html">Automation</a>
+      <a href="/docs/architecture.html">Architecture</a>
+      <a href="/docs/mcp.html">Connect MCP</a>
+      <a href="/docs/updates-install.html" class="on" aria-current="page">Updates &amp; install</a>
+      <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>
+      <a href="/docs/sizing.html">Sizing</a>
+      <a href="/docs/sync.html">Sync</a>
+      <a href="/docs/upgrading.html">Upgrading</a>
+      <a href="/docs/threat-model.html">Threat model</a>
+      <a href="/docs/troubleshooting.html">Troubleshooting</a>
+      <a href="/docs/changelog.html">Release notes</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+    <nav data-lang="pl" aria-label="Dokumentacja">
+      <a href="/docs/">Zacznij tutaj</a>
+      <a href="/docs/capabilities.html">Możliwości</a>
+      <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+      <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
+      <a href="/docs/automation.html">Automatyzacja</a>
+      <a href="/docs/architecture.html">Architektura</a>
+      <a href="/docs/mcp.html">Podłącz MCP</a>
+      <a href="/docs/updates-install.html" class="on" aria-current="page">Aktualizacje i instalacja</a>
+      <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>
+      <a href="/docs/sizing.html">Dobór maszyny</a>
+      <a href="/docs/sync.html">Synchronizacja</a>
+      <a href="/docs/upgrading.html">Aktualizacja</a>
+      <a href="/docs/threat-model.html">Model zagrożeń</a>
+      <a href="/docs/troubleshooting.html">Rozwiązywanie problemów</a>
+      <a href="/docs/changelog.html">Noty wydań</a>
+      <a href="/privacy.html">Prywatność</a>
+    </nav>
+</aside>
+<main id="content" class="doc">
+  <nav class="crumbs" data-lang="en" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="/docs/">Docs</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Updates &amp; install</span>
+  </nav>
+  <nav class="crumbs" data-lang="pl" aria-label="Ścieżka">
+    <a href="/">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="/docs/">Docs</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Aktualizacje i instalacja</span>
+  </nav>
 
   <h1 data-lang="en">Updates &amp; install</h1>
   <h1 data-lang="pl">Aktualizacje i instalacja</h1>
@@ -145,41 +107,6 @@
     Instalator Windows z GitHuba. Buildy premiere są <strong>niepodpisane</strong> —
     SmartScreen to norma. Aktualizacje są <strong>tylko powiadomieniem</strong>: kolejny setup pobierasz sam.
   </p>
-
-  <nav class="docs-nav" data-lang="en" aria-label="Docs pages">
-    <a href="./">Start here</a>
-    <a href="capabilities.html">Capabilities</a>
-    <a href="where-is-my-data.html">Where is my data?</a>
-    <a href="how-memory-works.html">How memory works</a>
-    <a href="automation.html">Automation</a>
-    <a href="architecture.html">Architecture</a>
-    <a href="mcp.html">Connect MCP</a>
-    <a class="on" href="updates-install.html">Updates &amp; install</a>
-    <a href="linux-self-hosted.html">Linux self-hosted</a>
-    <a href="sizing.html">Sizing</a>
-    <a href="sync.html">Sync</a>
-    <a href="upgrading.html">Upgrading</a>
-    <a href="threat-model.html">Threat model</a>
-    <a href="troubleshooting.html">Troubleshooting</a>
-    <a href="../privacy.html">Privacy</a>
-  </nav>
-  <nav class="docs-nav" data-lang="pl" aria-label="Strony docs">
-    <a href="./">Zacznij tutaj</a>
-    <a href="capabilities.html">Możliwości</a>
-    <a href="where-is-my-data.html">Gdzie są dane?</a>
-    <a href="how-memory-works.html">Jak działa pamięć</a>
-    <a href="automation.html">Automatyzacja</a>
-    <a href="architecture.html">Architektura</a>
-    <a href="mcp.html">Podłącz MCP</a>
-    <a class="on" href="updates-install.html">Aktualizacje i instalacja</a>
-    <a href="linux-self-hosted.html">Linux self-hosted</a>
-    <a href="sizing.html">Dobór maszyny</a>
-    <a href="sync.html">Synchronizacja</a>
-    <a href="upgrading.html">Aktualizacja</a>
-    <a href="threat-model.html">Model zagrożeń</a>
-    <a href="troubleshooting.html">Rozwiązywanie problemów</a>
-    <a href="../privacy.html">Privacy</a>
-  </nav>
 
   <div class="note" data-lang="en">
     Trust posture (encryption, no telemetry): <a class="inline" href="../privacy.html">Privacy</a>
@@ -214,25 +141,64 @@
   <h2 data-lang="en">Pomnia Mini</h2>
   <h2 data-lang="pl">Pomnia Mini</h2>
   <p data-lang="en">
-    Thin Windows client. No embedded Brain — connect it to a remote brain-core you already run.
-    For a PC that should not hold the vault. No local distill.
-    It ships as <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip" rel="noopener"><code>PomniaMini-0.1.91.zip</code></a>
-    on the same Latest release as Desktop. The filename matches that release’s package version.
-    Unpack once and run <code>PomniaMini.exe</code>.
-    Not the portable exe, and not <code>PomniaMini-x.y.z-portable.zip</code>
-    (that older zip unpacks into <code>%TEMP%</code> on every launch).
-    Not the Desktop installer <code>Pomnia-x.y.z-setup.exe</code>.
+    Thin client. No embedded Brain, no Ollama, no local distill, no local search index.
+    Connect it to a remote brain-core you already run. The vault stays on that server.
+    Mini keeps its own settings directory, <code>pomnia-mini</code>, so it does not share Desktop’s
+    <code>pomnia</code> folder (settings and vault pointer).
+    Windows: <code>%AppData%\pomnia-mini</code>.
+    macOS: <code>~/Library/Application Support/pomnia-mini</code>.
+    Linux: <code>~/.config/pomnia-mini</code>.
+    Logs sit in <code>logs</code> under that directory.
   </p>
   <p data-lang="pl">
-    Cienki klient Windows. Bez wbudowanego Brain — łączysz go ze zdalnym brain-core, które już prowadzisz.
-    Na PC, który nie ma trzymać vaultu. Bez lokalnego distill.
-    Jest w tym samym wydaniu Latest co Desktop, jako
-    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip" rel="noopener"><code>PomniaMini-0.1.91.zip</code></a>.
-    Nazwa pliku zgadza się z wersją tego wydania.
+    Cienki klient. Bez wbudowanego Brain, bez Ollamy, bez lokalnego distill, bez lokalnego indeksu.
+    Łączysz go ze zdalnym brain-core, które już prowadzisz. Vault zostaje na tym serwerze.
+    Mini trzyma własny katalog ustawień, <code>pomnia-mini</code>, więc nie dzieli z Desktopem folderu
+    <code>pomnia</code> (ustawienia i wskaźnik vaultu).
+    Windows: <code>%AppData%\pomnia-mini</code>.
+    macOS: <code>~/Library/Application Support/pomnia-mini</code>.
+    Linux: <code>~/.config/pomnia-mini</code>.
+    Logi są w <code>logs</code> w tym katalogu.
+  </p>
+  <p data-lang="en">
+    <strong>Windows, today.</strong> On
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>,
+    take <code>PomniaMini-&lt;version&gt;.zip</code> (the version matches that release).
+    Unpack once and run <code>PomniaMini.exe</code>.
+    Not the portable exe, and not <code>PomniaMini-&lt;version&gt;-portable.zip</code>
+    (that older zip unpacks into <code>%TEMP%</code> on every launch).
+    Not the Desktop installer <code>Pomnia-&lt;version&gt;-setup.exe</code>.
+    The Latest page is the link that works now.
+    From the next release the stable name is
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-win-x64.zip" rel="noopener"><code>PomniaMini-win-x64.zip</code></a>.
+    The current tag (v0.1.91) does not contain it, so that URL returns HTTP 404 until then.
+  </p>
+  <p data-lang="pl">
+    <strong>Windows, dziś.</strong> Na
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>
+    weź <code>PomniaMini-&lt;version&gt;.zip</code> (wersja zgadza się z tym wydaniem).
     Rozpakuj raz i uruchom <code>PomniaMini.exe</code>.
-    To nie portable exe i nie <code>PomniaMini-x.y.z-portable.zip</code>
+    To nie portable exe i nie <code>PomniaMini-&lt;version&gt;-portable.zip</code>
     (ten starszy zip wypakowuje się do <code>%TEMP%</code> przy każdym starcie).
-    To nie instalator Desktop <code>Pomnia-x.y.z-setup.exe</code>.
+    To nie instalator Desktop <code>Pomnia-&lt;version&gt;-setup.exe</code>.
+    Strona Latest działa już teraz.
+    Od następnego wydania stabilna nazwa to
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-win-x64.zip" rel="noopener"><code>PomniaMini-win-x64.zip</code></a>.
+    Bieżący tag (v0.1.91) go nie zawiera, więc ten URL zwraca HTTP 404 do tego czasu.
+  </p>
+  <p data-lang="en">
+    <strong>Linux, from the next release.</strong> The stable asset name is
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-linux-x64.AppImage" rel="noopener"><code>PomniaMini-linux-x64.AppImage</code></a>.
+    It is not on the current Latest release (v0.1.91 has no Mini AppImage), so that URL returns HTTP 404 until the next release is published.
+    It is not the Desktop <code>Pomnia-&lt;version&gt;.AppImage</code>. <code>chmod +x</code>, then run it.
+    No macOS Mini.
+  </p>
+  <p data-lang="pl">
+    <strong>Linux, od następnego wydania.</strong> Stabilna nazwa assetu to
+    <a class="inline" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-linux-x64.AppImage" rel="noopener"><code>PomniaMini-linux-x64.AppImage</code></a>.
+    Nie ma jej w bieżącym Latest (v0.1.91 nie ma Mini AppImage), więc ten URL zwraca HTTP 404, dopóki nie wyjdzie następne wydanie.
+    To nie Desktop <code>Pomnia-&lt;version&gt;.AppImage</code>. <code>chmod +x</code>, potem uruchom.
+    Mini na macOS nie ma.
   </p>
 
   <h2 data-lang="en">Unsigned &amp; SmartScreen</h2>
@@ -360,58 +326,24 @@ sha256sum Pomnia-x.y.z.AppImage                            # Linux</pre>
     <li>Sync vault do chmury — jeszcze nie (patrz Start here „czego nie ma”).</li>
   </ul>
 
-  <footer>
-    <a href="../">pomnia.ai</a>
-    <span>·</span>
-    <a href="./">Start here</a>
-    <span>·</span>
-    <a href="capabilities.html">Capabilities</a>
-    <span>·</span>
-    <a href="where-is-my-data.html">Where is my data?</a>
-    <span>·</span>
-    <a href="how-memory-works.html">How memory works</a>
-    <span>·</span>
-    <a href="automation.html">Automation</a>
-    <span>·</span>
-    <a href="architecture.html">Architecture</a>
-    <span>·</span>
-    <a href="mcp.html">MCP</a>
-    <span>·</span>
-    <a href="updates-install.html">Updates</a>
-    <span>·</span>
-    <a href="linux-self-hosted.html">Linux</a>
-    <span>·</span>
-    <a href="troubleshooting.html">Troubleshooting</a>
-    <span>·</span>
-    <a href="../privacy.html">Privacy</a>
-    <span>·</span>
-    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
-    <span>·</span>
-    <span>AGPL-3.0</span>
-  </footer>
+  </main>
 </div>
+<footer class="site-footer">
+  <div class="foot-in">
+    <p class="foot-brand">pomn<span class="i">i</span>a</p>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/docs/">Docs</a>
+      <a href="/download.html">Download</a>
+      <a href="/changelog.html">Releases</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+      <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    </nav>
+    <p class="foot-meta">AGPL-3.0 · © 2026 pomnia.ai</p>
+  </div>
+</footer>
 
-<script>
-(() => {
-  const html = document.documentElement;
-  const btnEn = document.getElementById('btn-en');
-  const btnPl = document.getElementById('btn-pl');
-  function setLang(lang) {
-    const pl = lang === 'pl';
-    html.classList.toggle('lang-pl', pl);
-    html.lang = lang;
-    btnEn.classList.toggle('active', !pl);
-    btnPl.classList.toggle('active', pl);
-    btnEn.setAttribute('aria-pressed', String(!pl));
-    btnPl.setAttribute('aria-pressed', String(pl));
-    try { localStorage.setItem('pomnia-lang', lang); } catch (_) {}
-  }
-  btnEn.addEventListener('click', () => setLang('en'));
-  btnPl.addEventListener('click', () => setLang('pl'));
-  let saved = 'en';
-  try { saved = localStorage.getItem('pomnia-lang') || 'en'; } catch (_) {}
-  setLang(saved === 'pl' ? 'pl' : 'en');
-})();
-</script>
+
 </body>
 </html>

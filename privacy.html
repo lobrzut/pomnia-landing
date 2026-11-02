@@ -16,79 +16,33 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="icon.png" sizes="512x512">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-<style>
-  :root {
-    --void:      #06070d;
-    --abyss:     #0a0c16;
-    --ink:       #e9ecf5;
-    --ink-dim:   #9aa3bd;
-    --ink-faint: #747b98;
-    --line:      rgba(148, 163, 216, 0.14);
-    --cyan:      #22d3ee;
-    --mint:      #34d399;
-    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { background: var(--void); }
-  body {
-    font-family: var(--sans); color: var(--ink); line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    background-image: radial-gradient(900px 560px at 50% -10%, rgba(99,102,241,0.10), transparent 62%);
-    background-repeat: no-repeat;
-  }
-  .wrap { max-width: 660px; margin: 0 auto; padding: 56px 24px 96px; }
-
-  .top { display: flex; align-items: baseline; gap: 18px; margin-bottom: 52px; }
-  .mark { font-size: 19px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; }
-  .mark .nd { color: var(--mint); }
-  .back { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-faint); text-decoration: none; }
-  .back:hover { color: var(--ink-dim); }
-
-  h1 { font-size: clamp(30px, 5vw, 40px); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
-  .updated { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; color: var(--ink-faint); margin-bottom: 40px; }
-
-  .tldr {
-    border: 1px solid var(--line); border-radius: 14px;
-    background: var(--abyss); padding: 24px 26px; margin-bottom: 48px;
-  }
-  .tldr p { color: var(--ink-dim); margin: 0; }
-  .tldr strong { color: var(--ink); font-weight: 600; }
-
-  h2 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin: 40px 0 12px; color: var(--ink); }
-  p { color: var(--ink-dim); margin-bottom: 14px; }
-  ul { margin: 0 0 14px 20px; color: var(--ink-dim); }
-  li { margin-bottom: 7px; }
-  a { color: var(--cyan); text-decoration: none; border-bottom: 1px solid transparent; }
-  a:hover { border-color: var(--cyan); }
-  strong { color: var(--ink); font-weight: 600; }
-  code {
-    font-family: var(--mono); font-size: 0.9em;
-    background: rgba(148,163,216,0.10); padding: 1px 5px; border-radius: 4px; color: var(--ink);
-  }
-  .check {
-    border-left: 2px solid var(--mint); padding: 4px 0 4px 18px;
-    margin: 18px 0 22px; color: var(--ink-dim); font-size: 14.5px;
-  }
-
-  footer {
-    margin-top: 64px; padding-top: 22px; border-top: 1px solid var(--line);
-    font-size: 12.5px; color: var(--ink-faint); display: flex; gap: 14px; flex-wrap: wrap;
-  }
-  footer a { color: var(--ink-dim); }
-</style>
+<script>
+try {
+  var t = localStorage.getItem('pomnia-theme');
+  if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+} catch (e) {
+  document.documentElement.dataset.theme = 'dark';
+}
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 
 <body>
-<div class="wrap">
-
-  <div class="top">
-    <a class="mark" href="./">pomn<span class="nd">i</span>a</a>
-    <a class="back" href="docs/">docs</a>
-    <a class="back" href="./">← back to the site</a>
-  </div>
-
+<a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="i">i</span>a</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Site">
+    <a href="/docs/">Docs</a>
+    <a href="/download.html">Download</a>
+    <a href="/privacy.html" aria-current="page">Privacy</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <button type="button" class="theme-btn" id="theme-btn">Light</button>
+  </nav>
+</header>
+<main id="content" class="prose prose-wrap">
   <h1>Privacy</h1>
   <p class="updated">Last updated: 7 August 2026</p>
 
@@ -130,7 +84,10 @@
     that is never stored anywhere — lose it and those blobs are unrecoverable, including by me.
     Sidecar files that travel with the vault folder (<code>skills/</code>, <code>USER.md</code>,
     <code>sessions/</code>, distilled notes) and the local Brain search index
-    (<code>library.db</code> under <code>%AppData%/Pomnia/brain-core-data/</code>) are plaintext
+    (<code>library.db</code> under
+    <code>%AppData%\pomnia\brain-core-data\</code> on Windows,
+    <code>~/Library/Application Support/pomnia/brain-core-data/</code> on macOS,
+    <code>~/.config/pomnia/brain-core-data/</code> on Linux) are plaintext
     on disk by design — protect those folders like any other local notes.
   </p>
   <h2>„How is this encrypted if the index is outside the vault?”</h2>
@@ -188,14 +145,22 @@
     I will not quietly edit a claim out of existence.
   </p>
 
-  <footer>
-    <a href="/">pomnia.ai</a>
-    <span>·</span>
-    <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
-    <span>·</span>
-    <span>© 2026 Pomnia</span>
-  </footer>
+  </main>
+<footer class="site-footer">
+  <div class="foot-in">
+    <p class="foot-brand">pomn<span class="i">i</span>a</p>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/docs/">Docs</a>
+      <a href="/download.html">Download</a>
+      <a href="/changelog.html">Releases</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+      <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    </nav>
+    <p class="foot-meta">AGPL-3.0 · © 2026 pomnia.ai</p>
+  </div>
+</footer>
 
-</div>
 </body>
 </html>

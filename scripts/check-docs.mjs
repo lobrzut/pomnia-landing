@@ -16,7 +16,7 @@
  *   node scripts/check-docs.mjs            # report
  *   node scripts/check-docs.mjs --strict   # exit 1 when anything mismatches
  */
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -113,11 +113,15 @@ function blocks(html, lang) {
 }
 
 const dir = join(root, 'docs')
-const files = readdirSync(dir).filter((f) => f.endsWith('.html')).sort()
+const files = [
+  ...readdirSync(dir).filter((f) => f.endsWith('.html')).sort().map((f) => join('docs', f)),
+  'download.html',
+  'changelog.html',
+]
 let findings = 0
 
 for (const file of files) {
-  const html = readFileSync(join(dir, file), 'utf8')
+  const html = readFileSync(join(root, file), 'utf8')
   const en = blocks(html, 'en')
   const pl = blocks(html, 'pl')
   const lines = []
@@ -150,4 +154,104 @@ for (const file of files) {
 }
 
 console.log(`\n${findings ? `${findings} mismatch(es) across ${files.length} pages` : `no drift across ${files.length} pages`}`)
+
+/**
+ * Discovery: every indexable HTML page is listed in sitemap.xml and llms.txt,
+ * docs titles say "Pomnia Docs", internal links resolve, and the versioned Mini
+ * zip that 404s on the next release is gone.
+ */
+const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8')
+const llms = readFileSync(join(root, 'llms.txt'), 'utf8')
+const htmlFiles = []
+function walk(rel) {
+  const abs = join(root, rel)
+  for (const name of readdirSync(abs, { withFileTypes: true })) {
+    if (name.name.startsWith('.')) continue
+    const child = rel ? `${rel}/${name.name}` : name.name
+    if (name.isDirectory()) {
+      if (name.name === 'assets' || name.name === 'img' || name.name === 'scripts') continue
+      walk(child)
+    } else if (name.name.endsWith('.html')) htmlFiles.push(child)
+  }
+}
+walk('')
+
+function pageUrl(rel) {
+  if (rel === 'index.html') return 'https://pomnia.ai/'
+  if (rel === 'docs/index.html') return 'https://pomnia.ai/docs/'
+  return `https://pomnia.ai/${rel}`
+}
+
+let extra = 0
+const note = (msg) => {
+  console.log(msg)
+  extra++
+}
+
+for (const rel of htmlFiles) {
+  const html = readFileSync(join(root, rel), 'utf8')
+  const noindex = /noindex/i.test(html)
+  const url = pageUrl(rel)
+  if (!noindex) {
+    if (!sitemap.includes(`<loc>${url}</loc>`)) note(`sitemap missing ${url}`)
+    if (!llms.includes(url)) note(`llms.txt missing ${url}`)
+  }
+  if (rel.startsWith('docs/') && rel !== 'docs/start-here.html' && !html.includes('Pomnia Docs')) {
+    note(`${rel} title does not say Pomnia Docs`)
+  }
+  if (rel !== 'docs/where-is-my-data.html' && /aria-current="page">(?:where is my data|gdzie są moje dane)</.test(html)) {
+    note(`${rel} still has the copied "where is my data" breadcrumb`)
+  }
+  if (!noindex && html.includes('class="site-header"')) {
+    const headerAt = html.indexOf('<header')
+    const mainAt = html.indexOf('<main')
+    const mainEnd = html.indexOf('</main>')
+    const footerAt = html.indexOf('<footer')
+    if (!(headerAt >= 0 && mainAt > headerAt && mainEnd > mainAt && footerAt > mainEnd)) {
+      note(`${rel} header, main, and footer are out of order`)
+    }
+    if (mainAt >= 0 && mainEnd > mainAt && html.slice(mainAt, mainEnd).includes('<footer')) {
+      note(`${rel} footer is inside main`)
+    }
+    const shells = html.match(/<div class="docs-shell">/g)?.length ?? 0
+    if (shells > 1) note(`${rel} has ${shells} docs-shell wrappers`)
+    if (shells === 1 && footerAt > html.indexOf('<div class="docs-shell">')) {
+      const slice = html.slice(html.indexOf('<div class="docs-shell">'), footerAt)
+      const opens = slice.match(/<div\b/g)?.length ?? 0
+      const closes = slice.match(/<\/div>/g)?.length ?? 0
+      if (opens !== closes) note(`${rel} footer sits inside an unclosed wrapper (${opens} divs open, ${closes} closed)`)
+    }
+  }
+  const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((m) => m[1])
+  for (const href of hrefs) {
+    if (/^(https?:|mailto:|#)/.test(href)) continue
+    const [pathPart] = href.split('#')
+    if (!pathPart) continue
+    const base = rel.includes('/') ? rel.slice(0, rel.lastIndexOf('/')) : ''
+    const resolved = pathPart.startsWith('/')
+      ? pathPart.slice(1)
+      : (base ? `${base}/${pathPart}` : pathPart)
+    const norm = resolved.split('/').filter((p) => p && p !== '.').reduce((acc, p) => {
+      if (p === '..') acc.pop()
+      else acc.push(p)
+      return acc
+    }, [])
+    const target = norm.length ? join(root, ...norm) : root
+    const candidates = [target, join(target, 'index.html')]
+    if (!candidates.some((c) => existsSync(c))) note(`${rel} broken link ${href}`)
+  }
+}
+
+const banned = 'PomniaMini-0.1.91'
+for (const rel of [...htmlFiles, 'llms.txt', 'README.md', 'install.sh']) {
+  const text = readFileSync(join(root, rel), 'utf8')
+  if (text.includes(banned)) note(`${rel} still hardcodes ${banned}`)
+}
+
+if (!readFileSync(join(root, 'install.sh'), 'utf8').includes('MIRROR-OF: lobrzut/pomnia packages/brain-core/deploy/bootstrap.sh@1cfae030036de4fcca4a5dd4b1380ec0b3da7e43')) {
+  note('install.sh is missing the bootstrap mirror marker')
+}
+
+console.log(extra ? `\n${extra} discovery problem(s)` : '\ndiscovery checks passed')
+findings += extra
 if (strict && findings) process.exit(1)
