@@ -46,508 +46,41 @@
   }
 }
 </script>
-<style>
-  /* ── Pomnia brand tokens ─────────────────────────────────────────────── */
-  :root {
-    --void:      #06070d;
-    --abyss:     #0a0c16;
-    --ink:       #e9ecf5;
-    --ink-dim:   #9aa3bd;
-    --ink-faint: #747b98;
-    --line:      rgba(148, 163, 216, 0.14);
-    --iris:      #6366f1;
-    --violet:    #8b5cf6;
-    --cyan:      #22d3ee;
-    --mint:      #34d399;
-    --sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
-    --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  /* Single visual world by design: the dark the neural field needs.
-     The product this page sells lives in the same dark. */
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  html, body { background: var(--void); }
-  body {
-    font-family: var(--sans);
-    color: var(--ink);
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  ::selection { background: rgba(99, 102, 241, 0.35); }
-  a { color: inherit; }
-  :focus-visible { outline: 2px solid rgba(99, 102, 241, 0.75); outline-offset: 3px; border-radius: 4px; }
-
-  /* ── Sky: constellation canvas + veils + grain ───────────────────────── */
-  #sky { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; }
-  .veil {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none;
-    background:
-      radial-gradient(1200px 700px at 50% 16%, rgba(99, 102, 241, 0.12), transparent 62%),
-      radial-gradient(900px 620px at 82% 92%, rgba(34, 211, 238, 0.06), transparent 60%),
-      radial-gradient(700px 500px at 8% 70%, rgba(139, 92, 246, 0.05), transparent 60%),
-      linear-gradient(180deg, rgba(6,7,13,0.22), rgba(6,7,13,0.6) 72%, rgba(6,7,13,0.92));
-  }
-  .grain {
-    position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  .page { position: relative; z-index: 2; }
-
-  /* ── Top bar ─────────────────────────────────────────────────────────── */
-  .top {
-    display: flex; align-items: center; justify-content: space-between;
-    max-width: 1120px; margin: 0 auto; padding: 26px 24px 0;
-    opacity: 0; animation: fadeDown 0.9s var(--ease) 1.15s forwards;
-  }
-  @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
-  .mark { text-decoration: none; font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
-  .mark .nd { color: var(--mint); text-shadow: 0 0 6px rgba(52, 211, 153, 0.5); }
-  .top nav { display: flex; align-items: center; gap: 26px; font-size: 14px; }
-  .top nav a { color: var(--ink-dim); text-decoration: none; transition: color .18s ease; }
-  .top nav a:hover { color: var(--ink); }
-  .top nav a.cta-mini {
-    color: var(--ink); border: 1px solid var(--line); border-radius: 999px;
-    padding: 7px 16px; background: rgba(17, 20, 31, 0.5); backdrop-filter: blur(8px);
-    transition: border-color .18s ease, box-shadow .18s ease;
-  }
-  .top nav a.cta-mini:hover { border-color: rgba(99, 102, 241, 0.6); box-shadow: 0 0 22px -8px rgba(99,102,241,0.7); }
-
-  /* ── Hero — orchestrated entrance ────────────────────────────────────── */
-  /* Wordmark, proposition, docs, then the install cluster. Height follows the
-     content: a 100svh centered hero padded empty space above and below the
-     download block once Mini sat under it. */
-  .hero {
-    min-height: auto; max-width: none;
-    display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
-    text-align: center;
-    margin-top: 0;
-    padding: 8px 24px 28px;
-    gap: 14px;
-  }
-  .hero > * { opacity: 0; animation: rise 1s var(--ease) forwards; }
-  @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-  /* Badge and etymology share one line — two micro-labels, one tier. */
-  .hero-meta {
-    display: flex; align-items: center; justify-content: center;
-    gap: 8px 18px; flex-wrap: wrap; animation-delay: 0.15s;
-  }
-  .wordmark { animation-delay: 0.30s; }
-  .thesis   { animation-delay: 0.72s; }
-  .cta-row  { animation-delay: 0.92s; }
-  .install-panel { animation-delay: 1.05s; }
-
-  /* Hero etymology — keep source casing (Old Polish). Never lowercase. */
-  .etymology, .etym {
-    font-family: var(--mono); font-size: 13px; letter-spacing: 0.06em;
-    line-height: 1.7; color: var(--ink-faint);
-    text-transform: none !important;
-  }
-  .etymology b, .etym b { color: var(--ink-dim); font-weight: 500; text-transform: none !important; }
-
-  /* Height-aware: on a short laptop viewport the wordmark must not eat the fold. */
-  .wordmark {
-    font-size: clamp(72px, min(14vw, 19vh), 182px);
-    font-weight: 300;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    user-select: none;
-    background: linear-gradient(104deg, var(--ink) 10%, #c3ccff 46%, var(--cyan) 82%, #c3ccff 98%);
-    background-size: 220% 100%;
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    animation: rise 1s var(--ease) 0.3s forwards, sheen 9s linear 1.4s infinite;
-  }
-  @keyframes sheen { from { background-position: 0% 0; } to { background-position: 220% 0; } }
-
-  /* The "i" is a completely normal, readable letter — with its own font dot —
-     rendered in the mint accent so it reads instantly as "pomnia" while quietly
-     nodding to the memory-node color used across the page. Its dot glows,
-     softly, like a node that's alive. No overlays, nothing to misread. */
-  .wordmark .i {
-    -webkit-text-fill-color: var(--mint);
-    color: var(--mint);
-    text-shadow: 0 0 0.35em rgba(52, 211, 153, 0.55), 0 0 1.1em rgba(52, 211, 153, 0.3);
-    animation: iGlow 3.4s ease-in-out 1.6s infinite;
-  }
-  @keyframes iGlow {
-    0%, 100% { text-shadow: 0 0 0.35em rgba(52, 211, 153, 0.55), 0 0 1.1em rgba(52, 211, 153, 0.30); }
-    50%      { text-shadow: 0 0 0.5em  rgba(52, 211, 153, 0.75), 0 0 1.6em rgba(52, 211, 153, 0.45); }
-  }
-
-  .thesis {
-    max-width: 34em; font-size: clamp(17px, 2.1vw, 21px); color: var(--ink-dim);
-    text-wrap: balance;
-  }
-  .thesis strong { color: var(--ink); font-weight: 600; }
-
-  .cta-row { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; justify-content: center; }
-  .install-panel {
-    width: min(100%, 560px);
-    display: flex; flex-direction: column; align-items: center;
-  }
-  .install-tabs {
-    display: inline-flex; border: 1px solid var(--line); border-radius: 999px;
-    padding: 3px; gap: 2px; background: rgba(17, 20, 31, 0.45);
-    margin: 0 auto 8px;
-  }
-  .install-tabs button {
-    font-family: var(--sans); font-size: 13px; font-weight: 600;
-    color: var(--ink-faint); background: transparent; border: 0;
-    border-radius: 999px; padding: 8px 16px; cursor: pointer;
-  }
-  .install-tabs button[aria-selected="true"] {
-    color: var(--ink); background: rgba(99, 102, 241, 0.22);
-  }
-  .install-pane[hidden] { display: none !important; }
-  /* width:100% stops the pane shrink-wrapping to the nowrap command, which
-     otherwise pushes the curl box past a narrow viewport. */
-  .install-pane { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-  .curl-wrap { width: min(100%, 560px); margin: 0 auto; }
-  .curl-label {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--ink-faint);
-    text-align: left; margin-bottom: 8px;
-  }
-  .curl-box {
-    display: flex; align-items: stretch; width: 100%;
-    border: 1px solid var(--line); border-radius: 12px;
-    background: rgba(10, 12, 22, 0.82); overflow: hidden; text-align: left;
-  }
-  /* min-width:0 lets the nowrap command scroll inside the box instead of
-     stretching the flex item past the viewport on narrow screens. */
-  .curl-box code {
-    flex: 1; min-width: 0; font-family: var(--mono); font-size: 12.5px; color: var(--ink);
-    padding: 12px 14px; overflow-x: auto; white-space: nowrap;
-    scrollbar-width: thin; scrollbar-color: rgba(148, 163, 216, 0.3) transparent;
-  }
-  .curl-copy {
-    flex: 0 0 auto; border: 0; border-left: 1px solid var(--line);
-    background: rgba(17, 20, 31, 0.6); color: var(--ink-dim);
-    font-family: var(--sans); font-size: 12px; font-weight: 600;
-    padding: 0 14px; cursor: pointer;
-  }
-  .curl-copy:hover { color: var(--ink); }
-  /* Supporting copy under the download button. It sat at full body size and
-     full --ink brightness, so it out-shouted the button it was explaining. */
-  .pane-what {
-    max-width: 46ch; font-size: 13px; line-height: 1.62;
-    color: var(--ink-dim); text-wrap: pretty;
-  }
-  .pane-what b { color: var(--ink-dim); font-weight: 600; }
-  /* Outlined Mini control under the OS-specific primary. Smaller than
-     .cta-secondary so it stays a second action, not a second hero. The hero
-     is only as tall as this cluster. */
-  .mini-dl {
-    display: inline-block; margin-top: 10px; text-decoration: none;
-    font-size: 13.5px; font-weight: 600; letter-spacing: 0.01em;
-    color: var(--ink); padding: 8px 18px; border-radius: 999px;
-    border: 1px solid rgba(148, 163, 216, 0.5);
-    background: rgba(17, 20, 31, 0.35);
-    transition: border-color .18s ease, background .18s ease;
-  }
-  .mini-dl:hover {
-    border-color: rgba(99, 102, 241, 0.7);
-    background: rgba(24, 28, 46, 0.8);
-  }
-  .mini-note {
-    width: min(100%, 48ch);
-    margin: 6px 0 0;
-    font-size: 12px; line-height: 1.45;
-    color: var(--ink-faint); text-wrap: pretty;
-  }
-  .mini-note code, .install-meta code {
-    font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim);
-  }
-
-  .install-meta {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
-    line-height: 1.8; color: var(--ink-faint);
-  }
-  .install-meta a {
-    color: var(--ink-dim); text-decoration: none;
-    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
-    transition: color .18s ease, border-color .18s ease;
-  }
-  .install-meta a:hover { color: var(--cyan); border-color: var(--cyan); }
-
-  .cta {
-    display: inline-block; text-decoration: none;
-    font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
-    color: #fff; padding: 14px 32px; border-radius: 999px;
-    background: linear-gradient(115deg, var(--violet), var(--iris) 55%, var(--cyan));
-    background-size: 160% 100%;
-    box-shadow: 0 14px 44px -14px rgba(99, 102, 241, 0.85);
-    transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-position .4s ease;
-  }
-  .cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 22px 60px -14px rgba(99, 102, 241, 1);
-    background-position: 100% 0;
-  }
-  /* Secondary action: outlined, same height as .cta (13px + 1px border) so the
-     two read as one row of buttons — quieter, but unmistakably a button. */
-  .cta-secondary {
-    display: inline-block; text-decoration: none;
-    font-size: 15px; font-weight: 600; letter-spacing: 0.01em;
-    color: var(--ink); padding: 13px 28px; border-radius: 999px;
-    border: 1px solid rgba(148, 163, 216, 0.34);
-    background: rgba(17, 20, 31, 0.55);
-    transition: border-color .18s ease, background .18s ease, color .18s ease;
-  }
-  .cta-secondary:hover {
-    border-color: rgba(99, 102, 241, 0.6);
-    background: rgba(24, 28, 46, 0.8);
-  }
-  .ghost { font-size: 14px; color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid transparent; transition: color .18s ease, border-color .18s ease; }
-  .ghost:hover { color: var(--ink-dim); border-color: var(--ink-faint); }
-
-  /* Sits with the install cluster. The hero is only as tall as its content,
-     so this line stays next to the download instead of floating in leftover
-     viewport. */
-  .hint { font-family: var(--mono); font-size: 12px; line-height: 1.9; color: var(--ink-faint); letter-spacing: 0.06em; }
-  .hint .ok { color: var(--mint); }
-  .alpha-pill {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: var(--ink-faint); border: 1px solid var(--line); border-radius: 999px;
-    padding: 5px 12px;
-  }
-  /* Fine print: the honest notes stay, but never outrank the actions above them. */
-  .fineprint {
-    max-width: 62ch; margin: 0 auto; font-family: var(--sans);
-    font-size: 12.5px; line-height: 1.7; letter-spacing: 0;
-    color: var(--ink-faint); text-wrap: balance;
-  }
-  .fineprint strong { color: var(--ink-dim); font-weight: 600; }
-  .fineprint code { font-family: var(--mono); font-size: 11.5px; color: var(--ink-dim); }
-  .fineprint a {
-    color: var(--ink-dim); text-decoration: none;
-    border-bottom: 1px solid rgba(148, 163, 216, 0.28);
-    transition: color .18s ease, border-color .18s ease;
-  }
-  .fineprint a:hover { color: var(--cyan); border-color: var(--cyan); }
-
-  /* ── Under the fold: honest small print, deliberately out of the hero ──── */
-  .under-hero {
-    max-width: 940px; padding: 0 24px;
-    display: flex; flex-direction: column; align-items: center; gap: 34px;
-  }
-  /* Two columns held the Windows and macOS warnings side by side. They are one
-     paragraph now, and a single child of a 1fr 1fr grid sits in the left half
-     and leaves the right empty -- a 310px stub adrift in an 892px container. */
-  .honest {
-    width: 100%; display: flex; flex-direction: column; align-items: center;
-    gap: 22px; padding-top: 32px; border-top: 1px solid var(--line);
-  }
-  .honest .fineprint { max-width: 62ch; margin: 0; text-align: left; text-wrap: pretty; }
-  .honest b { color: var(--ink-dim); font-weight: 600; }
-  @media (max-width: 860px) {
-    .honest { gap: 20px; }
-  }
-
-  /* ── Scroll reveals ──────────────────────────────────────────────────── */
-  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
-  .reveal.in { opacity: 1; transform: none; }
-  .reveal.d1 { transition-delay: 0.08s; } .reveal.d2 { transition-delay: 0.16s; } .reveal.d3 { transition-delay: 0.24s; }
-
-  /* ── Sections ────────────────────────────────────────────────────────── */
-  section { max-width: 1060px; margin: 0 auto; padding: 112px 24px; }
-  .kicker {
-    font-family: var(--mono); font-size: 12px; letter-spacing: 0.22em;
-    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 18px;
-  }
-  h2 {
-    font-size: clamp(28px, 4vw, 42px); font-weight: 300; letter-spacing: -0.02em;
-    line-height: 1.2; text-wrap: balance; max-width: 22em;
-  }
-  h2 em { font-style: normal; color: var(--cyan); }
-
-  /* ── Terminal demo — recall in action ────────────────────────────────── */
-  .term-wrap { display: flex; justify-content: center; }
-  .term {
-    width: 100%; max-width: 760px; margin-top: 56px;
-    border: 1px solid var(--line); border-radius: 16px;
-    background: rgba(10, 12, 22, 0.82); backdrop-filter: blur(14px);
-    box-shadow: 0 30px 90px -30px rgba(0, 0, 0, 0.9), 0 0 60px -30px rgba(99, 102, 241, 0.35);
-    overflow: hidden;
-  }
-  .term-bar {
-    display: flex; align-items: center; gap: 8px;
-    padding: 12px 16px; border-bottom: 1px solid var(--line);
-  }
-  .term-bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--ink-faint); opacity: 0.4; }
-  .term-bar i:nth-child(1) { background: #fb7185; opacity: 0.75; }
-  .term-bar i:nth-child(2) { background: #fbbf24; opacity: 0.75; }
-  .term-bar i:nth-child(3) { background: var(--mint); opacity: 0.75; }
-  .term-bar span { margin-left: 10px; font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
-  .term-body {
-    padding: 22px 24px 26px; font-family: var(--mono); font-size: 13.5px; line-height: 1.85;
-    min-height: 232px; text-align: left; overflow-x: auto;
-  }
-  .term-body .ln { white-space: pre-wrap; word-break: break-word; }
-  .term-body .p  { color: var(--mint); }
-  .term-body .c  { color: var(--ink); }
-  .term-body .o  { color: var(--ink-dim); }
-  .term-body .s  { color: var(--cyan); }
-  .term-body .g  { color: var(--ink-faint); }
-  .caret { display: inline-block; width: 8px; height: 1.1em; vertical-align: -0.18em; background: var(--mint); animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* ── Trinity ─────────────────────────────────────────────────────────── */
-  .trinity {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
-    margin-top: 64px; border-top: 1px solid var(--line);
-  }
-  .trinity > div {
-    padding: 36px 30px 8px; border-left: 1px solid var(--line);
-    transition: background 0.35s ease;
-  }
-  .trinity > div:first-child { border-left: none; padding-left: 0; }
-  .trinity > div:hover { background: linear-gradient(180deg, rgba(99, 102, 241, 0.045), transparent); }
-  .glyph { width: 36px; height: 36px; margin-bottom: 20px; position: relative; }
-  .glyph::before {
-    content: ""; position: absolute; inset: 0; border-radius: 50%;
-    border: 1px solid var(--g, var(--iris)); opacity: 0.45;
-    transition: opacity 0.3s ease, transform 0.3s var(--ease);
-  }
-  .glyph::after {
-    content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--g, var(--iris)); box-shadow: 0 0 10px var(--g, var(--iris));
-    transition: box-shadow 0.3s ease;
-  }
-  .trinity > div:hover .glyph::before { opacity: 0.9; transform: scale(1.12); }
-  .trinity > div:hover .glyph::after  { box-shadow: 0 0 18px var(--g, var(--iris)); }
-  .trinity h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; letter-spacing: 0.01em; }
-  .trinity p { font-size: 14.5px; color: var(--ink-dim); max-width: 30em; }
-  .trinity p code { font-family: var(--mono); font-size: 12.5px; color: var(--cyan); }
-
-  /* ── Flow strip ──────────────────────────────────────────────────────── */
-  .flow {
-    margin-top: 88px; padding: 38px 20px;
-    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-    display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap;
-    font-family: var(--mono); font-size: 13px; color: var(--ink-dim);
-  }
-  .chip {
-    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px;
-    background: rgba(17, 20, 31, 0.45); white-space: nowrap;
-    transition: border-color .25s ease, color .25s ease;
-  }
-  .chip:hover { border-color: rgba(99, 102, 241, 0.5); color: var(--ink); }
-  .flow .arrows { color: var(--ink-faint); letter-spacing: 0.1em; }
-  .flow .core {
-    color: var(--ink); border-color: rgba(52, 211, 153, 0.45);
-    box-shadow: 0 0 26px -8px rgba(52, 211, 153, 0.55);
-    animation: coreBreath 4s ease-in-out infinite;
-  }
-  @keyframes coreBreath {
-    0%, 100% { box-shadow: 0 0 26px -8px rgba(52, 211, 153, 0.55); }
-    50%      { box-shadow: 0 0 40px -8px rgba(52, 211, 153, 0.85); }
-  }
-  .flow .core::before { content: "● "; color: var(--mint); font-size: 10px; vertical-align: 1px; }
-  .trinity .aside {
-    font-size: 13.5px; color: var(--ink-faint); margin-top: 10px;
-    padding-top: 10px; border-top: 1px solid var(--line);
-  }
-  .flow-caption {
-    text-align: center; margin-top: 26px; font-size: 14.5px; color: var(--ink-dim);
-    max-width: 42em; margin-left: auto; margin-right: auto; text-wrap: balance;
-  }
-  .flow-caption code { font-family: var(--mono); font-size: 13px; color: var(--cyan); }
-
-  /* ── Why local ───────────────────────────────────────────────────────── */
-  .own { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: start; }
-  .own p { color: var(--ink-dim); font-size: 15.5px; max-width: 34em; }
-  .own p + p { margin-top: 18px; }
-  .own p strong { color: var(--ink); font-weight: 600; }
-
-  /* ── Closing CTA ─────────────────────────────────────────────────────── */
-  .closing { text-align: center; padding-top: 40px; padding-bottom: 150px; }
-  .closing h2 { margin: 0 auto 34px; }
-  .closing .wordless {
-    font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
-    letter-spacing: 0.2em; text-transform: uppercase; margin-top: 26px;
-  }
-
-  /* ── Footer ──────────────────────────────────────────────────────────── */
-  footer { border-top: 1px solid var(--line); padding: 46px 24px 60px; position: relative; z-index: 2; }
-  .foot-in { max-width: 1060px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px; }
-  .badges { display: flex; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
-  .badges span { border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
-  .foot-row { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; }
-  .foot-etym { font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); font-style: italic; }
-  .foot-etym b { color: var(--ink-dim); font-weight: 500; font-style: normal; }
-  .copy { font-size: 12.5px; color: var(--ink-faint); }
-  .foot-mail {
-    color: var(--ink-dim); text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: color .18s ease, border-color .18s ease;
-  }
-  .foot-mail:hover { color: var(--cyan); border-color: var(--ink-faint); }
-  .copy .sep { opacity: 0.45; margin: 0 6px; }
-
-  /* ── Responsive ──────────────────────────────────────────────────────── */
-  @media (max-width: 860px) {
-    .trinity { grid-template-columns: 1fr; border-top: none; }
-    .trinity > div { border-left: none; border-top: 1px solid var(--line); padding: 30px 0 6px; }
-    .trinity > div:first-child { border-top: 1px solid var(--line); }
-    .own { grid-template-columns: 1fr; gap: 28px; }
-    section { padding: 84px 22px; }
-    .term-body { font-size: 12.5px; }
-  }
-
-  /* ── Reduced motion: everything readable instantly, nothing moves ────── */
-  @media (prefers-reduced-motion: reduce) {
-    .top, .hero > *, .wordmark { animation: none !important; opacity: 1 !important; transform: none !important; }
-    .wordmark .i::after { animation: none; opacity: 0; }
-    .wordmark .i::before { animation: none; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .caret { animation: none; }
-    .flow .core { animation: none; }
-    .cta, .cta:hover { transform: none; }
-    html { scroll-behavior: auto; }
-  }
-
-  /* ── Closing action block ────────────────────────────────────────────── */
-  .get-wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; }
-  .get-actions {
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-    justify-content: center; width: 100%; max-width: 560px;
-  }
-  .sr-only {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0,0,0,0); border: 0;
-  }
-  @media (max-width: 520px) {
-    .get-actions { flex-direction: column; align-items: stretch; }
-    .get-actions .cta, .get-actions .cta-secondary { width: 100%; text-align: center; }
-  }
-  .foot-tm{margin-top:.9rem;opacity:.55;font-size:.78rem;line-height:1.5;max-width:62ch}
-  </style>
+<script>
+try {
+  var t = localStorage.getItem('pomnia-theme');
+  if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+} catch (e) {
+  document.documentElement.dataset.theme = 'dark';
+}
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
 </head>
 
-<body>
+<body class="home">
 <canvas id="sky" aria-hidden="true"></canvas>
 <div class="veil" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 
 <div class="page">
 
-  <header class="top">
-    <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="nd">i</span>a</a>
-    <!-- normal readable wordmark; the i is the mint memory-node color -->
+  <a class="skip" href="#content">Skip to content</a>
+<header class="site-header">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="i">i</span>a</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Site">
+    <a href="/docs/">Docs</a>
+    <a href="/download.html">Download</a>
+    <a href="/privacy.html">Privacy</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <button type="button" class="theme-btn" id="theme-btn">Light</button>
+  </nav>
+</header>
 
-    <nav>
-      <a href="/docs/">Docs</a>
-      <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
-      <a class="cta-mini" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download</a>
-    </nav>
-  </header>
 
-  <main>
+  <main id="content">
     <section class="hero">
       <div class="hero-meta">
         <span class="alpha-pill">early public · alpha</span>
@@ -569,6 +102,7 @@
         <div class="install-tabs" role="tablist" aria-label="Install target">
           <button type="button" role="tab" id="tab-win" aria-controls="pane-win" aria-selected="true">Windows</button>
           <button type="button" role="tab" id="tab-mac" aria-controls="pane-mac" aria-selected="false">macOS</button>
+          <button type="button" role="tab" id="tab-linux-gui" aria-controls="pane-linux-gui" aria-selected="false">Linux desktop</button>
           <button type="button" role="tab" id="tab-linux" aria-controls="pane-linux" aria-selected="false">Linux server</button>
         </div>
         <div class="install-pane" id="pane-win" role="tabpanel" aria-labelledby="tab-win">
@@ -588,6 +122,14 @@
             <a href="/privacy.html">privacy</a>
           </p>
         </div>
+        <div class="install-pane" id="pane-linux-gui" role="tabpanel" aria-labelledby="tab-linux-gui" hidden>
+          <a class="cta-secondary" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Download for Linux</a>
+          <p class="pane-what"><b>Desktop GUI.</b> <code>Pomnia-&lt;version&gt;.AppImage</code> or <code>.deb</code> on Latest. Not the server, not Mini.</p>
+          <p class="install-meta">
+            Unsigned · verify SHA-256 ·
+            <a href="/docs/linux-self-hosted.html">desktop vs server</a>
+          </p>
+        </div>
         <div class="install-pane" id="pane-linux" role="tabpanel" aria-labelledby="tab-linux" hidden>
           <div class="curl-box">
             <code>curl -fsSL https://pomnia.ai/install.sh | sh</code>
@@ -600,8 +142,8 @@
             <a href="/docs/linux-self-hosted.html">setup guide</a>
           </p>
         </div>
-        <a class="mini-dl" href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip" rel="noopener">Download Pomnia Mini</a>
-        <p class="mini-note">Thin client to a remote brain-core. Unpack <code>PomniaMini-0.1.91.zip</code> once, run <code>PomniaMini.exe</code>.</p>
+        <a class="mini-dl" href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Pomnia Mini on Latest</a>
+        <p class="mini-note">Thin client, no embedded Brain. Windows today: <code>PomniaMini-&lt;version&gt;.zip</code> on that page — unpack once, run <code>PomniaMini.exe</code>. Linux <code>PomniaMini-linux-x64.AppImage</code> from the next release. <a href="/download.html">Which file is which</a>.</p>
       </div>
 
       <p class="hint"><span class="ok" aria-hidden="true">●</span> local-first · AES vault · AGPL · no telemetry</p>
@@ -733,9 +275,10 @@
         <p class="fineprint">
           Windows, macOS, and Linux Desktop are on
           <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a>.
-          Mini is
-          <a href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip" rel="noopener"><code>PomniaMini-0.1.91.zip</code></a>
-          on that same release.
+          Mini for Windows is <code>PomniaMini-&lt;version&gt;.zip</code> on that same page
+          (a stable <code>PomniaMini-win-x64.zip</code> is not published yet).
+          Linux Mini, from the next release, is
+          <a href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-linux-x64.AppImage" rel="noopener"><code>PomniaMini-linux-x64.AppImage</code></a>.
           Source on <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>.
         </p>
       </div>
@@ -746,18 +289,20 @@
     
   </main>
 
-  <footer>
+  <footer class="site-footer">
     <div class="foot-in">
       <div class="badges">
         <span>early public · alpha</span>
         <span>AGPL-3.0</span>
         <span>local-first</span><span>AES-256-GCM vault</span><span>MCP-native</span>
-        <span>your GPU · your disk</span><span>Windows</span><span>macOS</span><span>Linux server</span>
+        <span>your GPU · your disk</span><span>Windows</span><span>macOS</span><span>Linux desktop</span><span>Linux server</span>
       </div>
       <div class="foot-row">
         <p class="foot-etym">pomnia — from Old Polish <b>pomnieć</b>: to remember.</p>
         <p class="copy">
           <a class="foot-mail" href="/docs/">Docs</a>
+          <span class="sep">·</span>
+          <a class="foot-mail" href="/download.html">Download</a>
           <span class="sep">·</span>
           <a class="foot-mail" href="/privacy.html">Privacy</a>
           <span class="sep">·</span>
@@ -790,7 +335,7 @@
   let scrollN = 0, scrollE = 0;   // progress through the document, 0..1 (eased)
   const pointer = { x: -1e4, y: -1e4, px: 0, py: 0 };
 
-  const IRIS = [148, 163, 246], CYAN = [82, 211, 238], MINT = [52, 211, 153];
+  const IRIS = [176, 186, 168], CYAN = [120, 186, 156], MINT = [61, 204, 154];
 
   function resize() {
     dpr = Math.min(devicePixelRatio || 1, 2);

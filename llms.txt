@@ -7,13 +7,20 @@ Pomnia gives your agents a shared past: encrypted vault archive for chat/doc blo
 - Identity: portable memory / Brain MCP — not an orchestration harness
 - License: AGPL-3.0 (product). This marketing site is outside the AGPL tree
 - Trust: local-first; no telemetry by default; no cloud required
-- Encryption honesty: AES-256-GCM protects vault blobs (passphrase-derived key). Distilled notes and library.db (search index under AppData) are plaintext by design — see Privacy
-- Installer: Windows setup is unsigned for now (SmartScreen expected). Prefer verifying the published SHA-256 on GitHub Releases
-- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; macOS .dmg; Linux Desktop GUI .AppImage / .deb). Linux server: https://pomnia.ai/install.sh — curl|sh installs AGPL brain-core (systemd), not AppImage
-- Pomnia Mini: thin Windows client. No embedded Brain — connect to a remote brain-core you already run. No local vault, no local distill. Ships as PomniaMini-<version>.zip on the same Latest release as Desktop. The download link must be the zip itself (not the Desktop installer page). Current file: https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-0.1.91.zip — replace 0.1.91 when the package version on Latest changes. Unpack once and run PomniaMini.exe. Not the portable exe, not PomniaMini-<version>-portable.zip, not the Desktop Pomnia-<version>-setup.exe.
+- Encryption honesty: AES-256-GCM protects vault blobs (passphrase-derived key). Distilled notes and library.db (search index) are plaintext by design — Windows `%AppData%\pomnia\`, macOS `~/Library/Application Support/pomnia/`, Linux `~/.config/pomnia/`. See Privacy
+- Installer: Windows setup is unsigned for now (SmartScreen expected). macOS and Linux desktop builds are unsigned too. Prefer verifying the published SHA-256 on GitHub Releases
+- Latest download: https://github.com/lobrzut/pomnia/releases/latest (Windows .exe; macOS .dmg; Linux Desktop GUI .AppImage / .deb). Do not pin a version in the URL. Linux server: https://pomnia.ai/install.sh — curl|sh installs AGPL brain-core (systemd), not AppImage. That script is a mirror of packages/brain-core/deploy/bootstrap.sh
+- Pomnia Mini: thin client. No embedded Brain, no local distill, no local search index — connect to a remote brain-core you already run. Settings live in a separate directory `pomnia-mini` (not Desktop `pomnia`): `%AppData%\pomnia-mini`, `~/Library/Application Support/pomnia-mini`, `~/.config/pomnia-mini`
+- Windows Mini, today: on https://github.com/lobrzut/pomnia/releases/latest the file is `PomniaMini-<version>.zip`. Unpack once and run PomniaMini.exe. Not the portable exe, not `PomniaMini-<version>-portable.zip`, not the Desktop setup.exe. A stable name `PomniaMini-win-x64.zip` is planned and is not on the current release, so do not link it until a release contains it
+- Linux Mini, from the next release: stable asset https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-linux-x64.AppImage (`PomniaMini-linux-x64.AppImage`). Not on the current Latest release, so that URL 404s until then. Not the Desktop `Pomnia-<version>.AppImage`. No macOS Mini
+- MCP tools listed: search_library, read_note, save_conversation, checkpoint_session, get_user_profile, memory, library_status, list_skills, list_cli_skills (deprecated), get_skill, list_prompts, get_prompt. run_skill, search_code, and code_status are not listed; a direct call is answered as not implemented
+- CLI: no release binary. From a source checkout, `npm run cli`
+- Server first login: panel account `admin`, password in `/var/lib/pomnia/admin-initial-password`. First token is role agent. Admin token: `sudo -u pomnia node /opt/pomnia-brain-core/dist/daemon.js --data-dir /var/lib/pomnia --add-token <name> --role admin`. install.sh defaults: port 7865, BRAIN_EMBED_BACKEND=fastembed, BRAIN_DISTILL=0. `--with-ollama` turns distillation on
 
 ## Canonical pages
 - https://pomnia.ai/
+- https://pomnia.ai/download.html
+- https://pomnia.ai/changelog.html
 - https://pomnia.ai/privacy.html
 - https://pomnia.ai/docs/
 - https://pomnia.ai/docs/capabilities.html
@@ -24,11 +31,18 @@ Pomnia gives your agents a shared past: encrypted vault archive for chat/doc blo
 - https://pomnia.ai/docs/mcp.html
 - https://pomnia.ai/docs/updates-install.html
 - https://pomnia.ai/docs/linux-self-hosted.html
-- https://pomnia.ai/install.sh
+- https://pomnia.ai/docs/sizing.html
+- https://pomnia.ai/docs/sync.html
+- https://pomnia.ai/docs/upgrading.html
+- https://pomnia.ai/docs/threat-model.html
 - https://pomnia.ai/docs/troubleshooting.html
+- https://pomnia.ai/docs/changelog.html
+- https://pomnia.ai/install.sh
 
 ## Agent entry points
 - Start here: https://pomnia.ai/docs/
+- Download (what file is which): https://pomnia.ai/download.html
+- Release notes live on GitHub, not copied here: https://pomnia.ai/docs/changelog.html
 - Vault vs AppData: https://pomnia.ai/docs/where-is-my-data.html + https://pomnia.ai/docs/architecture.html
 - Connect MCP: https://pomnia.ai/docs/mcp.html
 - Linux Desktop GUI vs brain-core server: https://pomnia.ai/docs/linux-self-hosted.html

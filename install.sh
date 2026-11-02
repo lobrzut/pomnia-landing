@@ -2,17 +2,23 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # Download the Linux server tarball from GitHub Releases and run install.sh.
 #
-# POSIX sh (Debian dash). Public curl|sh entry for https://pomnia.ai/install.sh
-# This is the AGPL brain-core SERVER path (systemd, MCP memory). It is not the
-# Linux Desktop AppImage/deb and not the unsigned Windows installer.
+# MIRROR-OF: lobrzut/pomnia packages/brain-core/deploy/bootstrap.sh@1cfae030036de4fcca4a5dd4b1380ec0b3da7e43
+# Published at https://pomnia.ai/install.sh. The lines below `set -eu` match
+# that file. Edit the product script, then copy it here. Do not add checks
+# this file does not have.
+#
+# POSIX sh (Debian dash). Public curl|sh entry. This is the AGPL brain-core
+# SERVER (systemd, MCP). It is not the Linux Desktop AppImage or deb, and not
+# the Windows installer.
 #
 #   curl -fsSL https://pomnia.ai/install.sh | sh
 #   curl -fsSL https://pomnia.ai/install.sh | sh -s -- --with-ollama
 #   POMNIA_BOOTSTRAP_DRY_RUN=1 curl -fsSL https://pomnia.ai/install.sh | sh
 #
-# Node 22: packed native addons match CI Node 22. The systemd unit in current
-# GitHub tarballs uses ExecStart=/usr/bin/node — install Node 22 so that path
-# is the Node 22 binary (nvm/fnm-only PATH is not enough for systemd).
+# Node 22 on PATH is required (packed native addons). The systemd unit runs
+# /usr/bin/node — install Node 22 at that path too. This script does not
+# preflight /usr/bin/node; that check used to live only here and drifted from
+# the product bootstrap.
 #
 # Override repo with POMNIA_GITHUB_REPO=owner/name (tests).
 set -eu
@@ -72,11 +78,6 @@ if [ "$DRY" != 1 ]; then
   command -v node >/dev/null 2>&1 || die "node not found — install Node 22 before running this (packed native addons)"
   NODE_MAJOR=$(node -p 'process.versions.node.split(".")[0]')
   [ "$NODE_MAJOR" -ge 22 ] || die "node $NODE_MAJOR is too old — GitHub tarball is built on Node 22; 20 fails better-sqlite3 ABI"
-  if [ ! -x /usr/bin/node ]; then
-    die "systemd unit ExecStart=/usr/bin/node — install Node 22 at /usr/bin/node (not only nvm)"
-  fi
-  UNIT_NODE_MAJOR=$(/usr/bin/node -p 'process.versions.node.split(".")[0]')
-  [ "$UNIT_NODE_MAJOR" -ge 22 ] || die "/usr/bin/node is $UNIT_NODE_MAJOR — need Node 22 at /usr/bin/node for the systemd unit"
   if [ "$(id -u)" -ne 0 ]; then
     command -v sudo >/dev/null 2>&1 || die "not root and sudo not found"
   fi

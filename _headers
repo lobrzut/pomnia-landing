@@ -6,12 +6,12 @@
 
 /*
   # The page loads nothing from anywhere else — no CDN, no font host, no
-  # analytics — so the policy can say exactly that. If a future edit reaches for
-  # an external script, it breaks here, visibly, instead of quietly adding a
+  # analytics — so the policy can say exactly that. 'self' is this origin only
+  # (assets/site.css and assets/site.js). If a future edit reaches for an
+  # external script, it breaks here, visibly, instead of quietly adding a
   # third party to a page whose whole argument is that nothing leaves your
-  # machine. 'unsafe-inline' covers the one <script> and one <style> the page
-  # carries inline; there is no user input on this site for either to act on.
-  Content-Security-Policy: default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
+  # machine. 'unsafe-inline' covers the theme bootstrap and the homepage canvas.
+  Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'
   # Two years, and only because this domain has never served plain HTTP.
   Strict-Transport-Security: max-age=63072000; includeSubDomains
   X-Content-Type-Options: nosniff

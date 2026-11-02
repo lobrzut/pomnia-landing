@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Release notes — Pomnia Docs</title>
+<meta name="description" content="Pomnia release notes live on GitHub Releases. This page does not copy them.">
+<link rel="canonical" href="https://pomnia.ai/docs/changelog.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+try {
+  var t = localStorage.getItem('pomnia-theme');
+  if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+} catch (e) {
+  document.documentElement.dataset.theme = 'dark';
+}
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#content"><span data-lang="en">Skip to content</span><span data-lang="pl">Przejdź do treści</span></a>
+<header class="site-header">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="i">i</span>a</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Site">
+    <a href="/docs/" aria-current="page">Docs</a>
+    <a href="/download.html">Download</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+    <button type="button" class="theme-btn" id="theme-btn">Light</button>
+  </nav>
+</header>
+<div class="docs-shell">
+<div class="docs-shell">
+<aside class="docs-side">
+  <p class="side-kicker"><span data-lang="en">Documentation</span><span data-lang="pl">Dokumentacja</span></p>
+    <nav data-lang="en" aria-label="Docs">
+      <a href="/docs/">Start here</a>
+      <a href="/docs/capabilities.html">Capabilities</a>
+      <a href="/docs/where-is-my-data.html">Where is my data?</a>
+      <a href="/docs/how-memory-works.html">How memory works</a>
+      <a href="/docs/automation.html">Automation</a>
+      <a href="/docs/architecture.html">Architecture</a>
+      <a href="/docs/mcp.html">Connect MCP</a>
+      <a href="/docs/updates-install.html">Updates &amp; install</a>
+      <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>
+      <a href="/docs/sizing.html">Sizing</a>
+      <a href="/docs/sync.html">Sync</a>
+      <a href="/docs/upgrading.html">Upgrading</a>
+      <a href="/docs/threat-model.html">Threat model</a>
+      <a href="/docs/troubleshooting.html">Troubleshooting</a>
+      <a href="/docs/changelog.html" class="on" aria-current="page">Release notes</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+    <nav data-lang="pl" aria-label="Dokumentacja">
+      <a href="/docs/">Zacznij tutaj</a>
+      <a href="/docs/capabilities.html">Możliwości</a>
+      <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+      <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
+      <a href="/docs/automation.html">Automatyzacja</a>
+      <a href="/docs/architecture.html">Architektura</a>
+      <a href="/docs/mcp.html">Podłącz MCP</a>
+      <a href="/docs/updates-install.html">Aktualizacje i instalacja</a>
+      <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>
+      <a href="/docs/sizing.html">Dobór maszyny</a>
+      <a href="/docs/sync.html">Synchronizacja</a>
+      <a href="/docs/upgrading.html">Aktualizacja</a>
+      <a href="/docs/threat-model.html">Model zagrożeń</a>
+      <a href="/docs/troubleshooting.html">Rozwiązywanie problemów</a>
+      <a href="/docs/changelog.html" class="on" aria-current="page">Noty wydań</a>
+      <a href="/privacy.html">Prywatność</a>
+    </nav>
+</aside>
+<main id="content" class="doc">
+<nav class="crumbs" data-lang="en" aria-label="Breadcrumb">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/docs/">Docs</a> <span aria-hidden="true">/</span> <span aria-current="page">Release notes</span>
+  </nav>
+  <nav class="crumbs" data-lang="pl" aria-label="Ścieżka">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/docs/">Docs</a> <span aria-hidden="true">/</span> <span aria-current="page">Noty wydań</span>
+  </nav>
+
+  <h1 data-lang="en">Release notes</h1>
+  <h1 data-lang="pl">Noty wydań</h1>
+  <p class="lede" data-lang="en">Release notes live on <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener">GitHub Releases</a>, on the tag marked Latest. This site does not duplicate them.</p>
+  <p class="lede" data-lang="pl">Noty wydań są na <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener">GitHub Releases</a>, na tagu oznaczonym Latest. Ta witryna ich nie dubluje.</p>
+  <p data-lang="en">A copied changelog on pomnia.ai drifted before (versioned Mini links, partial digests). The notes for a tag are whatever that release page says, including the SHA-256 lines published with the assets. What to install, and which names survive a version bump, is on <a href="/download.html">Download</a>.</p>
+  <p data-lang="pl">Skopiowany changelog na pomnia.ai wcześniej się rozjeżdżał (linki Mini z wersją, niepełne skróty). Notatki tagu to to, co mówi strona tego wydania, łącznie z liniami SHA-256 przy assetach. Co zainstalować i które nazwy przeżywają podbicie wersji, jest na stronie <a href="/download.html">Pobieranie</a>.</p>
+  <p data-lang="en">There is no <code>/changelog</code> feed separate from GitHub. <a href="/changelog.html">/changelog</a> and this page say the same thing.</p>
+  <p data-lang="pl">Nie ma kanału <code>/changelog</code> osobnego od GitHuba. <a href="/changelog.html">/changelog</a> i ta strona mówią to samo.</p>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="foot-in">
+    <p class="foot-brand">pomn<span class="i">i</span>a</p>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/docs/">Docs</a>
+      <a href="/download.html">Download</a>
+      <a href="/changelog.html">Releases</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+      <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    </nav>
+    <p class="foot-meta">AGPL-3.0 · © 2026 pomnia.ai</p>
+  </div>
+</footer>
+</body>
+</html>

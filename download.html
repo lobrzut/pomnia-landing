@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download — Pomnia</title>
+<meta name="description" content="What to download for Pomnia Desktop, Mini, and the Linux brain-core server. Links that survive a release.">
+<link rel="canonical" href="https://pomnia.ai/download.html">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/icon.png" sizes="512x512">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+try {
+  var t = localStorage.getItem('pomnia-theme');
+  if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+} catch (e) {
+  document.documentElement.dataset.theme = 'dark';
+}
+</script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#content"><span data-lang="en">Skip to content</span><span data-lang="pl">Przejdź do treści</span></a>
+<header class="site-header">
+  <a class="mark" href="/" aria-label="Pomnia — home">pomn<span class="i">i</span>a</a>
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+  <nav id="site-nav" class="site-nav" aria-label="Site">
+    <a href="/docs/">Docs</a>
+    <a href="/download.html" aria-current="page">Download</a>
+    <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" id="btn-en" class="active" aria-pressed="true">EN</button>
+      <button type="button" id="btn-pl" aria-pressed="false">PL</button>
+    </div>
+    <button type="button" class="theme-btn" id="theme-btn">Light</button>
+  </nav>
+</header>
+<div class="docs-shell">
+<div class="docs-shell">
+<aside class="docs-side">
+  <p class="side-kicker"><span data-lang="en">Documentation</span><span data-lang="pl">Dokumentacja</span></p>
+    <nav data-lang="en" aria-label="Docs">
+      <a href="/docs/">Start here</a>
+      <a href="/docs/capabilities.html">Capabilities</a>
+      <a href="/docs/where-is-my-data.html">Where is my data?</a>
+      <a href="/docs/how-memory-works.html">How memory works</a>
+      <a href="/docs/automation.html">Automation</a>
+      <a href="/docs/architecture.html">Architecture</a>
+      <a href="/docs/mcp.html">Connect MCP</a>
+      <a href="/docs/updates-install.html">Updates &amp; install</a>
+      <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>
+      <a href="/docs/sizing.html">Sizing</a>
+      <a href="/docs/sync.html">Sync</a>
+      <a href="/docs/upgrading.html">Upgrading</a>
+      <a href="/docs/threat-model.html">Threat model</a>
+      <a href="/docs/troubleshooting.html">Troubleshooting</a>
+      <a href="/docs/changelog.html">Release notes</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+    <nav data-lang="pl" aria-label="Dokumentacja">
+      <a href="/docs/">Zacznij tutaj</a>
+      <a href="/docs/capabilities.html">Możliwości</a>
+      <a href="/docs/where-is-my-data.html">Gdzie są dane?</a>
+      <a href="/docs/how-memory-works.html">Jak działa pamięć</a>
+      <a href="/docs/automation.html">Automatyzacja</a>
+      <a href="/docs/architecture.html">Architektura</a>
+      <a href="/docs/mcp.html">Podłącz MCP</a>
+      <a href="/docs/updates-install.html">Aktualizacje i instalacja</a>
+      <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>
+      <a href="/docs/sizing.html">Dobór maszyny</a>
+      <a href="/docs/sync.html">Synchronizacja</a>
+      <a href="/docs/upgrading.html">Aktualizacja</a>
+      <a href="/docs/threat-model.html">Model zagrożeń</a>
+      <a href="/docs/troubleshooting.html">Rozwiązywanie problemów</a>
+      <a href="/docs/changelog.html">Noty wydań</a>
+      <a href="/privacy.html">Prywatność</a>
+    </nav>
+</aside>
+<main id="content" class="doc">
+<nav class="crumbs" data-lang="en" aria-label="Breadcrumb">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">Download</span>
+  </nav>
+  <nav class="crumbs" data-lang="pl" aria-label="Ścieżka">
+    <a href="/">Home</a> <span aria-hidden="true">/</span> <span aria-current="page">Pobieranie</span>
+  </nav>
+
+  <h1 data-lang="en">Download</h1>
+  <h1 data-lang="pl">Pobieranie</h1>
+  <p class="lede" data-lang="en">The files are on <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>. This page names them. It does not pin a version in the URL, because a versioned asset link returns HTTP 404 on the next tag.</p>
+  <p class="lede" data-lang="pl">Pliki są na <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">GitHub Releases → Latest</a>. Ta strona je nazywa. Nie wpina wersji w URL, bo link do assetu z numerem wersji zwraca HTTP 404 przy następnym tagu.</p>
+
+  <h2 data-lang="en">Desktop</h2>
+  <h2 data-lang="pl">Desktop</h2>
+  <ul data-lang="en">
+    <li>Windows: <code>Pomnia-&lt;version&gt;-setup.exe</code>. Unsigned. SmartScreen is expected. More info → Run anyway.</li>
+    <li>macOS: <code>Pomnia-&lt;version&gt;-arm64.dmg</code> (Apple Silicon) or <code>Pomnia-&lt;version&gt;-x64.dmg</code> (Intel). Unsigned. There is no “Run anyway”.</li>
+    <li>Linux desktop: <code>Pomnia-&lt;version&gt;.AppImage</code> or <code>.deb</code>. Unsigned. This is not the server and not Mini.</li>
+  </ul>
+  <ul data-lang="pl">
+    <li>Windows: <code>Pomnia-&lt;version&gt;-setup.exe</code>. Bez podpisu. SmartScreen jest oczekiwany. Więcej informacji → Uruchom mimo to.</li>
+    <li>macOS: <code>Pomnia-&lt;version&gt;-arm64.dmg</code> (Apple Silicon) albo <code>Pomnia-&lt;version&gt;-x64.dmg</code> (Intel). Bez podpisu. Nie ma „Uruchom mimo to”.</li>
+    <li>Linux desktop: <code>Pomnia-&lt;version&gt;.AppImage</code> albo <code>.deb</code>. Bez podpisu. To nie serwer i nie Mini.</li>
+  </ul>
+  <p data-lang="en">Check the <code>.sha256</code> published next to the file. Details: <a href="/docs/updates-install.html">Updates &amp; install</a>.</p>
+  <p data-lang="pl">Sprawdź <code>.sha256</code> opublikowane obok pliku. Szczegóły: <a href="/docs/updates-install.html">Aktualizacje i instalacja</a>.</p>
+
+  <h2 data-lang="en">Pomnia Mini</h2>
+  <h2 data-lang="pl">Pomnia Mini</h2>
+  <p data-lang="en">Thin client. No embedded Brain, no Ollama, no local distill, no local search index. It connects to a brain-core you already run. Settings live in <code>pomnia-mini</code>, not Desktop’s <code>pomnia</code>: <code>%AppData%\pomnia-mini</code>, <code>~/Library/Application Support/pomnia-mini</code>, <code>~/.config/pomnia-mini</code>.</p>
+  <p data-lang="pl">Cienki klient. Bez wbudowanego Brain, bez Ollamy, bez lokalnego distill, bez lokalnego indeksu. Łączy się z brain-core, które już prowadzisz. Ustawienia są w <code>pomnia-mini</code>, nie w Desktopowym <code>pomnia</code>: <code>%AppData%\pomnia-mini</code>, <code>~/Library/Application Support/pomnia-mini</code>, <code>~/.config/pomnia-mini</code>.</p>
+  <p data-lang="en"><strong>Windows, today.</strong> On <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a>, take <code>PomniaMini-&lt;version&gt;.zip</code>. Unpack once and run <code>PomniaMini.exe</code>. Not <code>PomniaMini-&lt;version&gt;-portable.zip</code> (that zip unpacks into <code>%TEMP%</code> on every launch) and not <code>Pomnia-&lt;version&gt;-setup.exe</code>. A stable name <code>PomniaMini-win-x64.zip</code> is planned. It is not on the current release, so this page does not link it.</p>
+  <p data-lang="pl"><strong>Windows, dziś.</strong> Na <a href="https://github.com/lobrzut/pomnia/releases/latest" rel="noopener">Latest</a> weź <code>PomniaMini-&lt;version&gt;.zip</code>. Rozpakuj raz i uruchom <code>PomniaMini.exe</code>. To nie <code>PomniaMini-&lt;version&gt;-portable.zip</code> (ten zip wypakowuje się do <code>%TEMP%</code> przy każdym starcie) i nie <code>Pomnia-&lt;version&gt;-setup.exe</code>. Stabilna nazwa <code>PomniaMini-win-x64.zip</code> jest planowana. Nie ma jej w bieżącym wydaniu, więc ta strona do niej nie linkuje.</p>
+  <p data-lang="en"><strong>Linux, from the next release.</strong> Stable asset: <a href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-linux-x64.AppImage" rel="noopener"><code>PomniaMini-linux-x64.AppImage</code></a>. The current Latest tag (v0.1.91) does not contain it, so the URL returns HTTP 404 until that release exists. Not the Desktop <code>Pomnia-&lt;version&gt;.AppImage</code>. <code>chmod +x</code>, then run it. No macOS Mini.</p>
+  <p data-lang="pl"><strong>Linux, od następnego wydania.</strong> Stabilny asset: <a href="https://github.com/lobrzut/pomnia/releases/latest/download/PomniaMini-linux-x64.AppImage" rel="noopener"><code>PomniaMini-linux-x64.AppImage</code></a>. Bieżący tag Latest (v0.1.91) go nie zawiera, więc URL zwraca HTTP 404, dopóki to wydanie nie istnieje. To nie Desktop <code>Pomnia-&lt;version&gt;.AppImage</code>. <code>chmod +x</code>, potem uruchom. Mini na macOS nie ma.</p>
+
+  <h2 data-lang="en">Linux server</h2>
+  <h2 data-lang="pl">Serwer Linux</h2>
+  <pre data-lang="en">curl -fsSL https://pomnia.ai/install.sh | sh</pre>
+  <pre data-lang="pl">curl -fsSL https://pomnia.ai/install.sh | sh</pre>
+  <p data-lang="en">Headless <code>brain-core</code>, not the AppImage. Node 22 on <code>PATH</code>, and <code>/usr/bin/node</code> for the systemd unit. Default port <code>7865</code>. <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>.</p>
+  <p data-lang="pl">Bezgłowy <code>brain-core</code>, nie AppImage. Node 22 na <code>PATH</code> i <code>/usr/bin/node</code> dla jednostki systemd. Domyślny port <code>7865</code>. <a href="/docs/linux-self-hosted.html">Linux self-hosted</a>.</p>
+
+  <h2 data-lang="en">Release notes</h2>
+  <h2 data-lang="pl">Noty wydań</h2>
+  <p data-lang="en">The changelog is the <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener">GitHub Releases</a> page for each tag. This site does not copy those notes — a second copy goes stale. See <a href="/docs/changelog.html">Release notes</a>.</p>
+  <p data-lang="pl">Changelog to strona <a href="https://github.com/lobrzut/pomnia/releases" rel="noopener">GitHub Releases</a> dla każdego tagu. Ta witryna nie kopiuje tych notatek — druga kopia się starzeje. Zobacz <a href="/docs/changelog.html">Noty wydań</a>.</p>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="foot-in">
+    <p class="foot-brand">pomn<span class="i">i</span>a</p>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="/">Home</a>
+      <a href="/docs/">Docs</a>
+      <a href="/download.html">Download</a>
+      <a href="/changelog.html">Releases</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="https://github.com/lobrzut/pomnia" rel="noopener">GitHub</a>
+      <a href="mailto:hello@pomnia.ai">hello@pomnia.ai</a>
+    </nav>
+    <p class="foot-meta">AGPL-3.0 · © 2026 pomnia.ai</p>
+  </div>
+</footer>
+</body>
+</html>
